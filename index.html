@@ -1,0 +1,1961 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; media-src 'self' file: blob:; frame-src 'self' file: blob:; img-src data: blob:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="robots" content="noindex">
+<title>Find hjælp til InterCount</title>
+<style>
+[hidden] { display: none !important; }
+:root {
+  --bg: #f6f7f9; --flade: #ffffff; --tekst: #1d2330; --daempet: #5b6475; --kant: #dde1e8;
+  --accent: #0a5cad; --accent-moerk: #084a8c; --accent-lys: #e7f0fa;
+  --groen: #1f7a46; --groen-lys: #e5f4ec; --gul: #8a5a00; --gul-lys: #fdf3dc; --roed: #b42318; --roed-lys: #fdecea;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--tekst); }
+.indhold { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+.skjult { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.spring-over { position: absolute; left: -999px; }
+.spring-over:focus { left: 8px; top: 8px; background: #fff; padding: 8px; z-index: 10; }
+.top { background: var(--flade); border-bottom: 1px solid var(--kant); padding: 32px 0 20px; }
+h1 { margin: 0 0 8px; font-size: clamp(1.6rem, 4vw, 2.2rem); }
+h2 { margin: 0; font-size: 1.2rem; }
+h3 { margin: 0; font-size: 1.1rem; }
+.intro { margin: 0 0 20px; color: var(--daempet); max-width: 60ch; }
+.soegeform { display: flex; gap: 8px; }
+.soegeform input { flex: 1; min-width: 0; font-size: 1.15rem; padding: 14px 16px; border: 2px solid var(--kant); border-radius: var(--radius); background: #fff; color: var(--tekst); }
+.soegeform input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-lys); }
+button { font: inherit; cursor: pointer; border: 0; border-radius: var(--radius); padding: 10px 18px; background: var(--accent); color: #fff; font-weight: 600; }
+button:hover { background: var(--accent-moerk); }
+button:disabled { opacity: .55; cursor: not-allowed; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+#soegeknap { padding: 14px 26px; font-size: 1.1rem; }
+.sekundaer { background: var(--accent-lys); color: var(--accent); }
+.sekundaer:hover { background: #d4e5f7; }
+.eksempler { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.eksempel { background: var(--bg); color: var(--tekst); border: 1px solid var(--kant); font-weight: 400; padding: 6px 12px; font-size: .92rem; border-radius: 999px; }
+.eksempel:hover { background: var(--accent-lys); border-color: var(--accent); }
+main { padding-top: 20px; padding-bottom: 40px; }
+.besked { padding: 12px 16px; border-radius: var(--radius); background: var(--flade); border: 1px solid var(--kant); margin: 0 0 16px; }
+.besked.info { background: var(--accent-lys); border-color: #b9d3ef; }
+.besked.advarsel { background: var(--gul-lys); border-color: #f0d9a6; color: #4d3500; }
+.besked.fejl, .fejl { color: var(--roed); }
+.besked.fejl { background: var(--roed-lys); border-color: #f5c2bd; }
+.note { background: var(--gul-lys); border: 1px solid #f0d9a6; color: #4d3500; padding: 10px 14px; border-radius: var(--radius); margin-bottom: 16px; font-size: .95rem; }
+.note-tekst { color: var(--gul); }
+.resultater { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.kort { background: var(--flade); border: 1px solid var(--kant); border-left: 5px solid var(--kant); border-radius: var(--radius); padding: 16px 18px; }
+.kort.niveau-3 { border-left-color: var(--groen); }
+.kort.niveau-2 { border-left-color: var(--accent); }
+.kort.niveau-1 { border-left-color: #c4a35a; }
+.kort p { margin: 6px 0; }
+.kort-hoved { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.relevans { white-space: nowrap; font-size: .85rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+.relevans.niveau-3 { background: var(--groen-lys); color: var(--groen); }
+.relevans.niveau-2 { background: var(--accent-lys); color: var(--accent); }
+.relevans.niveau-1 { background: var(--gul-lys); color: var(--gul); }
+.begrundelse { background: var(--bg); border-radius: 8px; padding: 8px 12px; margin: 10px 0; }
+.begrundelse ul { margin: 4px 0 0; padding-left: 20px; font-size: .93rem; }
+.lille { font-size: .88rem; color: var(--daempet); }
+.fed { font-weight: 600; }
+.handlinger { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px; }
+.indlaeser { display: flex; gap: 10px; align-items: center; color: var(--daempet); margin-bottom: 16px; }
+.spinner { width: 20px; height: 20px; border: 3px solid var(--kant); border-top-color: var(--accent); border-radius: 50%; animation: drej .8s linear infinite; }
+@keyframes drej { to { transform: rotate(360deg); } }
+.spiller { background: #111; color: #fff; border-radius: var(--radius); padding: 14px; margin-bottom: 20px; }
+.spiller-hoved { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; }
+.spiller video { width: 100%; max-height: 70vh; background: #000; border-radius: 6px; display: block; }
+.spiller iframe.pdf { width: 100%; height: 75vh; border: 0; background: #fff; border-radius: 6px; }
+.spiller .lille, .spiller a { color: #cfd6e3; }
+.spiller .fejl { color: #ffb4ab; }
+.alle { margin-top: 30px; background: var(--flade); border: 1px solid var(--kant); border-radius: var(--radius); padding: 12px 16px; }
+.alle summary { cursor: pointer; font-weight: 600; }
+.alle h3 { margin-top: 14px; font-size: 1rem; }
+.alle-ul { margin: 6px 0; padding-left: 18px; }
+.link { background: none; color: var(--accent); padding: 2px 0; font-weight: 400; text-align: left; }
+.link:hover { background: none; text-decoration: underline; }
+.fod { color: var(--daempet); font-size: .85rem; padding-bottom: 30px; }
+@media (max-width: 560px) {
+  .soegeform { flex-direction: column; }
+  .kort-hoved { flex-direction: column; }
+  .top { padding-top: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+
+.luk-knap { background: #b42318; color: #fff; border: 0; border-radius: 8px; padding: 10px 16px; font-weight: 600; font-size: 1rem; cursor: pointer; flex-shrink: 0; }
+.luk-knap:hover { background: #8f1c13; }
+.luk-knap:focus-visible { outline: 3px solid #f4b400; outline-offset: 2px; }
+
+.bred { max-width: 1200px; }
+.admin-layout { display: grid; grid-template-columns: 300px 1fr; gap: 20px; align-items: start; }
+nav input { width: 100%; padding: 8px 10px; border: 1px solid var(--kant); border-radius: 8px; margin-bottom: 8px; font: inherit; }
+.videoliste { list-style: none; margin: 0; padding: 0; background: var(--flade); border: 1px solid var(--kant); border-radius: var(--radius); max-height: 75vh; overflow: auto; }
+.videoliste li button { width: 100%; text-align: left; background: none; color: var(--tekst); border-radius: 0; border-bottom: 1px solid var(--kant); font-weight: 400; padding: 8px 12px; }
+.videoliste li button:hover, .videoliste li button.valgt { background: var(--accent-lys); }
+.maerke { display: inline-block; font-size: .75rem; padding: 1px 7px; border-radius: 999px; margin-left: 4px; background: var(--gul-lys); color: var(--gul); }
+.maerke.roed { background: var(--roed-lys); color: var(--roed); }
+.maerke.groen { background: var(--groen-lys); color: var(--groen); }
+#redigering { background: var(--flade); border: 1px solid var(--kant); border-radius: var(--radius); padding: 16px 20px; }
+.felt { margin: 12px 0; }
+.felt label { display: block; font-weight: 600; margin-bottom: 4px; }
+.felt input[type=text], .felt textarea { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--kant); border-radius: 8px; }
+.felt textarea { min-height: 90px; }
+.felt textarea.hoej { min-height: 220px; font-family: ui-monospace, Consolas, monospace; font-size: .9rem; }
+.verificer { font-weight: 400 !important; display: inline-flex !important; gap: 6px; align-items: center; font-size: .88rem; color: var(--daempet); }
+.info-tabel { font-size: .88rem; border-collapse: collapse; margin: 8px 0; }
+.info-tabel td { padding: 2px 10px 2px 0; vertical-align: top; }
+pre.rapport { white-space: pre-wrap; background: var(--bg); padding: 10px; border-radius: 8px; font-size: .85rem; }
+@media (max-width: 800px) { .admin-layout { grid-template-columns: 1fr; } .videoliste { max-height: 40vh; } }
+
+</style>
+</head>
+<body>
+<a class="spring-over" href="#soegefelt">Gå til søgefeltet</a>
+<p id="start-fejl" class="besked fejl" role="alert" hidden></p>
+
+<div id="side-soeg">
+  <header class="top">
+    <div class="indhold">
+      <h1>Find hjælp til InterCount</h1>
+      <p class="intro">Skriv med dine egne ord, hvad du gerne vil gøre. Så finder vi den instruktionsvideo, der bedst viser hvordan – og hvor i videoen du skal kigge.</p>
+      <div id="soegeform" class="soegeform" role="search">
+        <label for="soegefelt" class="skjult">Hvad vil du gerne gøre i InterCount?</label>
+        <input id="soegefelt" name="q" type="search" maxlength="300" placeholder="Hvad vil du gerne gøre i InterCount?" enterkeyhint="search" autocomplete="off">
+        <button id="soegeknap" type="button">Søg</button>
+      </div>
+      <div class="eksempler" id="eksempler" aria-label="Eksempler på spørgsmål"></div>
+    </div>
+  </header>
+  <main class="indhold">
+    <div id="mappe-besked" class="note" role="status" hidden></div>
+    <div id="advarsel-uverificeret" class="note" hidden>Videoernes beskrivelser er endnu ikke gennemgået af et menneske. Brug resultaterne som vejledende.</div>
+    <section id="spiller-sektion" class="spiller" hidden aria-labelledby="spiller-titel">
+      <div class="spiller-hoved">
+        <h2 id="spiller-titel"></h2>
+        <button type="button" id="luk-spiller" class="luk-knap" aria-label="Luk videoen">✕ Luk video</button>
+      </div>
+      <div id="spiller-ramme"></div>
+      <div id="spiller-fejl" class="fejl" role="alert" hidden></div>
+      <p id="spiller-info" class="lille"></p>
+      <input type="file" id="vaelg-mappe-afspil" webkitdirectory multiple hidden>
+    </section>
+    <div id="indlaeser" class="indlaeser" hidden role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span> Søger …</div>
+    <div id="besked" role="status" aria-live="polite"></div>
+    <ol id="resultater" class="resultater" aria-label="Søgeresultater"></ol>
+    <details class="alle">
+      <summary>Se alle videoer</summary>
+      <div id="alle-liste"></div>
+    </details>
+  </main>
+  <footer class="indhold fod">
+    <p>Søgningen kører helt i din browser. Intet sendes over internettet, og dine spørgsmål gemmes ikke.</p>
+    <button type="button" id="til-admin" class="link">Administration af videokataloget</button>
+  </footer>
+</div>
+
+<div id="side-admin" hidden>
+  <header class="top">
+    <div class="indhold bred">
+      <h1>Administration af videokataloget</h1>
+      <p class="intro">Ret beskrivelser, søgeord, trin og transskriptioner, markér hvad der er gennemgået, og indlæs nye videofiler. Ændringer gemmes først i denne browser. Klik »Gem ny version af appen« for at gemme dem i selve filen.</p>
+      <div class="handlinger">
+        <button type="button" id="importer">Indlæs nye/ændrede videofiler …</button>
+        <button type="button" id="gem-app">Gem ny version af appen</button>
+        <button type="button" id="gem-web" class="sekundaer">Gem hjemmeside-udgave (index.html)</button>
+        <button type="button" id="eksporter" class="sekundaer">Eksportér katalog (JSON)</button>
+        <button type="button" id="fortryd" class="sekundaer">Kassér ændringer</button>
+        <button type="button" id="til-soeg" class="link">Tilbage til søgningen</button>
+      </div>
+      <input type="file" id="vaelg-mappe-import" webkitdirectory multiple hidden>
+      <p id="admin-oversigt" class="lille"></p>
+      <div id="ugemt"></div>
+      <div id="admin-status" class="lille" role="status" aria-live="polite"></div>
+    </div>
+  </header>
+  <main class="indhold bred admin-layout">
+    <nav aria-label="Videoer">
+      <input type="search" id="filter" placeholder="Filtrér videoer" aria-label="Filtrér videoer">
+      <ul id="videoliste" class="videoliste"></ul>
+    </nav>
+    <section id="redigering" aria-live="polite"><p class="lille">Vælg en video i listen.</p></section>
+  </main>
+</div>
+
+<script type="application/json" id="app-data">{"version_id":"0890d6b96465dddd","bygget":"2026-10-17T09:51:57+00:00","katalog":{"version":1,"beskrivelse":"Videokatalog for InterCount-instruktionsvideoer (V01–V19). Beskrivelser, trin og søgeord er udkast lavet ud fra skærmbilleder og er markeret som ikke verificerede, indtil en medarbejder har kontrolleret dem.","videoer":[{"id":"V01","filnavn":"Kom i gang med InterCount/Digitalt arkiv i InterCount - Del 2 - InterCount (1080p).mp4","type":"video","sha256":"4dd73b2feb031666b09d7b03e9e1993711c29d51802430cf4f2d372e748fe65f","stoerrelse_bytes":10559421,"varighed_sek":262.46,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Digitalt arkiv i InterCount – Del 2","titel_kilde":"titelskærm/filnavn","beskrivelse":"Gennemgang af modulet Arkiv i InterCount: mapperne Regnskabsbilag, Økonomi, Dubletter og Papirkurv, hvordan bilag åbnes, flyttes og sendes til godkendelse, hvordan mapper omdøbes/vises, og hvordan der sættes adgangskode på mappen Personale/Ledelse.","arbejdsgang":"Find og håndtér dokumenter og bilag i det digitale arkiv.","trin":[{"tid":6,"tekst":"Fra 'Mit overblik' åbnes Arkiv-boksen (Regnskabsbilag, Økonomi, Dubletter)."},{"tid":22,"tekst":"Arkiv-siden viser fanerne Regnskabsbilag, Økonomi, Dubletter og Papirkurv med søgning i fritekst og periodefilter på arkiveringsdato."},{"tid":34,"tekst":"Infoboks: Regnskabsbilag indeholder bilag relevante for regnskabet (PDF-bilag, e-bilag og fakturaer oprettet i InterCount); alle er godkendt og har bilagsnummer; bilag kan ikke slettes permanent, men kan flyttes hvis de ikke er linket."},{"tid":94,"tekst":"Et regnskabsbilag åbnes og vises med PDF til venstre og detaljer (blankettype, mappe, afsender, fakturadato, bilagsnr., beløb) og kommentarfelt til højre."},{"tid":124,"tekst":"Et dokument i mappen Økonomi åbnes; der kan vælges blankettype og mappe, og der er knappen 'Send til godkendelse'."},{"tid":140,"tekst":"Dialogen 'Ønsker du at sende bilag til godkendelse?' bekræftes; bilaget sendes til fanen 'Afventer godkendelse' og placeres efter godkendelse i Regnskabsbilag."},{"tid":160,"tekst":"Infoboks: dokumenter sendes til Økonomi ved at vedhæfte/videresende bilag i mail til OKO(CVR)@intercount.dk."},{"tid":168,"tekst":"Fanen Dubletter vises."},{"tid":174,"tekst":"Fanen Papirkurv vises."},{"tid":200,"tekst":"'Rediger mapper': mapper kan få nyt navn og vises/skjules (fx Personale/ledelse, Mark, Kvæg, Svin, Anden produktion, Miljø). Mappen Økonomi vises altid."},{"tid":228,"tekst":"Mappen Personale/ledelse vises nu som fane i Arkiv med en lås."},{"tid":242,"tekst":"Under Profilopsætning > fanen Arkiv sættes adgangskode til mappen Personale/Ledelse (mindst 4 tegn) og gemmes."},{"tid":258,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["arkiv","digitalt arkiv","regnskabsbilag","økonomi","dubletter","papirkurv","rediger mapper","omdøb mappe","skjul mappe","personale/ledelse","adgangskode til mappe","send til godkendelse","flyt bilag","OKO@intercount.dk","profilopsætning"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:14+00:00"},{"id":"V02","filnavn":"Kom i gang med InterCount/Flyt en varelinje op og ned - InterCount (1080p).mp4","type":"video","sha256":"9c731dcef251b93a8efafda430c5fe2f1d07dae562e9d7f3bd389cea59e07be1","stoerrelse_bytes":3272394,"varighed_sek":82.73,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Flyt en varelinje op og ned","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man ændrer rækkefølgen af varelinjer på en faktura/kladde ved at trække i flyt-ikonet til venstre for linjen.","arbejdsgang":"Ændre rækkefølgen af varelinjer på en faktura eller kladde.","trin":[{"tid":6,"tekst":"Fra 'Mit overblik' vælges boksen Indtægter."},{"tid":8,"tekst":"Under Indtægter > Fakturaer åbnes listen Kladder, og en kladde åbnes i vinduet 'Rediger kladde'."},{"tid":30,"tekst":"Under Varelinjer holdes musen over flyt-ikonet (tooltip 'Flyt') til venstre for en varelinje."},{"tid":34,"tekst":"Varelinjen trækkes op eller ned, så rækkefølgen ændres; totaler forbliver de samme."},{"tid":68,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["varelinje","flyt varelinje","rækkefølge","sortér linjer","træk og slip","kladde","faktura","rediger kladde","fakturalinjer"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:14+00:00"},{"id":"V03","filnavn":"Kom i gang med InterCount/Kom nemt i gang med Digital Arkiv - Del 1 - InterCount (1080p).mp4","type":"video","sha256":"9bd9cb495791e5e3b6a1ecfff2e0fdbcf75892940bc694190072b813b2b047a3","stoerrelse_bytes":11719965,"varighed_sek":289.81,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Kom nemt i gang med Digitalt Arkiv – Del 1","titel_kilde":"titelskærm/filnavn","beskrivelse":"Guide til at aflevere bilag digitalt til InterCount: videresend bilag fra mail som PDF til cvr@intercount.dk, scan papirbilag med InterCount App, hvilke bilag der skal og ikke skal sendes, og et eksempel på at videresende en faktura fra Outlook.","arbejdsgang":"Aflever bilag digitalt (i stedet for papir) ved at videresende dem til InterCount.","trin":[{"tid":6,"tekst":"Oversigt: Del 1 handler om at få afleveret digitale bilag, Del 2 om Arkiv i InterCount."},{"tid":16,"tekst":"Du skal ikke længere aflevere bilag i papirformat, men videresende dem til InterCount."},{"tid":26,"tekst":"'Dette kan du selv gøre': bilag modtaget på mail videresendes som PDF til cvr@intercount.dk (CVR erstattes af dit eget CVR-nr.); papirbilag scannes via InterCount App eller scanner; bilag fra e-Boks kan videresendes direkte; bilag fra fx netbank gemmes som PDF og vedhæftes en mail. Tommelfingerregel: tryk videresend før du evt. printer."},{"tid":98,"tekst":"InterCount App findes hvor du henter andre apps, til både Android og Apple; du logger på med dit AgroID."},{"tid":114,"tekst":"Den nye arbejdsgang: modtag bilag på mail, videresend til InterCount, brug appen til fysiske bilag, betal selv fakturaer i netbanken. Bilag lander i Arkiv under mappen Regnskabsbilag."},{"tid":144,"tekst":"Bilag der SKAL sendes: erhvervsfakturaer, kontante kvitteringer, afregninger, betalingsservice, faktura og kontoudtog fra foderstof, ejendomsskattebillet, kontoudtog fra leverandør og bank, årsopgørelser, leasingkontrakter, dokumenter vedr. låneomlægning."},{"tid":176,"tekst":"Bilag der IKKE skal sendes: private bilag, handelsbetingelser, statusopgørelser, tilmelding til leverandørservice, reklamer, nyhedsbreve, julekort, forsikringspolicer, følgesedler."},{"tid":206,"tekst":"Eksempel i Outlook: en mail med faktura/kontoudtog åbnes og videresendes."},{"tid":218,"tekst":"I feltet Til indtastes CVR-nummer@intercount.dk, og mailen sendes."},{"tid":262,"tekst":"Henvisning til Digitalt Arkiv – Del 2."},{"tid":274,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["aflever bilag","send bilag","videresend bilag","digitale bilag","papirbilag","scan bilag","InterCount App","e-boks","netbank","mail","cvr@intercount.dk","Outlook","regnskabsbilag","hvilke bilag","kvittering","kontoudtog","AgroID"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V04","filnavn":"Kom i gang med InterCount/Kopi af en faktura - InterCount (1080p).mp4","type":"video","sha256":"047e64f7e90e55cda5bf85f2189568d15b5b88524038c4955720047392189896","stoerrelse_bytes":5291912,"varighed_sek":111.43,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Kopi af en faktura","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man opretter en kopi af en eksisterende faktura under Indtægter. Kopien placeres som kladde, kan redigeres (fx tilføje varelinjer) og oprettes som ny faktura.","arbejdsgang":"Genbrug en eksisterende faktura ved at oprette en kopi som ny kladde.","trin":[{"tid":6,"tekst":"Under Indtægter > Fakturaer foldes listen Fakturaer ud."},{"tid":24,"tekst":"En faktura markeres, og der vælges 'Opret kopi af faktura'. Dialogen 'Opret kopi' forklarer at kopien placeres under Kladder; der trykkes 'Opret kopi'."},{"tid":32,"tekst":"Besked: 'Du har nu oprettet en kopi. Du kan finde den i kladdelisten.'"},{"tid":38,"tekst":"Kopien findes under Kladder og åbnes via blyant-ikonet."},{"tid":44,"tekst":"I 'Rediger kladde' ses kundeoplysninger, leveringsadresse, fakturadato, valuta, indbetalingsmåde og layout (fx 'Faktura med varenummer')."},{"tid":68,"tekst":"Under Varelinjer kan der tilføjes en ny vare med plus-knappen ('Tilføj vare')."},{"tid":94,"tekst":"Der trykkes 'Opret faktura'; beskeden 'Du har nu oprettet en faktura. Du kan finde den i fakturalisten' vises."},{"tid":100,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["kopi af faktura","kopier faktura","genbrug faktura","dupliker faktura","opret kopi","kladde","rediger kladde","ny faktura","indtægter","gentag faktura"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V05","filnavn":"Kom i gang med InterCount/Lav en kundeopfølgning via saldolisten - InterCount (892p).mp4","type":"video","sha256":"e80610ef9185ed4de4ae45c86e276e9ba8ff76acc02f593fc37b978602962c4e","stoerrelse_bytes":5045707,"varighed_sek":133.35,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Lav en kundeopfølgning via saldolisten","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser saldolisten under Indtægter > Kunder, hvor man ser kunders saldo og forfaldne beløb, og hvordan man danner og ser et kontoudtog (PDF) for en kunde.","arbejdsgang":"Følg op på kunders udestående via saldolisten og kontoudtog.","trin":[{"tid":8,"tekst":"Fra 'Mit overblik' vælges boksen Indtægter."},{"tid":12,"tekst":"Under Indtægter > fanen Kunder foldes 'Saldoliste' ud."},{"tid":16,"tekst":"Saldolisten viser kundenr., navn, konto, saldo, forfalden under 1 md., forfalden over 1 md. og sidst anvendt; der kan vælges periode og søges i tabellen."},{"tid":72,"tekst":"En kunde markeres, og der dannes et kontoudtog, som vises som PDF ('Kontoudtog for ... .pdf')."},{"tid":98,"tekst":"PDF-visningens menu har bl.a. rotér, scrolling-indstillinger og dokumentegenskaber; dokumentet kan udskrives/downloades."},{"tid":124,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["saldoliste","kundeopfølgning","debitor","debitorer","udestående","forfalden","skyldig","kontoudtog","kundesaldo","rykke kunde","ubetalte fakturaer","indtægter","kunder"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V06","filnavn":"Kom i gang med InterCount/Opret en kreditnota - InterCount (936p).mp4","type":"video","sha256":"e99550bb739a5d086a76e37430d5a482c69e87dcfd256d891b3ac26706c17024","stoerrelse_bytes":5161778,"varighed_sek":122.44,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Opret en kreditnota","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man opretter en kreditnota via 'Opret faktura' under Indtægter ved at indtaste en varelinje med negativt antal, acceptere advarslen om negativt beløb og derefter se/sende kreditnotaen.","arbejdsgang":"Kreditere en kunde (helt eller delvist) med en kreditnota.","trin":[{"tid":6,"tekst":"Fra 'Mit overblik' vælges Indtægter."},{"tid":14,"tekst":"Under Indtægter trykkes på plus-knappen 'Opret faktura'."},{"tid":18,"tekst":"I 'Opret faktura' udfyldes kundeoplysninger (kunde, kontakt, fakturadato m.m.)."},{"tid":36,"tekst":"Under Varelinjer vælges varen, og antallet indtastes som negativt tal (i eksemplet -100 kg Hvede), så beløbet bliver negativt."},{"tid":68,"tekst":"Med 'Se kladde' vises en forhåndsvisning (PDF) med negativt beløb."},{"tid":74,"tekst":"Ved 'Opret faktura' vises advarslen 'Hov! Du mangler at tage stilling til følgende: Beløb skal være positivt jf. kontoplan. Hvis fortegn er i orden, så accepter advarslen.' Der trykkes 'Accepter'."},{"tid":86,"tekst":"Der trykkes 'Opret faktura' igen, og kreditnotaen oprettes."},{"tid":98,"tekst":"Kreditnotaen vises som PDF med overskriften 'Kreditnota' og fakturanummer."},{"tid":102,"tekst":"Kreditnotaen ligger i listen Fakturaer med typen 'Kreditnota'."},{"tid":110,"tekst":"Kreditnotaen markeres, og 'Send faktura på email' kan vælges."},{"tid":114,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["kreditnota","kreditere","kreditering","annuller faktura","tilbagebetaling","negativ faktura","ret fejl i faktura","fejl på faktura","negativt antal","refusion","opret faktura","indtægter","advarsel beløb skal være positivt"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V07","filnavn":"Kom i gang med InterCount/Opret en ny kunde - InterCount (936p).mp4","type":"video","sha256":"f8de7eb0955a4fab407903912efd22b0dce69fa31026572059241cba8a4b7744","stoerrelse_bytes":7409052,"varighed_sek":185.97,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Opret en ny kunde","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man opretter en ny kunde under Indtægter > Kunder med firmaoplysninger, kontaktperson og en eller flere leveringsadresser, samt hvordan man redigerer og finder kunden igen.","arbejdsgang":"Oprette og vedligeholde kunder (debitorer) til fakturering.","trin":[{"tid":6,"tekst":"Fra 'Mit overblik' vælges Indtægter > Kunder."},{"tid":16,"tekst":"Bemærkning: Har du før arbejdet med fakturering i Ø90, er alle disse kunder tilgængelige i InterCount."},{"tid":22,"tekst":"Plus-knappen 'Opret kunde' åbner 'Opret ny kunde' med felterne navn, telefon, e-mail, CVR-nr., adresse, postnummer, by, stednavn, land og EAN-nummer (navn, adresse, postnummer og by er obligatoriske)."},{"tid":36,"tekst":"Firmaoplysninger udfyldes, og under Kontakt angives navn og telefon på kontaktperson."},{"tid":52,"tekst":"Under 'Tilføj leveringsadresse' oprettes en leveringsadresse (navn, adresse, postnummer, by, aktiv)."},{"tid":64,"tekst":"Der kan tilføjes flere leveringsadresser med plus-feltet."},{"tid":80,"tekst":"En leveringsadresse kan redigeres eller slettes ('Gem ændringer' / 'Slet leveringsadresse')."},{"tid":98,"tekst":"Kunden oprettes med 'Opret'."},{"tid":150,"tekst":"I kundelisten kan en kunde redigeres via blyant-ikonet ('Rediger'); her findes også 'Slet kunde' og 'Gem ændringer'."},{"tid":168,"tekst":"Med 'Søg i tabel' kan man søge kunden frem (fx 'peter') og se kundenummeret."},{"tid":180,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["opret kunde","ny kunde","kunde","debitor","kundekartotek","leveringsadresse","kontaktperson","rediger kunde","slet kunde","find kunde","kundenummer","EAN","CVR","Ø90","indtægter"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V08","filnavn":"Kom i gang med InterCount/Opret og send en faktura til din kunde - InterCount (1080p).mp4","type":"video","sha256":"12d75fa3e3c8eaf91256154a4b2c277ba90f6d36fe35d3bbe35ed0fbfa60b896","stoerrelse_bytes":10229920,"varighed_sek":146.7,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Opret og send en faktura til din kunde","titel_kilde":"titelskærm/filnavn","beskrivelse":"Gennemgang af hele flowet for at oprette en salgsfaktura under Indtægter: vælg kunde, udfyld betalingsbetingelser og varelinjer, se kladden som PDF, vælg fakturaskabelon og send fakturaen som e-faktura eller e-mail.","arbejdsgang":"Oprette en salgsfaktura og sende den til kunden.","trin":[{"tid":8,"tekst":"Fra 'Mit overblik' vælges Indtægter."},{"tid":10,"tekst":"Plus-knappen 'Opret faktura' åbner vinduet 'Opret faktura'."},{"tid":14,"tekst":"Under Kundeoplysninger vælges kunden fra en liste med søgning; med plus-knappen ('Tilføj kunde') kan en ny kunde oprettes direkte."},{"tid":18,"tekst":"Kontakt, betalingsbetingelser (fx Netto og antal betalingsdage), forfaldsdato og en beskrivelse af fakturaen udfyldes."},{"tid":30,"tekst":"Under Varelinjer vælges en vare fra listen (søgning, mulighed for at oprette ny vare med plus)."},{"tid":38,"tekst":"Med 'Tilføj ny varelinje' tilføjes flere linjer; Tab-tasten kan bruges til at springe mellem felterne."},{"tid":58,"tekst":"Antal, enhed, stk.-pris og rabat udfyldes; en linje kan slettes med skraldespanden og flyttes med flyt-ikonet."},{"tid":68,"tekst":"'Se kladde' viser fakturaen som PDF (Kladde) før den oprettes."},{"tid":82,"tekst":"Under 'Udskriftsskabelon' vælges fx Faktura med/uden varenummer, engelsk eller tysk faktura uden varenummer, eller Afregning/Selvfakturering."},{"tid":90,"tekst":"Der vælges 'Opret og luk' eller 'Opret og send'."},{"tid":96,"tekst":"I 'Send faktura' vælges format: 'Send som e-faktura' eller 'Send som email'."},{"tid":104,"tekst":"Ved e-mail udfyldes modtager, CC, emne og kommentar; fakturaen er vedhæftet, og der kan vedhæftes ekstra filer ('Vælg fil')."},{"tid":112,"tekst":"Der trykkes 'Send faktura', og beskeden 'Sådan! email er nu afsendt' vises."},{"tid":124,"tekst":"I listen Fakturaer ses fakturaen med status Ubetalt og 'Sendt som: email'."},{"tid":128,"tekst":"En markeret faktura kan sendes på e-mail igen, og der findes knapper til 'Marker betalt/ikke betalt' og 'Opret kopi af faktura'."},{"tid":134,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["opret faktura","send faktura","salgsfaktura","fakturering","fakturer kunde","e-faktura","EAN","email faktura","varelinjer","betalingsbetingelser","forfaldsdato","se kladde","udskriftsskabelon","fakturaskabelon","engelsk faktura","tysk faktura","selvfakturering","marker betalt","indtægter"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V09","filnavn":"Kom i gang med InterCount/Opret varer og ydelser - InterCount (684p).mp4","type":"video","sha256":"4a09a18dd85b7d794d1e323452a3a516d25478129fb0d65cac7249dcff15ad8f","stoerrelse_bytes":6349209,"varighed_sek":190.22,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Opret varer og ydelser","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man opretter, redigerer og finder varer og ydelser under Indtægter > Varer og ydelser, herunder valg af kontonummer, enhed og salgspris, og hvad man gør hvis den rigtige konto ikke findes.","arbejdsgang":"Oprette varer/ydelser, som bruges på varelinjerne i fakturaer.","trin":[{"tid":6,"tekst":"Fra 'Mit overblik' vælges Indtægter."},{"tid":32,"tekst":"Under fanen 'Varer og ydelser' vises listen Varer med varenr., varebeskrivelse, kontonummer og pris ekskl. moms."},{"tid":40,"tekst":"Plus-knappen 'Opret vare' åbner 'Opret ny vare' med felterne varenr., kort beskrivelse, kontonummer, enhed, salgspris ekskl./inkl. moms og valuta."},{"tid":88,"tekst":"Den nye vare (i eksemplet '01-Fragt', konto 4096-00 Fragt) vises i varelisten."},{"tid":102,"tekst":"Mangler den rigtige konto: Ø90-online-kunder kan markere kontoen som anvendt i kontoplanen i Ø90; er du ikke Ø90 online-kunde, så kontakt din assistent hos DLBR."},{"tid":150,"tekst":"En vare redigeres via blyant-ikonet; vinduet har 'Slet vare' og 'Gem ændringer'."},{"tid":174,"tekst":"Med 'Søg i tabel' kan en vare findes (fx 'rente')."},{"tid":186,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["opret vare","varer og ydelser","ydelse","vare","varenummer","kontonummer","konto","salgspris","enhed","rediger vare","slet vare","find vare","kontoplan","Ø90","DLBR","indtægter","prisliste"],"forudsaetninger":["Kontoen der skal bruges, skal være markeret som anvendt i kontoplanen (Ø90) – ellers kontakt din assistent hos DLBR."],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V10","filnavn":"Kom i gang med InterCount/Rediger og slet en kladde - InterCount (900p).mp4","type":"video","sha256":"c6628e9011f394ff606d0a4c6935eacbe1433415ce841c5a47d9e571162cfe05","stoerrelse_bytes":2235816,"varighed_sek":51.66,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Rediger og slet en kladde","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man åbner og redigerer en fakturakladde under Indtægter > Kladder, og hvordan man sletter en eller flere kladder.","arbejdsgang":"Redigere eller slette fakturakladder, der endnu ikke er oprettet som faktura.","trin":[{"tid":6,"tekst":"Fra 'Mit overblik' vælges Indtægter."},{"tid":8,"tekst":"Under Indtægter > Fakturaer foldes 'Kladder' ud."},{"tid":12,"tekst":"Listen viser kladder med fakturanr. 0, type Kladde, kunde, fakturadato, betales senest og beløb; kladden åbnes via blyant-ikonet."},{"tid":20,"tekst":"'Rediger kladde' åbnes; man går blot til bunden af billedet for at redigere fakturakladden."},{"tid":26,"tekst":"Når vinduet lukkes, vises beskeden 'Din faktura er nu gemt som en kladde. Den kan findes i kladdelisten.'"},{"tid":28,"tekst":"For at slette markeres en eller flere kladder i afkrydsningsfelterne."},{"tid":34,"tekst":"Skraldespanden 'Slet kladde(r)' vælges."},{"tid":36,"tekst":"Dialogen 'Er du sikker på at du vil slette de valgte kladde(r)? Denne handling kan ikke fortrydes.' bekræftes med 'Slet'."},{"tid":46,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["kladde","fakturakladde","rediger kladde","slet kladde","slette faktura","ret faktura før afsendelse","gem som kladde","kladdeliste","indtægter"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:15+00:00"},{"id":"V11","filnavn":"Kom i gang med InterCount/Sådan anvender du Bilag på vej - InterCount (938p).mp4","type":"video","sha256":"34fe934189d4b133c542f08b7f4efe2dcdcb4c50fb8f640588b29cac5fe6ea78","stoerrelse_bytes":7832248,"varighed_sek":205.22,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Sådan anvender du Bilag på vej","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser funktionen 'Bilag på vej', der åbner NemFaktura Track & Trace med de bilag, der er modtaget på dit CVR, deres status og behandlingstid, samt filtrering på filnavn og status.","arbejdsgang":"Følg med i om indsendte bilag er modtaget og behandlet (Track & Trace).","trin":[{"tid":4,"tekst":"Udgangspunkt i Bilag (Afventer godkendelse m.m.) og Arkiv."},{"tid":8,"tekst":"Fra Arkiv åbnes 'Bilag på vej' (knap øverst til højre)."},{"tid":16,"tekst":"Vinduet 'NemFaktura – Track & Trace' viser 'Bilag tilhørende CVR' med kilde, fra, emne, filnavn, modtaget, behandlingstid og status."},{"tid":102,"tekst":"Statuskolonnen viser en farvet markering for hvert bilag (fx grøn eller gul)."},{"tid":124,"tekst":"Med knappen 'Filtrering' kan der filtreres."},{"tid":126,"tekst":"Der kan filtreres på status, fx 'Et eller flere bilag fejlet', og trykkes 'Anvend' eller 'Nulstil'."},{"tid":168,"tekst":"Der kan filtreres på filnavn (fx 'PBS')."},{"tid":182,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["bilag på vej","track and trace","track & trace","NemFaktura","modtaget bilag","er mit bilag modtaget","status på bilag","fejlede bilag","behandlingstid","filtrering","arkiv","indsendte bilag","SEGES"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V12","filnavn":"Kom i gang med InterCount/Sådan anvender du fritekstsøgning - InterCount (586p).mp4","type":"video","sha256":"215c4f30a7eb1f51736402b02cec5285bea326146287632d2a56d88d7ecf19c4","stoerrelse_bytes":1863902,"varighed_sek":60.63,"sider":null,"kategori":"Kom i gang med InterCount","titel":"Sådan anvender du fritekstsøgning","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser fritekstsøgningen i Arkiv > Regnskabsbilag, hvor man søger bilag frem på tekst i kombination med periodefilteret for arkiveringsdato.","arbejdsgang":"Finde et bestemt bilag i arkivet ved fritekstsøgning.","trin":[{"tid":6,"tekst":"I Arkiv under fanen Regnskabsbilag findes feltet 'Søg i fritekst' sammen med 'Vælg periode for arkiveringsdato' og 'Anvend filter'."},{"tid":22,"tekst":"Der skrives et søgeord i fritekstfeltet, og der trykkes 'Anvend filter'."},{"tid":24,"tekst":"Listen viser nu de bilag, der matcher søgningen inden for den valgte periode."},{"tid":40,"tekst":"Perioden kan udvides (i eksemplet fra 01-01-2023) for at søge i en længere periode."},{"tid":56,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["fritekstsøgning","fritekst","søg bilag","find bilag","søgning i arkiv","arkiv","regnskabsbilag","periode","arkiveringsdato","anvend filter","søg efter leverandør","find faktura"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V13","filnavn":"Kom i gang med InterCount/Vejledning-til-rykker.pdf","type":"dokument","sha256":"43ac2f1bd18efe0ef21e74054ebc942c47f98986cbda900abfafb9077481a4f0","stoerrelse_bytes":494763,"varighed_sek":null,"sider":5,"kategori":"Kom i gang med InterCount","titel":"Vejledning til rykker (PDF)","titel_kilde":"titelskærm/filnavn","beskrivelse":"Skriftlig vejledning (PDF, version 2 af 09-12-2024) til at lave en rykker manuelt i InterCount, da der endnu ikke findes en rykkerskabelon med gebyr og rente: opret varer til gebyr og rente, gem en kopi af den oprindelige faktura, opret rykkeren som en faktura og send den til kunden.","arbejdsgang":"Lave og sende en rykker for en ubetalt faktura, inkl. gebyr og rente.","trin":[{"tid":null,"tekst":"1. Opret vare: Under fanen 'Vare og ydelser' trykkes 'Opret vare', og der oprettes varer til gebyr og rente. Findes den rigtige konto ikke under varegrupper, skal kontoen markeres som anvendt i kontoplanen i Ø90 (log ud og ind igen bagefter), eller kontakt din revisorassistent."},{"tid":null,"tekst":"2. Kopi af faktura: Under fanen 'Fakturaer' åbnes den faktura, rykkeren gælder, og den gemmes på computeren med et sigende filnavn."},{"tid":null,"tekst":"3. Opret rykker: Under 'Fakturaer' vælges 'Opret faktura'. Kunde, fakturadato, indbetalingsmåde, fakturaskabelon og betalingsbetingelser udfyldes; i 'Beskrivelse' skrives hvilken faktura rykkeren omhandler, og i 'Vare' vælges varerne 'Rente' og 'Gebyr'. 'Se kladde' viser rykkeren; lukkes vinduet, gemmes en kladde."},{"tid":null,"tekst":"4. Send en faktura: Tryk 'Opret og send'. Udfyld/ret e-mail, evt. CC, emne og kommentar, vedhæft den gemte kopi af den oprindelige faktura under 'Vedhæft fil' og tryk 'Send faktura'."}],"soegeord":["rykker","rykkere","rykkergebyr","gebyr","rente","morarente","ubetalt faktura","kunde har ikke betalt","påmindelse","inkasso","send rykker","opret rykker","vejledning","pdf"],"forudsaetninger":["Varer til 'Gebyr' og 'Rente' skal være oprettet (afsnit 1 i vejledningen)."],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra PDF-dokumentets tekst. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V14","filnavn":"Opsætning/InterCount App - gem adgangskode - InterCount (1080p).mp4","type":"video","sha256":"6c96187f77a61c12e934b91a186d85fecc050c05f5d4608a44c49055c9299825","stoerrelse_bytes":3968466,"varighed_sek":129.15,"sider":null,"kategori":"Opsætning","titel":"InterCount App – gem adgangskode","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man på iPhone/iPad gemmer sit AgroID-login i iOS' Adgangskoder, så det kan autoudfyldes ved login i InterCount App.","arbejdsgang":"Gøre login i InterCount App hurtigere ved at gemme AgroID-adgangskoden på iPhone/iPad.","trin":[{"tid":6,"tekst":"InterCount App logger på via AgroID (brugernavn og kodeord)."},{"tid":18,"tekst":"På iPhone/iPad åbnes appen 'Adgangskoder' (fx via søgning)."},{"tid":28,"tekst":"Der oprettes en ny adgangskode med websted/app 'InterCount', brugernavn og adgangskode, og der trykkes 'Gem'."},{"tid":62,"tekst":"På AgroID-loginsiden trykkes på nøgle-ikonet over tastaturet for at vælge en gemt adgangskode ('Autoudfyld adgangskode')."},{"tid":74,"tekst":"Der søges efter 'InterCount', og 'Brug og tilføj websted' vælges, så autoudfyld foreslår den næste gang."},{"tid":90,"tekst":"Brugernavn og kodeord er udfyldt, og der trykkes 'Log på'."},{"tid":96,"tekst":"Spørger iOS om at ajourføre adgangskoden i iCloud-nøgleringen, kan 'Ajourfør adgangskode' vælges."},{"tid":98,"tekst":"Appens forside vises med Scan, Godkend, Historik og Indstillinger; under Indstillinger findes Virksomheder og 'Log ud'."},{"tid":118,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["app","InterCount App","gem adgangskode","adgangskode","password","kodeord","login","log ind","AgroID","iPhone","iPad","iOS","autoudfyld","nøglering","log ud"],"forudsaetninger":["iPhone eller iPad med InterCount App installeret.","Et AgroID-login."],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V15","filnavn":"Opsætning/Kom nemt igang med InterCount - Sammenkobling af flere virksomheder - InterCount (1080p).mp4","type":"video","sha256":"0cb62a8027cb17df7150c77d5bb0cdd376ec560828581b8e9849ac70887f6df0","stoerrelse_bytes":5094117,"varighed_sek":108.55,"sider":null,"kategori":"Opsætning","titel":"Sammenkobling af flere virksomheder (flere brugerid)","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man kobler flere virksomheder/CVR-numre sammen, så man med ét AgroID kan skifte mellem dem i InterCount: adgang gives via landmand.dk > Andre brugere, og derefter vælges 'Skift virksomhed' i InterCount.","arbejdsgang":"Få adgang til flere virksomheder (CVR-numre) i InterCount med ét login.","trin":[{"tid":10,"tekst":"Forudsætninger: du skal have et AgroID pr. CVR-nummer, alle CVR-numre skal være CVR-valideret, og alle CVR-numre skal have tildelt et modul til InterCount."},{"tid":22,"tekst":"Eksempel: CVR 12785634 med AgroID Inter1 og CVR 87216543 med AgroID Inter2; den ene ejendom skal have adgang til den anden."},{"tid":34,"tekst":"Gå til landmand.dk og tryk 'Log på'."},{"tid":36,"tekst":"Log på med AgroID for den virksomhed, der skal give adgang (i eksemplet Inter2)."},{"tid":46,"tekst":"Under tandhjulet/menuen vælges 'Andre brugere'."},{"tid":48,"tekst":"Siden 'Adgang til andre brugere' viser hvem der har adgang; vælg 'Tilføj ny adgang'."},{"tid":52,"tekst":"Under 'Hvem skal have adgang' vælges 'En bestemt bruger'."},{"tid":56,"tekst":"Under 'Find bruger' indtastes BrugerID på den bruger, der skal have adgang."},{"tid":62,"tekst":"Under 'Vælg adgange' sættes flueben ved 'InterCount – Bogføring' (Fuld adgang / Administrator), og der trykkes 'Godkend'."},{"tid":78,"tekst":"Siden 'Færdig' bekræfter hvilke adgange der er givet."},{"tid":90,"tekst":"I InterCount klikkes på virksomhedsnavnet øverst til højre; i 'Skift virksomhed' vælges mellem de tilknyttede CVR-numre."},{"tid":98,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["flere virksomheder","sammenkobling","skift virksomhed","flere CVR","CVR-nummer","flere brugere","adgang til anden bruger","giv adgang","AgroID","landmand.dk","andre brugere","brugerid","adgangsrettigheder","fuldmagt"],"forudsaetninger":["Et AgroID pr. CVR-nummer.","Alle CVR-numre skal være CVR-valideret.","Alle CVR-numre skal have tildelt et modul til InterCount."],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V16","filnavn":"Opsætning/Rediger opsætningen i Indtægter - InterCount (934p).mp4","type":"video","sha256":"c8ce6c3f0612e7f394772ee9da4e48a116369e15b74873fa4f544d792d93aabc","stoerrelse_bytes":6519237,"varighed_sek":188.15,"sider":null,"kategori":"Opsætning","titel":"Rediger opsætningen i Indtægter","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser Profilopsætning > Indtægter, hvor man redigerer virksomhedsoplysninger, skifter logo på fakturaer, tilføjer og vælger indbetalingsmåde (bankkonto m.m.) og angiver supplerende tekst på fakturaer.","arbejdsgang":"Opsætte hvordan fakturaer ser ud: firmaoplysninger, logo, bankoplysninger og fast tekst.","trin":[{"tid":6,"tekst":"Fra 'Mit overblik' åbnes Profilopsætning via person-ikonet øverst til højre."},{"tid":20,"tekst":"I Profilopsætning vælges fanen Indtægter."},{"tid":38,"tekst":"Under Virksomhedsoplysninger ses CVR, telefon, e-mail og adresse samt logo; ændringer gemmes med 'Gem ændringer'."},{"tid":58,"tekst":"'Skift logo' viser dine logoer, hvor et vælges og gemmes. Infoboks: ønsker du at tilføje, slette eller redigere logoer, skal det gøres i Ø90 (kontakt DLBR hvis du er i tvivl)."},{"tid":76,"tekst":"Under Indbetalingsmåde ses betalingstyper (fx Betaling via Giro, Kontant, Bankoverførsel); den aktive vælges med radioknappen, og de kan redigeres eller slettes."},{"tid":86,"tekst":"Med plus-knappen 'Tilføj indbetalingsmåde' vælges betalingstype og indtastes bankoplysninger (registreringsnummer, konto/girokort/IBAN) og supplerende tekst; oplysningerne indsættes automatisk på fakturaer."},{"tid":136,"tekst":"Den nye bankoverførsel vælges som aktiv indbetalingsmåde."},{"tid":160,"tekst":"Under 'Supplerende tekst på faktura' skrives tekst (max 300 tegn), der fremgår under betalingsoplysningerne på alle fakturaer."},{"tid":184,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["opsætning","profilopsætning","indtægter opsætning","virksomhedsoplysninger","logo","skift logo","faktura logo","indbetalingsmåde","bankkonto","kontonummer","registreringsnummer","IBAN","giro","betalingsoplysninger","supplerende tekst","fakturatekst","Ø90"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V17","filnavn":"Opsætning/Sådan gemmer du InterCount som en genvej - InterCount (1080p).mp4","type":"video","sha256":"8512aae7e4774208ac72d28a24a4d6256f8df4755e38351bb40b468075a63b0a","stoerrelse_bytes":3427539,"varighed_sek":96.08,"sider":null,"kategori":"Opsætning","titel":"Sådan gemmer du InterCount som en genvej","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man i browseren (Chrome) gemmer InterCount som bogmærke/genvej i bogmærkelinjen, så man kommer direkte til login og sparer klik.","arbejdsgang":"Komme hurtigere ind i InterCount via et bogmærke i browseren.","trin":[{"tid":4,"tekst":"Udgangspunkt i browseren (Google)."},{"tid":12,"tekst":"Der skrives intercount.dk i adresselinjen."},{"tid":14,"tekst":"På intercount.dk trykkes 'Login'."},{"tid":16,"tekst":"Man lander på AgroID-loginsiden (brugernavn og kodeord)."},{"tid":46,"tekst":"I Chromes menu under 'Bogmærker og lister' slås 'Vis bogmærkelinjen' til, og siden gemmes som bogmærke 'InterCount'."},{"tid":50,"tekst":"Bogmærket InterCount vises nu i bogmærkelinjen."},{"tid":60,"tekst":"Efter login vises InterCounts forside 'Mit overblik'."},{"tid":66,"tekst":"Næste gang klikkes blot på bogmærket InterCount, som går direkte til AgroID-login."},{"tid":80,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["genvej","bogmærke","bookmark","bogmærkelinje","favorit","Chrome","browser","login","log ind","AgroID","intercount.dk","spar klik","hurtig adgang"],"forudsaetninger":[],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V18","filnavn":"Opsætning/Vejledning InterCount App - Godkend - InterCount (1080p).mp4","type":"video","sha256":"8209e07e13cc9ed9b51066a9a1b84df3862beaecc17384e945face18ea2ab78d","stoerrelse_bytes":4024101,"varighed_sek":129.52,"sider":null,"kategori":"Opsætning","titel":"InterCount App – Godkend","titel_kilde":"titelskærm/filnavn","beskrivelse":"Viser hvordan man i InterCount App godkender (eller returnerer/uddelegerer) fakturaer, der afventer godkendelse, efter en notifikation på telefonen.","arbejdsgang":"Godkende leverandørfakturaer/bilag fra mobilen.","trin":[{"tid":4,"tekst":"En notifikation på telefonen ('Godkend – Der er faktura til godkendelse') åbnes."},{"tid":10,"tekst":"I InterCount App trykkes 'Log ind med AgroID'."},{"tid":18,"tekst":"Der logges på med AgroID (adgangskoden kan autoudfyldes)."},{"tid":24,"tekst":"Appens forside viser Scan, Godkend, Historik og Indstillinger; Godkend vælges."},{"tid":30,"tekst":"'Afventer handling' viser bilag til godkendelse for den valgte virksomhed (leverandør, dato og beløb)."},{"tid":98,"tekst":"Under 'Godkendelse' ses fakturaen (PDF/e-faktura) med fakturanr., betalingsdato og beløb; der kan skrives en kommentar og vælges Uddeleger, Returner eller Godkend."},{"tid":100,"tekst":"Der trykkes 'Godkend'."},{"tid":104,"tekst":"Beskeden 'Sådan! Dokumentet er godkendt' vises, og listen viser 'Ingen afventende handlinger'."},{"tid":118,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["godkend","godkendelse","godkend faktura","godkend bilag","afventer godkendelse","afventer handling","returner","uddeleger","app","InterCount App","mobil","telefon","notifikation","leverandørfaktura","købsfaktura"],"forudsaetninger":["InterCount App installeret og et AgroID-login."],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"},{"id":"V19","filnavn":"Opsætning/Vejledning InterCount App - InterCount (1080p).mp4","type":"video","sha256":"986330cc8ea3e7f9210232a5159324c9674e8739110a3354d625abcb1b62e1a5","stoerrelse_bytes":4874869,"varighed_sek":160.91,"sider":null,"kategori":"Opsætning","titel":"Sådan virker InterCount App","titel_kilde":"titelskærm/filnavn","beskrivelse":"Gennemgang af InterCount App: log ind med AgroID, scan bilag/kvitteringer med kameraet eller vælg fra billedbiblioteket, upload med kommentar til den valgte virksomhed, se historik over scanninger og vælg standardvirksomhed under Indstillinger.","arbejdsgang":"Indsende papirbilag og kvitteringer fra telefonen med InterCount App.","trin":[{"tid":4,"tekst":"Appen åbnes, og der trykkes 'Log ind med AgroID'."},{"tid":12,"tekst":"Der logges på med AgroID-brugernavn og kodeord."},{"tid":18,"tekst":"Forsiden viser Scan, Godkend, Historik og Indstillinger."},{"tid":26,"tekst":"Under Scan kan man vælge billeder fra biblioteket eller scanne dokumenter med appen; når alt til bilaget er samlet, trykkes 'Fortsæt'."},{"tid":38,"tekst":"'Vælg fra bibliotek': et foto af en kvittering vælges."},{"tid":46,"tekst":"Kvitteringen vises under Scan, og der trykkes 'Fortsæt'."},{"tid":54,"tekst":"Under 'Upload bilag' kan der skrives en kommentar og vælges virksomhed, og der trykkes 'Upload bilag'."},{"tid":70,"tekst":"Beskeden 'Sådan! Din scanning er uploadet' vises."},{"tid":80,"tekst":"Med 'Scan' tages et billede af en kvittering med kameraet ('Tag billede', derefter 'Brug billede' eller 'Nyt billede')."},{"tid":96,"tekst":"En kommentar (fx 'Kabel til pc') tilføjes, og bilaget uploades."},{"tid":116,"tekst":"Under Historik ses tidligere scanninger med dato og kommentar, filtreret på virksomhed."},{"tid":124,"tekst":"En scanning åbnes og viser dato, CVR, BilagsID og billedet."},{"tid":132,"tekst":"Under Indstillinger > Virksomheder vælges hvilken virksomhed der er standardvalg ved scanning ('Gem valg'); her findes også 'Log ud'."},{"tid":148,"tekst":"Slutskærm med kontakt til InterCount support."}],"soegeord":["app","InterCount App","scan","scan bilag","scan kvittering","kvittering","papirbilag","foto","kamera","upload bilag","billedbibliotek","historik","indstillinger","standardvirksomhed","virksomheder","AgroID","log ud","mobil","telefon","registrer bilag"],"forudsaetninger":["InterCount App installeret og et AgroID-login."],"ikke_verificeret":["titel","beskrivelse","arbejdsgang","trin","soegeord","forudsaetninger","transskription"],"metadata_kilde":"Udarbejdet automatisk (AI) ud fra skærmbilleder fra videoen (ca. hvert 2. sekund) og titelskærme. Speakerstemmen er IKKE gennemlyttet. Tidsstempler er omtrentlige. Skal gennemses og verificeres.","noter":null,"status":"indekseret","fejl":[],"testdata":false,"opdateret":"2026-10-16T10:45:16+00:00"}]},"synonymer":[["faktura","regning","salgsfaktura","fakturere"],["leverandørfaktura","købsfaktura","indgående faktura","regning fra leverandør"],["kreditnota","kreditere","kreditering","tilbagebetale","refundere","refusion","annullere faktura"],["bilag","kvittering","dokument","udgiftsbilag","regnskabsbilag"],["scanne","scan","fotografere","tage billede","affotografere"],["registrere","indsende","aflevere","uploade","sende ind","videresende"],["kunde","debitor","kunder","debitorer"],["leverandør","kreditor"],["rykker","rykke","påmindelse","inkasso","ubetalt","skylder","udestående"],["saldoliste","saldo","kontoudtog"],["vare","varer","ydelse","ydelser","produkt","produkter"],["kladde","udkast","kladder"],["slette","fjerne","slet"],["redigere","rette","ændre","tilrette"],["oprette","lave","tilføje","ny","udstede","skrive","lave en ny"],["godkende","godkendelse","attestere","acceptere"],["app","mobil","telefon","iphone","android","smartphone"],["adgangskode","kodeord","password","login","logge ind"],["genvej","bogmærke","favorit","bookmark"],["arkiv","digitalt arkiv","arkivet"],["søge","søgning","finde","fritekst"],["virksomhed","cvr","firma","ejendom","bedrift"],["logo","firmalogo"],["bankkonto","kontonummer","indbetalingsmåde","betalingsoplysninger","iban"],["kopi","kopiere","duplikere","genbruge","gentage","igen"],["varelinje","fakturalinje","linje"],["opsætning","indstillinger","konfiguration","profilopsætning"]],"eksempler":["Hvordan opretter jeg en kreditnota?","Hvordan sender jeg en faktura til min kunde?","Hvordan scanner jeg en kvittering med appen?","Hvordan følger jeg op på kunder, der ikke har betalt?","Hvordan finder jeg et bilag i arkivet?","Hvordan får jeg adgang til flere virksomheder?"],"transskriptioner":{"V13":{"kilde":"pdf-tekst (automatisk udtrukket)","verificeret":false,"segmenter":[{"start":null,"slut":null,"tekst":"Side 1: Vejledning til InterCount Indtægter - Rykker Indhold Indtægter - Rykker   2 1. Opret vare  2 2."},{"start":null,"slut":null,"tekst":"Side 1: Kopi af faktura   3 3. Opret rykker   3 4. Send en faktura   5"},{"start":null,"slut":null,"tekst":"Side 2: Version 2 Side 2/5 Den 09-12-2024 Indtægter - Rykker Det findes endnu ikke en skabelon til rykker i Intercount med gebyr og rente, så denne vejledning viser, hvordan du manuelt kan lave en rykker til en faktura i Intercount."},{"start":null,"slut":null,"tekst":"Side 2: 1. Opret vare For at kunne lave en rykker i Intercount, er der behov for at oprette en vare til gebyr og rente."},{"start":null,"slut":null,"tekst":"Side 2: Vælg fanen ”Vare og ydelser” Tryk ”Opret vare” Kan du ikke finde den korrekte konto under varegrupper, skal du pt. gå til Ø90 og sætte flueben ved den pågældende konto i din kontoplan for at markere, at den er anvendt."},{"start":null,"slut":null,"tekst":"Side 2: Du skal logge ud af InterCount og logge ind igen før ændringen træder i kraft. Du kan også kontakte din revisorassistent for at få hjælp til det."},{"start":null,"slut":null,"tekst":"Side 3: Version 2 Side 3/5 Den 09-12-2024 2. Kopi af faktura For at kunne sende fakturaen med rykkeren, er der behov for at gemme en kopi af den."},{"start":null,"slut":null,"tekst":"Side 3: Vælg fanen ”Fakturaer” Tryk ”Fakturaer” Åben den faktura du skal lave en rykker til Gem den ned på din computer, så du kan finde den igen, med et filnavn der giver mening, når du skal sende den til din kunde."},{"start":null,"slut":null,"tekst":"Side 3: 3. Opret rykker Vælg fanen ”Fakturaer” Vælg ”Opret faktura” i højre hjørne"},{"start":null,"slut":null,"tekst":"Side 4: Version 2 Side 4/5 Den 09-12-2024 1. Indtast navn på kunde 2. Tryk på denne linje, hvis du vil ændre fakturadatoen 3."},{"start":null,"slut":null,"tekst":"Side 4: Vælg en valutakurs, har du ingen ændringer så spring dette punkt over 4. Tryk på Indbetalingsmåde, hvis du vil ændre denne 5."},{"start":null,"slut":null,"tekst":"Side 4: Indtaste et ordrenummer hvis du skal sende en e-faktura, ellers kan du springe dette punkt over 6."},{"start":null,"slut":null,"tekst":"Side 4: Vælg evt. en leveringsadresse, har du ingen ændringer så spring dette punkt over 7."},{"start":null,"slut":null,"tekst":"Side 4: Indsæt evt. oplysninger vedr. en kontaktperson, har du ingen ændringer så spring dette punkt over 8."},{"start":null,"slut":null,"tekst":"Side 4: Under ”Fakturaskabelon” vælges, om det er faktura med eller uden varenummer. 9. Under Betalingsbetingelser kan du ændre forfaldstidspunkt for din faktura 10."},{"start":null,"slut":null,"tekst":"Side 4: Scrol ned for at komme til indtastningsfelterne for selve fakturaen I feltet ”Beskrivelse” kan du skrive hvilken faktura rykkeren omhandler"},{"start":null,"slut":null,"tekst":"Side 4: I flettet ”Vare” vælger du vare ”Rente” og ”Gebyr” som blev oprettet i afsnit 1: Opret vare"},{"start":null,"slut":null,"tekst":"Side 4: Tryk på ”Se kladde” hvis du vil se hvordan din faktura kommer til at se ud"},{"start":null,"slut":null,"tekst":"Side 4: Tryk ”Opret og send” hvis fakturaen er færdig og klar at sende til din kunde Vær opmærksom på at der først kommer fakturanummer på, når fakturaen er oprettet ."},{"start":null,"slut":null,"tekst":"Side 4: Lukker du billedet ned på krydset oppe i højre hjørne, bliver der automatisk gemt en kladde til senere brug."},{"start":null,"slut":null,"tekst":"Side 5: Version 2 Side 5/5 Den 09-12-2024 4. Send en faktura Når du har en kladde, der er færdig, kan du sende samtidig med den bliver oprettet."},{"start":null,"slut":null,"tekst":"Side 5: Feltet ”e-mail” er udfyldt med den mailadresse du har registeret på kunden , kan tilrettes ved behov"},{"start":null,"slut":null,"tekst":"Side 5: Her kan du udfylde en ”CC”-mailadresse ved behov evt. med din egen mail, så du har en kopi af det er sendt"},{"start":null,"slut":null,"tekst":"Side 5: Feltet ”Emne” er udfyldt med nummeret fra den faktura eller kreditnota du er ved at sende"},{"start":null,"slut":null,"tekst":"Side 5: Feltet ”Kommentar” er udfyldt med ”Hermed faktura som aftalt”. Denne tekst kan du slette eller tilføje mere tekst ved behov"},{"start":null,"slut":null,"tekst":"Side 5: ”Vedhæft fil” og tryk på ”Vælg fil” så kan den oprindelige faktura vedhæftes, som blev gemt i afsnit 2: Gem kopi af faktura"},{"start":null,"slut":null,"tekst":"Side 5: ”Afsender signatur” Er udfyldt med dine virksomhedsoplysninger."},{"start":null,"slut":null,"tekst":"Side 5: Tryk på ”Annuller” for at fortryde din mail eller ”Send faktura” for at afsende din faktura til din kunde Har du brug for yderligere hjælp, så se vores små videovejledninger, eller den store samlede vejledning til Indtægter på intercount.dk/support/vejledninger"}]}},"web":true}</script>
+<script>
+/* Kernen i "Find hjælp til InterCount": dansk tekstbehandling, søgemotor, katalog og import.
+ *
+ * Kører både i browseren (den selvstændige HTML-app) og i Node (tests og byggeskript).
+ * Ingen afhængigheder og ingen netværkskald. Alt indhold fra kataloget og transskriptioner
+ * behandles som data – aldrig som instruktioner eller HTML.
+ */
+(function (rod, fabrik) {
+  const kerne = fabrik();
+  if (typeof module !== "undefined" && module.exports) module.exports = kerne;
+  else rod.Kerne = kerne;
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  // ------------------------------------------------------------------ dansk Snowball-stammer
+  // Implementering af den danske Snowball-algoritme (snowballstem.org/algorithms/danish).
+  const VOKALER = new Set("aeiouyæåø");
+  const S_ENDELSER = new Set("abcdfghjklmnoprtvyzå");
+  const KONSONANTER = new Set("bcdfghjklmnpqrstvwxz");
+  const TRIN1 = [
+    "erendes", "erende", "hedens", "ethed", "erede", "heden", "heder", "endes", "ernes", "erens", "erets",
+    "ered", "ende", "erne", "eren", "erer", "heds", "enes", "eres", "eret", "hed", "ene", "ere", "ens",
+    "ers", "ets", "en", "er", "es", "et", "e",
+  ];
+  const TRIN3 = ["elig", "løst", "lig", "els", "ig"];
+
+  function r1(ord) {
+    let p = ord.length;
+    for (let i = 1; i < ord.length; i++) {
+      if (!VOKALER.has(ord[i]) && VOKALER.has(ord[i - 1])) {
+        p = i + 1;
+        break;
+      }
+    }
+    return Math.max(p, 3);
+  }
+
+  function trin2(ord, p) {
+    for (const s of ["gd", "dt", "gt", "kt"]) {
+      if (ord.endsWith(s) && ord.length - 2 >= p) return ord.slice(0, -1);
+    }
+    return ord;
+  }
+
+  function snowball(ord) {
+    if (ord.length < 3) return ord;
+    const p = r1(ord);
+    if (p >= ord.length) return ord;
+    // Trin 1
+    let fundet = false;
+    for (const s of TRIN1) {
+      if (ord.endsWith(s) && ord.length - s.length >= p) {
+        ord = ord.slice(0, -s.length);
+        fundet = true;
+        break;
+      }
+    }
+    if (!fundet && ord.endsWith("s") && ord.length - 1 >= p && S_ENDELSER.has(ord[ord.length - 2])) {
+      ord = ord.slice(0, -1);
+    }
+    // Trin 2
+    ord = trin2(ord, p);
+    // Trin 3
+    if (ord.endsWith("igst")) ord = ord.slice(0, -2);
+    for (const s of TRIN3) {
+      if (ord.endsWith(s) && ord.length - s.length >= p) {
+        if (s === "løst") ord = ord.slice(0, -1);
+        else {
+          ord = ord.slice(0, -s.length);
+          ord = trin2(ord, p);
+        }
+        break;
+      }
+    }
+    // Trin 4: fjern dobbelt konsonant til sidst
+    const n = ord.length;
+    if (n >= 2 && n - 1 >= p && KONSONANTER.has(ord[n - 1]) && ord[n - 1] === ord[n - 2]) {
+      ord = ord.slice(0, -1);
+    }
+    return ord;
+  }
+
+  // ------------------------------------------------------------------ tekst
+  const STOPORD = new Set(
+    `og i jeg det at en den til er som på de med han af for ikke der var mig sig men et har om vi min
+    havde ham hun nu over da fra du ud sin dem os op man hans hvor eller hvad skal selv her alle vil blev
+    kunne ind når være dog noget ville jo deres efter ned skulle denne end dette mit også under have dig
+    anden hende mine alt meget sit sine vor mod disse hvis din nogle hos blive mange ad bliver hendes været
+    thi jer sådan hvordan hvorfor hvilken hvilke hvem kan gør gøre gerne lige bare så får få fik
+    mon dit dine jeres vores sådan nogen noget sted ting mere mest helt rigtig rigtige godt viser vise vist`
+      .split(/\s+/)
+      .filter(Boolean)
+  );
+  const GENERISKE_ORD = `hjælp hjaelp intercount video videoer vejledning program system bruge bruger anvende anvender
+    opgave opgaver arbejdsgang funktion funktioner virker fungerer starte finde lære lær forstå
+    spørgsmål problem udføre gennemføre bestemt denne`
+    .split(/\s+/)
+    .filter(Boolean);
+  // Hvor Snowball giver forskellige stammer for samme ord ("opret" -> "opr", men "opretter" -> "opret").
+  const STAMME_RETTELSER = { opret: "opret", opr: "opret" };
+
+  const ORD_RE = /[0-9a-zæøåéü]+(?:[-@.][0-9a-zæøåéü]+)*/g;
+
+  function normaliser(tekst) {
+    return String(tekst == null ? "" : tekst).normalize("NFC").toLowerCase();
+  }
+
+  function ordI(tekst) {
+    const ud = [];
+    for (const m of normaliser(tekst).matchAll(ORD_RE)) {
+      const t = m[0];
+      ud.push(t);
+      if (t.includes("-") || t.includes(".")) for (const d of t.split(/[-.]/)) if (d) ud.push(d);
+    }
+    return ud;
+  }
+
+  const stammeCache = new Map();
+  function stam(ord) {
+    let s = stammeCache.get(ord);
+    if (s === undefined) {
+      s = Object.prototype.hasOwnProperty.call(STAMME_RETTELSER, ord) ? STAMME_RETTELSER[ord] : snowball(ord);
+      if (stammeCache.size > 50000) stammeCache.clear();
+      stammeCache.set(ord, s);
+    }
+    return s;
+  }
+
+  function indholdsord(tekst) {
+    return ordI(tekst)
+      .filter((o) => !STOPORD.has(o) && o.length > 1)
+      .map(stam);
+  }
+
+  const GENERISKE_STAMMER = new Set(GENERISKE_ORD.map(stam));
+  const erGenerisk = (s) => GENERISKE_STAMMER.has(s);
+  // Hverdagsverber og småord, der sjældent afgør hvilken video der menes ("lave", "ny", "igen").
+  // De tæller med, men vejer langt mindre end ord som "faktura" eller "kreditnota".
+  const SVAGE_ORD = `lave laver lav lavet oprette opretter opret oprettet ny nyt nye tilføje tilføjer tilføj skrive skriver
+    skriv udstede udsteder se ser sætte sætter sæt ændre ændrer ændr komme kommer igen samme hjælpe gang gange del`
+    .split(/\s+/)
+    .filter(Boolean);
+  const SVAGE_STAMMER = new Set(SVAGE_ORD.map(stam));
+  const erSvag = (s) => SVAGE_STAMMER.has(s);
+  const SVAG_FAKTOR = 0.3; // vægt for svage ord
+  const UKENDT_FAKTOR = 0.35; // vægt for ord, der slet ikke findes i kataloget (kan ikke skelne mellem videoer)
+
+  class Synonymer {
+    /** Grupper af ord/fraser med samme betydning. Udvider kun brugerens spørgsmål. */
+    constructor(grupper) {
+      this.grupper = [];
+      this.indeks = new Map();
+      for (const g of grupper || []) if (Array.isArray(g)) this.tilfoej(g);
+    }
+    tilfoej(gruppe) {
+      const nr = this.grupper.length;
+      const fraser = [];
+      const set = new Set();
+      for (const frase of gruppe) {
+        const st = indholdsord(String(frase));
+        const k = st.join(" ");
+        if (st.length && !set.has(k)) {
+          set.add(k);
+          fraser.push(st);
+          if (!this.indeks.has(k)) this.indeks.set(k, new Set());
+          this.indeks.get(k).add(nr);
+        }
+      }
+      this.grupper.push(fraser);
+    }
+    /** Returnér [[frase-stammer], [spørgsmålsord den svarer til]]. */
+    udvid(stammer) {
+      const fundne = new Map();
+      const kandidater = new Map();
+      for (const s of stammer) kandidater.set(s, [s]);
+      for (let i = 0; i + 1 < stammer.length; i++) kandidater.set(stammer[i] + " " + stammer[i + 1], [stammer[i], stammer[i + 1]]);
+      const iSpoergsmaal = new Set(stammer);
+      for (const [k, kilder] of kandidater) {
+        for (const nr of this.indeks.get(k) || []) {
+          for (const frase of this.grupper[nr]) {
+            const fk = frase.join(" ");
+            if (fk === k || (frase.length === 1 && iSpoergsmaal.has(frase[0]))) continue;
+            if (!fundne.has(fk)) fundne.set(fk, { frase, kilder: [] });
+            const e = fundne.get(fk).kilder;
+            for (const x of kilder) if (!e.includes(x)) e.push(x);
+          }
+        }
+      }
+      return [...fundne.values()].map((x) => [x.frase, x.kilder]);
+    }
+  }
+
+  // ------------------------------------------------------------------ tid og katalog
+  const ID_RE = /^V\d{2,3}$/;
+  const VIDEO_ENDELSER = [".mp4", ".m4v", ".mov", ".webm", ".mkv", ".avi"];
+  const DOKUMENT_ENDELSER = [".pdf"];
+  const BROWSER_VENLIGE = [".mp4", ".m4v", ".webm", ".pdf", ".mov"];
+  const VERIFICERBARE_FELTER = ["titel", "beskrivelse", "arbejdsgang", "trin", "soegeord", "forudsaetninger", "transskription"];
+  const MAKS_SPOERGSMAAL_LAENGDE = 300;
+
+  function tidTilTekst(sek) {
+    if (sek === null || sek === undefined || sek === "" || isNaN(Number(sek))) return null;
+    sek = Math.round(Number(sek));
+    const t = Math.floor(sek / 3600);
+    const m = Math.floor((sek % 3600) / 60);
+    const s = sek % 60;
+    const to = (x) => String(x).padStart(2, "0");
+    return t ? `${t}:${to(m)}:${to(s)}` : `${m}:${to(s)}`;
+  }
+
+  function tekstTilTid(tekst) {
+    if (tekst === null || tekst === undefined || tekst === "") return null;
+    if (typeof tekst === "number") return tekst >= 0 && isFinite(tekst) ? tekst : null;
+    tekst = String(tekst).trim().replace(",", ".");
+    if (/^\d+(\.\d+)?$/.test(tekst)) return parseFloat(tekst);
+    const m = tekst.match(/^(?:(\d+):)?(\d{1,2}):(\d{2})(?:\.(\d+))?$/);
+    if (!m) return null;
+    return (
+      parseInt(m[1] || "0", 10) * 3600 + parseInt(m[2], 10) * 60 + parseInt(m[3], 10) + (m[4] ? parseFloat("0." + m[4]) : 0)
+    );
+  }
+
+  function nu() {
+    return new Date().toISOString().replace(/\.\d+Z$/, "+00:00");
+  }
+
+  function tomPost(id, filnavn, type) {
+    return {
+      id, filnavn, type: type || "video", sha256: null, stoerrelse_bytes: null, varighed_sek: null, sider: null,
+      kategori: null, titel: null, titel_kilde: null, beskrivelse: null, arbejdsgang: null, trin: [], soegeord: [],
+      forudsaetninger: [], ikke_verificeret: VERIFICERBARE_FELTER.slice(), metadata_kilde: null, noter: null,
+      status: "ny", fejl: [], testdata: false, opdateret: nu(),
+    };
+  }
+
+  function validerKatalog(data) {
+    if (!data || typeof data !== "object" || !Array.isArray(data.videoer)) {
+      return ["Kataloget skal være et JSON-objekt med en liste 'videoer'."];
+    }
+    const fejl = [];
+    const ids = new Set();
+    const filer = new Set();
+    data.videoer.forEach((p, i) => {
+      const nr = i + 1;
+      if (!p || typeof p !== "object") return fejl.push(`Post nr. ${nr} er ikke et objekt.`);
+      if (typeof p.id !== "string" || !ID_RE.test(p.id)) fejl.push(`Post nr. ${nr}: ugyldigt ID ${JSON.stringify(p.id)} (forventet fx V01).`);
+      if (typeof p.filnavn !== "string" || !p.filnavn) fejl.push(`${p.id}: mangler filnavn.`);
+      for (const f of ["trin", "soegeord", "forudsaetninger", "fejl", "ikke_verificeret"]) {
+        if (f in p && p[f] !== null && !Array.isArray(p[f])) fejl.push(`${p.id}: feltet '${f}' skal være en liste.`);
+      }
+      (Array.isArray(p.trin) ? p.trin : []).forEach((t, j) => {
+        if (!t || typeof t.tekst !== "string") fejl.push(`${p.id}: trin nr. ${j + 1} skal have en 'tekst'.`);
+        else if (t.tid !== null && t.tid !== undefined && t.tid !== "" && tekstTilTid(t.tid) === null) {
+          fejl.push(`${p.id}: trin nr. ${j + 1} har et ugyldigt tidsstempel ${JSON.stringify(t.tid)}.`);
+        }
+      });
+      if (ids.has(p.id)) fejl.push(`ID ${p.id} findes flere gange i kataloget.`);
+      ids.add(p.id);
+      if (filer.has(p.filnavn)) fejl.push(`Filen ${JSON.stringify(p.filnavn)} er registreret flere gange.`);
+      filer.add(p.filnavn);
+    });
+    return fejl;
+  }
+
+  function normaliserPost(post) {
+    const fuld = Object.assign(tomPost(post.id || "", post.filnavn || "", post.type || "video"), post);
+    fuld.trin = (fuld.trin || [])
+      .filter((t) => t && String(t.tekst || "").trim())
+      .map((t) => ({ tid: tekstTilTid(t.tid), tekst: String(t.tekst).trim() }));
+    const liste = (x) => (x || []).map((s) => String(s).trim()).filter(Boolean);
+    fuld.soegeord = liste(fuld.soegeord);
+    fuld.forudsaetninger = liste(fuld.forudsaetninger);
+    fuld.fejl = liste(fuld.fejl);
+    fuld.ikke_verificeret = (fuld.ikke_verificeret || []).filter((f) => VERIFICERBARE_FELTER.includes(f));
+    return fuld;
+  }
+
+  function laesKatalog(data) {
+    const fejl = validerKatalog(data);
+    if (fejl.length) throw new Error("Kataloget indeholder fejl: " + fejl.slice(0, 10).join(" "));
+    return Object.assign({}, data, { videoer: data.videoer.map(normaliserPost) });
+  }
+
+  // Transskriptioner: { kilde, verificeret, segmenter: [{start, slut, tekst}] }
+  const TID_LINJE = /^\s*\[?((?:\d+:)?\d{1,2}:\d{2}(?:[.,]\d+)?)\]?\s*[-–|]?\s*(.*)$/;
+  const VTT_TID = /((?:\d+:)?\d{1,2}:\d{2}[.,]\d{1,3})\s*-->\s*((?:\d+:)?\d{1,2}:\d{2}[.,]\d{1,3})/;
+
+  function parseTekstTransskription(tekst) {
+    const segmenter = [];
+    for (const linje of String(tekst || "").split(/\r?\n/)) {
+      if (!linje.trim()) continue;
+      const m = linje.match(TID_LINJE);
+      if (m && m[2].trim()) segmenter.push({ start: tekstTilTid(m[1]), slut: null, tekst: m[2].trim() });
+      else segmenter.push({ start: null, slut: null, tekst: linje.trim() });
+    }
+    return segmenter;
+  }
+
+  function parseUndertekster(tekst) {
+    const segmenter = [];
+    for (const blok of String(tekst || "").replace(/\r\n/g, "\n").split(/\n\s*\n/)) {
+      const linjer = blok.trim().split("\n").filter((l) => l.trim());
+      for (let i = 0; i < linjer.length; i++) {
+        const m = linjer[i].match(VTT_TID);
+        if (m) {
+          const indhold = linjer.slice(i + 1).join(" ").replace(/<[^>]+>/g, "").trim();
+          if (indhold) segmenter.push({ start: tekstTilTid(m[1]), slut: tekstTilTid(m[2]), tekst: indhold });
+          break;
+        }
+      }
+    }
+    return segmenter;
+  }
+
+  /** Læs en transskriptionsfil ud fra filnavnets endelse (.json/.vtt/.srt/.txt). */
+  function parseTransskriptionsfil(navn, tekst) {
+    const e = (navn.match(/\.[^.]+$/) || [""])[0].toLowerCase();
+    if (e === ".json") {
+      const d = JSON.parse(tekst);
+      return {
+        kilde: String(d.kilde || "fil (json)"),
+        verificeret: !!d.verificeret,
+        segmenter: (d.segmenter || [])
+          .filter((s) => s && String(s.tekst || "").trim())
+          .map((s) => ({ start: tekstTilTid(s.start), slut: tekstTilTid(s.slut), tekst: String(s.tekst).trim() })),
+      };
+    }
+    if (e === ".vtt" || e === ".srt") return { kilde: `fil (${e.slice(1)})`, verificeret: false, segmenter: parseUndertekster(tekst) };
+    return { kilde: "manuel (txt)", verificeret: false, segmenter: parseTekstTransskription(tekst) };
+  }
+
+  function transskriptionSomTekst(tr) {
+    return (tr && tr.segmenter ? tr.segmenter : [])
+      .map((s) => (s.start !== null && s.start !== undefined ? tidTilTekst(s.start) + " " : "") + s.tekst)
+      .join("\n");
+  }
+
+  // ------------------------------------------------------------------ import
+  function endelse(navn) {
+    const m = String(navn).match(/\.[^./\\]+$/);
+    return m ? m[0].toLowerCase() : "";
+  }
+
+  function titelFraFilnavn(navn) {
+    const stamme = navn.replace(/\.[^.]+$/, "");
+    let t = stamme.replace(/\s*\(\d{3,4}p\)\s*$/, "").replace(/\s*-\s*InterCount\s*$/i, "");
+    t = t.replace(/_+/g, " ").replace(/\s+/g, " ").replace(/^[\s-]+|[\s-]+$/g, "");
+    return t || stamme;
+  }
+
+  function naesteId(brugte) {
+    let maks = 0;
+    for (const id of brugte) maks = Math.max(maks, parseInt(id.slice(1), 10) || 0);
+    const n = maks + 1;
+    return "V" + String(n).padStart(2, "0");
+  }
+
+  function validerFil(f) {
+    const navn = f.rel.split("/").pop();
+    if (navn.startsWith(".") || navn.startsWith("~$")) return "skjult";
+    const e = endelse(navn);
+    if (![...VIDEO_ENDELSER, ...DOKUMENT_ENDELSER].includes(e)) return `Filtypen '${e || "(ingen)"}' understøttes ikke.`;
+    if (/[<>:"|?*\x00]/.test(navn)) return "Filnavnet indeholder ugyldige tegn.";
+    if (!f.stoerrelse) return "Filen er tom (0 bytes).";
+    return null;
+  }
+
+  /**
+   * Opdatér kataloget (in-place) ud fra en liste af filer: [{rel, sha256, stoerrelse, varighed_sek?, sider?}].
+   * rel er stien i forhold til videomappen med "/". Returnerer en rapport.
+   */
+  function importerFiler(katalog, filer) {
+    const r = { nye: [], uaendrede: [], aendrede: [], flyttede: [], manglende: [], dubletter: [], afviste: [], advarsler: [] };
+    const poster = (katalog.videoer = katalog.videoer || []);
+    const efterFil = new Map(poster.map((p) => [p.filnavn.normalize("NFC"), p]));
+    const efterHash = new Map(poster.filter((p) => p.sha256).map((p) => [p.sha256, p]));
+    const brugte = new Set(poster.map((p) => p.id));
+    const set = new Map();
+    const fundne = new Set();
+    const alle = new Set(filer.map((f) => f.rel.normalize("NFC")));
+    const sorterede = filer
+      .map((f) => Object.assign({}, f, { rel: f.rel.normalize("NFC") }))
+      .filter((f) => !/^(readme\.txt|laes-mig\.txt|desktop\.ini|thumbs\.db)$/i.test(f.rel.split("/").pop()))
+      .sort((a, b) => (efterFil.has(a.rel) ? 0 : 1) - (efterFil.has(b.rel) ? 0 : 1) || a.rel.toLowerCase().localeCompare(b.rel.toLowerCase()));
+    for (const f of sorterede) {
+      if (endelse(f.rel) === ".html") continue; // selve appen
+      const fejl = validerFil(f);
+      if (fejl) {
+        if (fejl !== "skjult") r.afviste.push({ fil: f.rel, aarsag: fejl });
+        continue;
+      }
+      const h = f.sha256;
+      if (set.has(h)) {
+        r.dubletter.push({ fil: f.rel, samme_som: set.get(h) });
+        continue;
+      }
+      set.set(h, f.rel);
+      const type = DOKUMENT_ENDELSER.includes(endelse(f.rel)) ? "dokument" : "video";
+      let post = efterFil.get(f.rel);
+      let rort = true;
+      if (post) {
+        if (post.sha256 === h) {
+          rort = false;
+          r.uaendrede.push(post.id);
+          if ([null, undefined, "ny", "mangler_fil", "fejl"].includes(post.status)) post.status = "indekseret";
+        } else if (post.sha256) {
+          r.aendrede.push(post.id);
+          post.status = "aendret";
+          post.fejl = [
+            "Filens indhold er ændret siden sidste import. Kontrollér at beskrivelse, trin og transskription stadig passer, og fjern derefter denne bemærkning.",
+          ];
+          post.sha256 = h;
+        } else {
+          r.uaendrede.push(post.id);
+          post.status = "indekseret";
+          post.sha256 = h;
+        }
+      } else if (efterHash.has(h) && efterHash.get(h).filnavn !== f.rel && !fundne.has(efterHash.get(h).id)) {
+        post = efterHash.get(h);
+        if (alle.has(post.filnavn.normalize("NFC"))) {
+          r.dubletter.push({ fil: f.rel, samme_som: post.filnavn });
+          continue;
+        }
+        r.flyttede.push(post.id);
+        efterFil.delete(post.filnavn);
+        post.filnavn = f.rel;
+        efterFil.set(f.rel, post);
+        if ([null, undefined, "ny", "mangler_fil"].includes(post.status)) post.status = "indekseret";
+      } else {
+        const id = naesteId(brugte);
+        brugte.add(id);
+        post = tomPost(id, f.rel, type);
+        post.sha256 = h;
+        post.titel = titelFraFilnavn(f.rel.split("/").pop());
+        post.titel_kilde = "filnavn";
+        const dele = f.rel.split("/");
+        post.kategori = dele.length > 1 ? dele[dele.length - 2] : null;
+        post.metadata_kilde = "Kun filnavn – beskrivelse, trin og søgeord mangler.";
+        post.status = "indekseret";
+        poster.push(post);
+        efterFil.set(f.rel, post);
+        efterHash.set(h, post);
+        r.nye.push(id);
+      }
+      fundne.add(post.id);
+      post.stoerrelse_bytes = f.stoerrelse;
+      post.type = type;
+      if (f.varighed_sek && !post.varighed_sek) post.varighed_sek = Math.round(f.varighed_sek * 100) / 100;
+      if (f.sider && !post.sider) post.sider = f.sider;
+      if (!BROWSER_VENLIGE.includes(endelse(f.rel))) {
+        r.advarsler.push(`${post.id}: formatet ${endelse(f.rel)} kan muligvis ikke afspilles i alle browsere. Konvertér evt. til MP4 (H.264/AAC).`);
+      }
+      if (rort) post.opdateret = nu();
+    }
+    for (const p of poster) {
+      if (!fundne.has(p.id)) {
+        if (p.status !== "mangler_fil") p.opdateret = nu();
+        p.status = "mangler_fil";
+        r.manglende.push(p.id);
+      }
+    }
+    poster.sort((a, b) => parseInt(a.id.slice(1), 10) - parseInt(b.id.slice(1), 10));
+    r.resume =
+      `${r.nye.length} nye, ${r.uaendrede.length} uændrede, ${r.aendrede.length} ændrede, ` +
+      `${r.flyttede.length} flyttede/omdøbte, ${r.manglende.length} mangler, ${r.dubletter.length} dubletter, ${r.afviste.length} afvist`;
+    return r;
+  }
+
+  // ------------------------------------------------------------------ søgemotor
+  const FELT_VAEGT = { titel: 3, soegeord: 2.5, arbejdsgang: 2, beskrivelse: 1.5, trin: 1.5, transskription: 1, forudsaetninger: 0.8, kategori: 0.5 };
+  const FELT_NAVN = {
+    titel: "Titlen", soegeord: "Søgeord", arbejdsgang: "Arbejdsgangen", beskrivelse: "Beskrivelsen", trin: "Trin",
+    transskription: "Transskriptionen", forudsaetninger: "Forudsætninger", kategori: "Kategorien",
+  };
+  const MIN_SPRING_SEK = 15; // tidligere end dette starter man bare fra begyndelsen
+  // Et ord der kun står i tale/PDF-tekst eller forudsætninger siger mindre om, hvad videoen handler om.
+  const DAEKNING_FELT = { transskription: 0.8, forudsaetninger: 0.8, kategori: 0.8 };
+  const KERNEFELTER = new Set(["titel", "soegeord", "arbejdsgang", "beskrivelse"]);
+  const TITELFELTER = new Set(["titel", "soegeord", "arbejdsgang"]);
+  const LABEL = { 3: "Stærkt match", 2: "Godt match", 1: "Muligt match" };
+
+  function ngram(tekst, n = 4) {
+    const t = " " + ordI(tekst).join(" ") + " ";
+    const c = new Map();
+    for (let i = 0; i <= t.length - n; i++) {
+      const g = t.slice(i, i + n);
+      c.set(g, (c.get(g) || 0) + 1);
+    }
+    return c;
+  }
+
+  function cosinus(a, b) {
+    let tael = 0, na = 0, nb = 0;
+    for (const [k, v] of a) {
+      na += v * v;
+      const w = b.get(k);
+      if (w) tael += v * w;
+    }
+    for (const v of b.values()) nb += v * v;
+    return na && nb ? tael / (Math.sqrt(na) * Math.sqrt(nb)) : 0;
+  }
+
+  function citat(tekst, termer, maks = 160) {
+    tekst = String(tekst).replace(/\s+/g, " ").trim();
+    if (tekst.length <= maks) return tekst;
+    let pos = 0;
+    const lav = tekst.toLowerCase();
+    for (const m of lav.matchAll(/[\p{L}\p{N}_]+/gu)) {
+      const s = stam(m[0]);
+      if (termer.has(s) || [...termer].some((t) => t.length >= 4 && s.includes(t))) {
+        pos = m.index;
+        break;
+      }
+    }
+    const start = Math.max(0, pos - Math.floor(maks / 3));
+    const slut = Math.min(tekst.length, start + maks);
+    return (start > 0 ? "…" : "") + tekst.slice(start, slut).trim() + (slut < tekst.length ? "…" : "");
+  }
+
+  class Soegemotor {
+    constructor(videoer, transskriptioner, synonymer, valg) {
+      valg = valg || {};
+      this.videoer = new Map(videoer.map((v) => [v.id, v]));
+      this.transskriptioner = transskriptioner || {};
+      this.synonymer = synonymer || new Synonymer([]);
+      this.minDaekning = valg.minDaekning ?? 0.34;
+      this.passager = [];
+      this.passagerPrVideo = new Map();
+      this.df = new Map();
+      this.ordforraad = new Set();
+      this.ngramPrVideo = new Map();
+      this.byg();
+    }
+
+    tilfoej(vid, felt, tekst, tid) {
+      if (tekst === null || tekst === undefined || !String(tekst).trim()) return;
+      const stammer = indholdsord(String(tekst));
+      if (!stammer.length) return;
+      const p = { videoId: vid, felt, tekst: String(tekst).trim(), tid: tid ?? null, stammer, saet: new Set(stammer) };
+      this.passager.push(p);
+      if (!this.passagerPrVideo.has(vid)) this.passagerPrVideo.set(vid, []);
+      this.passagerPrVideo.get(vid).push(p);
+    }
+
+    byg() {
+      for (const [vid, v] of this.videoer) {
+        this.tilfoej(vid, "titel", v.titel);
+        this.tilfoej(vid, "kategori", v.kategori);
+        this.tilfoej(vid, "beskrivelse", v.beskrivelse);
+        this.tilfoej(vid, "arbejdsgang", v.arbejdsgang);
+        for (const s of v.soegeord || []) this.tilfoej(vid, "soegeord", s);
+        for (const s of v.forudsaetninger || []) this.tilfoej(vid, "forudsaetninger", s);
+        for (const t of v.trin || []) this.tilfoej(vid, "trin", t.tekst, t.tid);
+        const tr = this.transskriptioner[vid];
+        if (tr) for (const s of tr.segmenter || []) this.tilfoej(vid, "transskription", s.tekst, s.start);
+      }
+      for (const [vid, ps] of this.passagerPrVideo) {
+        const saet = new Set();
+        for (const p of ps) for (const s of p.saet) saet.add(s);
+        for (const s of saet) {
+          this.df.set(s, (this.df.get(s) || 0) + 1);
+          this.ordforraad.add(s);
+        }
+        this.ngramPrVideo.set(vid, ngram(ps.filter((p) => p.felt !== "transskription").map((p) => p.tekst).join(" ")));
+      }
+    }
+
+    idf(s) {
+      const n = Math.max(1, this.passagerPrVideo.size);
+      return Math.log(1 + n / (1 + (this.df.get(s) || 0)));
+    }
+
+    boejninger(s) {
+      const ud = [];
+      if (s.length < 4) return ud;
+      for (const o of this.ordforraad) {
+        if (o !== s && Math.min(o.length, s.length) >= 4 && Math.abs(o.length - s.length) <= 2 && (o.startsWith(s) || s.startsWith(o))) ud.push(o);
+      }
+      return ud;
+    }
+
+    delvise(s) {
+      const ud = [];
+      if (s.length < 5) return ud;
+      for (const o of this.ordforraad) {
+        if (o === s || o.length < 5 || Math.abs(o.length - s.length) <= 2) continue;
+        if (o.includes(s) || s.includes(o)) ud.push(o);
+      }
+      return ud;
+    }
+
+    soeg(spoergsmaal, maks = 5) {
+      if (typeof spoergsmaal !== "string") return svar("ugyldig", "Skriv dit spørgsmål som almindelig tekst.");
+      spoergsmaal = spoergsmaal.replace(/\s+/g, " ").trim();
+      if (!spoergsmaal) return svar("ugyldig", "Skriv hvad du gerne vil gøre i InterCount.");
+      if (spoergsmaal.length > MAKS_SPOERGSMAAL_LAENGDE) {
+        return svar("ugyldig", `Spørgsmålet er for langt. Brug højst ${MAKS_SPOERGSMAAL_LAENGDE} tegn.`);
+      }
+      const stammer = [...new Set(ordI(spoergsmaal).filter((o) => o.length > 1 && !STOPORD.has(o)).map(stam))];
+      const indhold = stammer.filter((s) => !erGenerisk(s));
+      if (!indhold.length) {
+        return svar(
+          "uklar",
+          "Dit spørgsmål er for generelt til at finde den rigtige video. Beskriv den opgave du vil udføre, fx »oprette en kreditnota« eller »scanne en kvittering«."
+        );
+      }
+      // Søgetermer: {frase: [stammer], kilde: spørgsmålsord, type, vaegt}
+      const termer = [];
+      for (const s of stammer) {
+        termer.push({ frase: [s], kilde: s, type: "eksakt", vaegt: 1 });
+        for (const v of this.boejninger(s)) termer.push({ frase: [v], kilde: s, type: "eksakt", vaegt: 0.95 });
+        for (const d of this.delvise(s)) termer.push({ frase: [d], kilde: s, type: "delvis", vaegt: 0.6 });
+      }
+      for (const [frase, kilder] of this.synonymer.udvid(stammer)) {
+        for (const k of kilder) {
+          // Synonymer for hverdagsverber ("lave" = "oprette") er næsten lige så gode som det præcise ord.
+          termer.push({ frase, kilde: k, type: "synonym", vaegt: erSvag(k) ? 0.95 : 0.75 });
+          if (frase.length === 1) for (const d of this.delvise(frase[0])) termer.push({ frase: [d], kilde: k, type: "synonym", vaegt: 0.45 });
+        }
+      }
+      const qNgram = ngram(spoergsmaal);
+      // Hvor meget hvert spørgsmålsord vejer: svage hverdagsord og ord, kataloget ikke kender, vejer mindre.
+      const faktor = new Map();
+      for (const s of stammer) {
+        // Et ord er "kendt", hvis det (eller et synonym) står i kataloget – et delvist ord-match tæller ikke.
+        const kendt = termer.some((t) => t.kilde === s && t.type !== "delvis" && t.frase.every((f) => this.ordforraad.has(f)));
+        faktor.set(s, erSvag(s) ? SVAG_FAKTOR : kendt ? 1 : UKENDT_FAKTOR);
+      }
+      const substansOrd = indhold.filter((s) => !erSvag(s));
+      const kandidater = [];
+      for (const [vid, ps] of this.passagerPrVideo) {
+        const r = this.scoreVideo(vid, ps, stammer, indhold, termer, qNgram, faktor, substansOrd);
+        if (r) kandidater.push(r);
+      }
+      kandidater.sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : 1));
+      // En video skal dække nok af spørgsmålet – og mindst ét ord, der ikke bare er et hverdagsverbum.
+      const relevant = (r) => r.daekning >= this.minDaekning && (r.substans || !substansOrd.length);
+      if (!kandidater.length || !relevant(kandidater[0])) {
+        return svar(
+          "ingen_match",
+          "Der blev ikke fundet en video, der sikkert passer til dit spørgsmål. Prøv at formulere det anderledes – fx med de ord du ser på skærmen i InterCount – eller kontakt support."
+        );
+      }
+      const top = kandidater[0].score;
+      const valgte = kandidater.filter((r) => relevant(r) && r.score >= 0.4 * top).slice(0, maks);
+      let loft = 3;
+      for (const r of valgte) {
+        r.relevans = this.relevans(r, top, loft);
+        loft = r.relevans.niveau; // en lavere placeret video vises aldrig som bedre match
+      }
+      let status = "ok", besked = null, forslag = [];
+      if (valgte[0].relevans.niveau === 1) {
+        status = "usikker";
+        besked = "Ingen video passer helt sikkert til dit spørgsmål. Disse videoer handler om noget beslægtet og kan måske hjælpe:";
+      } else if (indhold.length === 1 && valgte.filter((r) => r.relevans.niveau >= 2).length >= 4) {
+        status = "praeciser";
+        besked = "Dit spørgsmål passer på flere videoer. Beskriv gerne opgaven mere præcist – eller vælg en af videoerne herunder.";
+        forslag = valgte.slice(0, 4).map((r) => r.titel).filter(Boolean);
+      }
+      return svar(status, besked, valgte.map((r) => this.offentlig(r)), forslag);
+    }
+
+    scoreVideo(vid, ps, stammer, indhold, termer, qNgram, faktor, substansOrd) {
+      faktor = faktor || new Map();
+      substansOrd = substansOrd || indhold;
+      const f = (s) => faktor.get(s) ?? 1;
+      const bedste = new Map();
+      const felterPrKilde = new Map();
+      for (const t of termer) {
+        for (const p of ps) {
+          if (t.frase.every((f) => p.saet.has(f))) {
+            if (!felterPrKilde.has(t.kilde)) felterPrKilde.set(t.kilde, new Set());
+            felterPrKilde.get(t.kilde).add(p.felt);
+            const gl = bedste.get(t.kilde);
+            if (!gl || FELT_VAEGT[p.felt] * t.vaegt > FELT_VAEGT[gl.passage.felt] * gl.vaegt) {
+              bedste.set(t.kilde, { term: t.frase.join(" "), kilde: t.kilde, type: t.type, passage: p, vaegt: t.vaegt });
+            }
+          }
+        }
+      }
+      const w = (s) => this.idf(s) * (erGenerisk(s) ? 0.25 : 1) * f(s);
+      const total = stammer.reduce((a, s) => a + w(s), 0) || 1;
+      const indholdTotal = indhold.reduce((a, s) => a + this.idf(s) * f(s), 0) || 1;
+      let daekning =
+        indhold.reduce((a, s) => {
+          const m = bedste.get(s);
+          // Et hverdagsverbum tæller kun, når det står i det, videoen handler om – ikke i et trin eller i tale.
+          if (!m || (erSvag(s) && !KERNEFELTER.has(m.passage.felt))) return a;
+          return a + this.idf(s) * f(s) * m.vaegt * (DAEKNING_FELT[m.passage.felt] ?? 1);
+        }, 0) / indholdTotal;
+      // Dækning i titel, søgeord og arbejdsgang – det videoen faktisk handler om.
+      const kerneOrd = substansOrd.length ? substansOrd : indhold;
+      const kerneTotal = kerneOrd.reduce((a, s) => a + this.idf(s) * f(s), 0) || 1;
+      let kerneDaekning = 0;
+      for (const s of kerneOrd) {
+        let bedst = 0;
+        for (const t of termer) {
+          if (t.kilde !== s || t.vaegt <= bedst) continue;
+          if (ps.some((p) => TITELFELTER.has(p.felt) && t.frase.every((x) => p.saet.has(x)))) bedst = t.vaegt;
+        }
+        kerneDaekning += this.idf(s) * f(s) * bedst;
+      }
+      kerneDaekning /= kerneTotal;
+      const daekker = (p, s) => termer.some((t) => t.kilde === s && t.type !== "delvis" && t.frase.every((x) => p.saet.has(x)));
+      // Bonus når ét enkelt titel-/søgeords-/arbejdsgangsfelt rummer hele spørgsmålet (inkl. synonymer).
+      let helhed = 0;
+      // Kun de kendte, betydningsbærende ord skal stå i feltet; hverdagsverber og ukendte ord er valgfri.
+      const helhedsOrd = indhold.filter((s) => f(s) === 1);
+      if (helhedsOrd.length >= 2 || (helhedsOrd.length === 1 && indhold.some((s) => erSvag(s)))) {
+        for (const p of ps) {
+          if (!TITELFELTER.has(p.felt)) continue;
+          if (!helhedsOrd.every((s) => daekker(p, s))) continue;
+          const medVerber = indhold.filter(erSvag).every((s) => daekker(p, s));
+          helhed = Math.max(helhed, (p.felt === "titel" ? 0.08 : 0.05) + (medVerber ? 0.02 : 0));
+        }
+      }
+      let feltKvalitet = 0;
+      for (const s of stammer) {
+        const m = bedste.get(s);
+        if (m) {
+          const bredde = 1 + 0.1 * (felterPrKilde.get(s).size - 1);
+          feltKvalitet += w(s) * m.vaegt * Math.min(1, (FELT_VAEGT[m.passage.felt] / 2.5) * bredde);
+        }
+      }
+      feltKvalitet /= total;
+      // Bonus når to ord fra spørgsmålet (eller deres synonymer) står i samme tekststykke.
+      let parBonus = 0;
+      for (let i = 0; i + 1 < stammer.length; i++) {
+        const a = stammer[i], b = stammer[i + 1];
+        if (ps.some((p) => daekker(p, a) && daekker(p, b))) parBonus += 0.04;
+      }
+      const fuzzy = cosinus(qNgram, this.ngramPrVideo.get(vid) || new Map());
+      if (!bedste.size && fuzzy < 0.3) return null;
+      // Mindst ét betydningsbærende ord er fundet: et kendt ord, eller et delvist match der også ligner stavemæssigt.
+      let substans = substansOrd.some((s) => bedste.has(s) && (f(s) === 1 || fuzzy >= 0.38));
+      if (!bedste.size && fuzzy >= 0.3) {
+        // Stavefejl o.l. – kun svag dækning
+        daekning = Math.max(daekning, fuzzy >= 0.38 ? 0.34 : 0);
+        substans = fuzzy >= 0.38;
+      }
+      const score =
+        0.45 * daekning + 0.25 * feltKvalitet + 0.1 * fuzzy + Math.min(parBonus, 0.12) + 0.15 * kerneDaekning + helhed;
+      return {
+        id: vid, titel: this.videoer.get(vid).titel, score: Math.round(score * 1e4) / 1e4, daekning, substans,
+        nSubstans: substansOrd.length,
+        bedste, stammer, indhold, termer,
+      };
+    }
+
+    relevans(r, top, loft = 3) {
+      const d = r.daekning, s = r.score;
+      let sjaeldneste = null;
+      for (const x of r.indhold) if (sjaeldneste === null || this.idf(x) > this.idf(sjaeldneste)) sjaeldneste = x;
+      const m = sjaeldneste !== null ? r.bedste.get(sjaeldneste) : null;
+      const kerne = !!m && KERNEFELTER.has(m.passage.felt) && m.vaegt >= 0.75;
+      let niveau = 1;
+      // Med kun ét betydningsbærende ord (fx "faktura") passer mange videoer næsten lige godt.
+      // Så får kun de allerbedste "Stærkt match".
+      const naerTop = r.nSubstans <= 1 ? 0.97 : 0.85;
+      if (d >= 0.85 && s >= naerTop * top && s >= 0.45 && kerne) niveau = 3;
+      else if (d >= 0.6 && s >= 0.6 * top) niveau = 2;
+      niveau = Math.min(niveau, loft);
+      return { niveau, label: LABEL[niveau] };
+    }
+
+    tidsstempel(r) {
+      const v = this.videoer.get(r.id);
+      const titelStammer = new Set(indholdsord(v.titel || ""));
+      const titelDaekket = new Set(r.termer.filter((t) => t.frase.every((f) => titelStammer.has(f))).map((t) => t.kilde));
+      let bedsteVaerdi = 0, bedsteP = null;
+      for (const p of this.passagerPrVideo.get(r.id) || []) {
+        if (!p.tid || p.tid < MIN_SPRING_SEK || (p.felt !== "trin" && p.felt !== "transskription")) continue;
+        let vaerdi = 0, nyInfo = false;
+        const daekket = new Set();
+        for (const t of r.termer) {
+          if (daekket.has(t.kilde) || erGenerisk(t.kilde)) continue;
+          if (t.frase.every((f) => p.saet.has(f))) {
+            daekket.add(t.kilde);
+            vaerdi += this.idf(t.kilde) * t.vaegt;
+            if (!titelDaekket.has(t.kilde)) nyInfo = true;
+          }
+        }
+        if (nyInfo && vaerdi > bedsteVaerdi) {
+          bedsteVaerdi = vaerdi;
+          bedsteP = p;
+        }
+      }
+      const indholdTotal = r.indhold.reduce((a, s) => a + this.idf(s), 0) || 1;
+      if (!bedsteP || bedsteVaerdi < 0.4 * indholdTotal) return null;
+      const termer = new Set(r.termer.flatMap((t) => t.frase));
+      return { sek: bedsteP.tid, visning: tidTilTekst(bedsteP.tid), tekst: citat(bedsteP.tekst, termer, 120) };
+    }
+
+    begrundelser(r) {
+      const linjer = [];
+      const brugte = new Set();
+      const termerAlle = new Set();
+      for (const m of r.bedste.values()) for (const x of m.term.split(" ")) termerAlle.add(x);
+      for (const k of r.bedste.keys()) termerAlle.add(k);
+      const v = this.videoer.get(r.id);
+      const sorterede = [...r.bedste.values()].sort(
+        (a, b) =>
+          FELT_VAEGT[b.passage.felt] * b.vaegt * this.idf(b.kilde) * (erGenerisk(b.kilde) ? 0.25 : 1) -
+          FELT_VAEGT[a.passage.felt] * a.vaegt * this.idf(a.kilde) * (erGenerisk(a.kilde) ? 0.25 : 1)
+      );
+      for (const m of sorterede) {
+        const p = m.passage;
+        if (brugte.has(p)) continue;
+        brugte.add(p);
+        const tid = p.tid ? tidTilTekst(p.tid) : null;
+        const felt = p.felt === "transskription" && v.type === "dokument" ? "PDF-teksten" : FELT_NAVN[p.felt];
+        const c = citat(p.tekst, termerAlle);
+        let linje;
+        if (p.felt === "soegeord") linje = `Søgeord i kataloget: »${c}«`;
+        else if ((p.felt === "trin" || p.felt === "transskription") && tid) linje = `${felt} ved ${tid}: »${c}«`;
+        else linje = `${felt}: »${c}«`;
+        if (m.type === "synonym") linje += " (fundet via synonym)";
+        else if (m.type === "delvis") linje += " (delvist ord-match)";
+        linjer.push(linje);
+        if (linjer.length >= 3) break;
+      }
+      if (!linjer.length) linjer.push("Ordene i titlen eller beskrivelsen ligner ordene i dit spørgsmål (muligvis en stavefejl).");
+      return linjer;
+    }
+
+    offentlig(r) {
+      const v = this.videoer.get(r.id);
+      const tr = this.transskriptioner[r.id];
+      const type = v.type || "video";
+      return {
+        id: v.id,
+        titel: v.titel || "Ukendt titel",
+        kategori: v.kategori || null,
+        type,
+        filnavn: v.filnavn,
+        beskrivelse: v.beskrivelse || null,
+        varighed: tidTilTekst(v.varighed_sek),
+        sider: v.sider || null,
+        relevans: r.relevans,
+        begrundelser: this.begrundelser(r),
+        tidsstempel: type === "video" ? this.tidsstempel(r) : null,
+        afspilbar: !["mangler_fil", "fejl"].includes(v.status),
+        ikke_verificeret: !!(v.ikke_verificeret && v.ikke_verificeret.length),
+        har_transskription: !!(tr && tr.segmenter && tr.segmenter.length),
+        testdata: !!v.testdata,
+      };
+    }
+  }
+
+  function svar(status, besked, resultater, forslag) {
+    return { status, besked, resultater: resultater || [], forslag: forslag || [] };
+  }
+
+  return {
+    snowball, stam, normaliser, ordI, indholdsord, erGenerisk, Synonymer, STOPORD,
+    ID_RE, VERIFICERBARE_FELTER, MAKS_SPOERGSMAAL_LAENGDE, VIDEO_ENDELSER, DOKUMENT_ENDELSER,
+    tidTilTekst, tekstTilTid, nu, tomPost, validerKatalog, normaliserPost, laesKatalog,
+    parseTekstTransskription, parseUndertekster, parseTransskriptionsfil, transskriptionSomTekst,
+    endelse, titelFraFilnavn, importerFiler, Soegemotor,
+  };
+});
+
+</script>
+<script>
+/* Brugerfladen i den selvstændige app: søgning, afspilning og administration.
+ * Al tekst indsættes med textContent – aldrig som HTML – så indhold fra kataloget
+ * eller transskriptioner kan ikke køre som kode.
+ */
+(function () {
+  "use strict";
+  const K = window.Kerne;
+  const $ = (id) => document.getElementById(id);
+
+  // Den uændrede HTML gemmes, så administrationen kan lave en ny version af appen.
+  const ORIGINAL_HTML = "<!doctype html>\n" + document.documentElement.outerHTML;
+  const LAGER_NOEGLE = "intercount-videosoeg:aendringer";
+
+  let data; // { version_id, bygget, katalog, synonymer, eksempler, transskriptioner }
+  let motor = null;
+  let lokaleFiler = null; // Map rel -> File, hvis brugeren har valgt videomappen manuelt
+  let gemtMappe = null; // gemt mappeadgang (Chrome/Edge), så mappen kun skal vælges én gang
+  let venter = null; // video der skal afspilles, så snart videomappen er valgt
+  let objektUrl = null;
+  let valgtId = null;
+  let ugemt = false;
+
+  function el(tag, klasse, tekst) {
+    const e = document.createElement(tag);
+    if (klasse) e.className = klasse;
+    if (tekst !== undefined && tekst !== null) e.textContent = tekst;
+    return e;
+  }
+  function knap(tekst, klasse, handling) {
+    const b = el("button", klasse, tekst);
+    b.type = "button";
+    if (handling) b.addEventListener("click", handling);
+    return b;
+  }
+  function lagerHent() {
+    try {
+      return JSON.parse(localStorage.getItem(LAGER_NOEGLE) || "null");
+    } catch (e) {
+      return null;
+    }
+  }
+  function lagerGem(v) {
+    try {
+      if (v === null) localStorage.removeItem(LAGER_NOEGLE);
+      else localStorage.setItem(LAGER_NOEGLE, JSON.stringify(v));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // ------------------------------------------------------------------ data
+  function indlaesData() {
+    const raa = JSON.parse($("app-data").textContent);
+    const lager = lagerHent();
+    if (lager && lager.base === raa.version_id && lager.data) {
+      ugemt = true;
+      return lager.data;
+    }
+    return raa;
+  }
+
+  function bygMotor() {
+    data.katalog = K.laesKatalog(data.katalog);
+    motor = new K.Soegemotor(data.katalog.videoer, data.transskriptioner, new K.Synonymer(data.synonymer));
+  }
+
+  function gemLokalt() {
+    ugemt = true;
+    const ok = lagerGem({ base: JSON.parse($("app-data").textContent).version_id, data });
+    visUgemt(ok ? null : "Ændringerne kunne ikke gemmes i browseren. Gem en ny version af appen nu, så de ikke går tabt.");
+  }
+
+  // ------------------------------------------------------------------ søgning
+  function visBesked(tekst, type) {
+    const b = $("besked");
+    b.replaceChildren();
+    if (tekst) b.appendChild(el("p", "besked " + (type || ""), tekst));
+  }
+
+  // Lukker videoen (stopper afspilningen og frigiver hukommelsen til en indbygget video).
+  function lukSpiller() {
+    $("spiller-ramme").replaceChildren();
+    $("spiller-fejl").hidden = true;
+    $("spiller-sektion").hidden = true;
+    venter = null;
+    if (objektUrl) {
+      URL.revokeObjectURL(objektUrl);
+      objektUrl = null;
+    }
+  }
+
+  function soeg(q) {
+    lukSpiller(); // en ny søgning lukker den video, der er åben
+    q = (q || "").trim();
+    $("resultater").replaceChildren();
+    if (!q) {
+      visBesked("Skriv hvad du gerne vil gøre i InterCount.", "advarsel");
+      $("soegefelt").focus();
+      return;
+    }
+    $("indlaeser").hidden = false;
+    // Lille pause, så indikatoren kan ses, og siden ikke føles frosset ved store kataloger.
+    setTimeout(() => {
+      try {
+        visSvar(motor.soeg(q));
+      } catch (e) {
+        visBesked("Der opstod en fejl i søgningen. Prøv igen, eller kontakt den ansvarlige.", "fejl");
+      } finally {
+        $("indlaeser").hidden = true;
+      }
+    }, 30);
+  }
+
+  function visSvar(d) {
+    const typer = { ok: "", usikker: "advarsel", praeciser: "info", uklar: "info", ingen_match: "advarsel", ugyldig: "fejl" };
+    if (d.status === "ok") {
+      const n = d.resultater.length;
+      visBesked(n === 1 ? "1 video passer til dit spørgsmål." : n + " videoer passer til dit spørgsmål – den bedste står øverst.");
+    } else visBesked(d.besked, typer[d.status]);
+    $("resultater").replaceChildren(...d.resultater.map(resultatKort));
+  }
+
+  function resultatKort(r) {
+    const li = el("li", "kort niveau-" + r.relevans.niveau);
+    const hoved = el("div", "kort-hoved");
+    hoved.appendChild(el("h3", null, r.titel));
+    const rel = el("span", "relevans niveau-" + r.relevans.niveau, r.relevans.label);
+    rel.title = "Hvor godt videoens beskrivelse passer til ordene i dit spørgsmål. Ikke en sandsynlighed.";
+    hoved.appendChild(rel);
+    li.appendChild(hoved);
+    const meta = [];
+    if (r.type === "dokument") meta.push("PDF-vejledning" + (r.sider ? ", " + r.sider + " sider" : ""));
+    else if (r.varighed) meta.push("Varighed " + r.varighed);
+    if (r.kategori) meta.push(r.kategori);
+    if (meta.length) li.appendChild(el("p", "lille", meta.join(" · ")));
+    if (r.beskrivelse) li.appendChild(el("p", null, r.beskrivelse));
+    if (r.begrundelser.length) {
+      const b = el("div", "begrundelse");
+      b.appendChild(el("p", "lille fed", "Hvorfor denne video:"));
+      const ul = el("ul");
+      r.begrundelser.forEach((t) => ul.appendChild(el("li", null, t)));
+      b.appendChild(ul);
+      li.appendChild(b);
+    }
+    if (r.ikke_verificeret) li.appendChild(el("p", "lille note-tekst", "Beskrivelsen er ikke gennemgået af et menneske endnu."));
+    if (r.testdata) li.appendChild(el("p", "lille note-tekst", "TESTDATA – ikke en rigtig video."));
+    const h = el("div", "handlinger");
+    if (!r.afspilbar) {
+      h.appendChild(el("p", "fejl lille", "Filen er ikke tilgængelig lige nu. Kontakt den ansvarlige for videoerne."));
+    } else {
+      h.appendChild(knap(r.type === "dokument" ? "Åbn vejledning" : "Afspil video", null, () => afspil(r, 0)));
+      if (r.tidsstempel) {
+        const t = knap("Spring til " + r.tidsstempel.visning, "sekundaer", () => afspil(r, r.tidsstempel.sek));
+        t.title = r.tidsstempel.tekst || "";
+        h.appendChild(t);
+        h.appendChild(el("span", "lille", "Ca. tidspunkt: " + (r.tidsstempel.tekst || "")));
+      }
+    }
+    li.appendChild(h);
+    return li;
+  }
+
+  // ------------------------------------------------------------------ afspilning
+  function relativUrl(filnavn) {
+    return filnavn.split("/").map(encodeURIComponent).join("/");
+  }
+
+  function mediaUrl(v) {
+    if (objektUrl) {
+      URL.revokeObjectURL(objektUrl);
+      objektUrl = null;
+    }
+    const fil = indlejretFil(v) || findLokalFil(v);
+    if (fil) {
+      objektUrl = URL.createObjectURL(fil);
+      return objektUrl;
+    }
+    return relativUrl(v.filnavn);
+  }
+
+  // Videoer, der er bygget ind i selve app-filen (base64 i en <script>-blok efter koden).
+  // De pakkes først ud, når de afspilles. Er videoen ændret siden, bruges filen på disken.
+  function indlejretFil(v) {
+    const info = data.indlejrede && data.indlejrede[v.id];
+    if (!info || info.sha256 !== v.sha256) return null;
+    const node = document.getElementById("fil-" + v.id);
+    if (!node) return null;
+    const bin = atob(node.textContent.trim());
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new Blob([bytes], { type: info.type });
+  }
+
+  function alleIndlejret() {
+    return data.katalog.videoer.every((v) => v.type === "dokument" ? true : data.indlejrede && data.indlejrede[v.id] && data.indlejrede[v.id].sha256 === v.sha256);
+  }
+
+  // Finder videoen i den valgte mappe, uanset om brugeren valgte selve videomappen,
+  // en af undermapperne eller mappen ovenover. Til sidst matches på filnavn og størrelse.
+  function findLokalFil(v) {
+    if (!lokaleFiler || !v.filnavn) return null;
+    const maal = v.filnavn.normalize("NFC");
+    if (lokaleFiler.has(maal)) return lokaleFiler.get(maal);
+    const navn = maal.split("/").pop();
+    let bedste = null;
+    for (const [rel, fil] of lokaleFiler) {
+      if (rel.endsWith("/" + maal) || maal.endsWith("/" + rel)) return fil;
+      if (rel.split("/").pop() === navn) {
+        if (!bedste || (v.stoerrelse_bytes && fil.size === v.stoerrelse_bytes)) bedste = fil;
+      }
+    }
+    return bedste;
+  }
+
+  function afspil(r, sek) {
+    const v = data.katalog.videoer.find((x) => x.id === r.id);
+    if (!v) return;
+    venter = { r, sek };
+    const ramme = $("spiller-ramme");
+    const fejl = $("spiller-fejl");
+    fejl.hidden = true;
+    fejl.replaceChildren();
+    ramme.replaceChildren();
+    $("spiller-titel").textContent = v.titel || "Ukendt titel";
+    const url = mediaUrl(v);
+    const info = $("spiller-info");
+    info.replaceChildren();
+    if ((v.type || "video") === "dokument") {
+      const f = el("iframe", "pdf");
+      f.src = url;
+      f.title = v.titel || "PDF";
+      ramme.appendChild(f);
+      const a = el("a", null, "Åbn PDF'en i et nyt vindue");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      info.appendChild(a);
+    } else {
+      const vid = el("video");
+      vid.controls = true;
+      vid.preload = "metadata";
+      vid.src = url + (sek ? "#t=" + sek : "");
+      vid.addEventListener("loadedmetadata", () => {
+        if (sek && vid.currentTime < sek - 1) vid.currentTime = sek;
+      });
+      vid.addEventListener("error", () => visAfspilningsfejl());
+      ramme.appendChild(vid);
+      if (sek) info.textContent = "Videoen starter ved " + K.tidTilTekst(sek) + ". Du kan spole frit.";
+      const p = vid.play();
+      if (p && p.catch) p.catch(() => {});
+    }
+    $("spiller-sektion").hidden = false;
+    $("spiller-sektion").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function visAfspilningsfejl() {
+    const fejl = $("spiller-fejl");
+    const v = venter && data.katalog.videoer.find((x) => x.id === venter.r.id);
+    if (v && indlejretFil(v)) {
+      fejl.replaceChildren(el("p", null, "Browseren kan ikke afspille videoen. Åbn appen i Chrome eller Edge."));
+      fejl.hidden = false;
+      return;
+    }
+    if (data.web) {
+      fejl.replaceChildren(el("p", null, "Videoen kunne ikke hentes. Prøv igen om lidt, eller brug Chrome eller Edge."));
+      fejl.hidden = false;
+      return;
+    }
+    if (lokaleFiler && v && !findLokalFil(v)) {
+      fejl.replaceChildren(
+        el("p", null, "Videoen findes ikke i den mappe, du valgte. Vælg den mappe, der indeholder mapperne med videoerne."),
+        el("p", "lille", "Appen leder efter: " + v.filnavn)
+      );
+    } else if (lokaleFiler) {
+      fejl.replaceChildren(
+        el("p", null, "Videofilen blev fundet, men browseren kan ikke afspille den. Prøv i Chrome eller Edge.")
+      );
+    } else {
+      fejl.replaceChildren(
+        el("p", null, "Appen kan ikke se videofilen herfra. Vælg mappen med videoerne én gang, så kan alle videoer afspilles."),
+        el(
+          "p",
+          "lille",
+          "Det sker typisk, når appen er åbnet fra Overførsler, fra en mail eller i en forhåndsvisning i en anden app " +
+            "i stedet for fra mappen med videoerne."
+        )
+      );
+    }
+    fejl.appendChild(knap(lokaleFiler ? "Vælg en anden mappe" : "Vælg mappen med videoerne", null, vaelgVideomappe));
+    fejl.hidden = false;
+  }
+
+  // ------------------------------------------------------------------ videomappe
+  // Chrome og Edge kan huske mappen (File System Access API). Andre browsere bruger en
+  // almindelig mappevælger, og så skal mappen vælges igen, næste gang appen åbnes.
+  const IDB_NAVN = "intercount-videosoeg";
+
+  function idb(handling, vaerdi) {
+    return new Promise((ok) => {
+      try {
+        const req = indexedDB.open(IDB_NAVN, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore("kv");
+        req.onerror = () => ok(null);
+        req.onsuccess = () => {
+          const tx = req.result.transaction("kv", handling === "hent" ? "readonly" : "readwrite");
+          const st = tx.objectStore("kv");
+          const r = handling === "hent" ? st.get("videomappe") : st.put(vaerdi, "videomappe");
+          r.onsuccess = () => ok(handling === "hent" ? r.result || null : true);
+          r.onerror = () => ok(null);
+        };
+      } catch (e) {
+        ok(null);
+      }
+    });
+  }
+
+  async function filerFraHandle(mappe, sti, ud, dybde) {
+    for await (const [navn, h] of mappe.entries()) {
+      if (h.kind === "file") {
+        if (/\.(mp4|m4v|webm|mov|pdf)$/i.test(navn)) ud.push({ rel: (sti + navn).normalize("NFC"), fil: await h.getFile() });
+      } else if (dybde < 4) {
+        await filerFraHandle(h, sti + navn + "/", ud, dybde + 1);
+      }
+    }
+    return ud;
+  }
+
+  async function brugHandle(h) {
+    const filer = await filerFraHandle(h, "", [], 0);
+    lokaleFiler = new Map(filer.map((x) => [x.rel, x.fil]));
+    gemtMappe = h;
+    efterMappevalg();
+  }
+
+  async function vaelgVideomappe() {
+    if (gemtMappe && gemtMappe.requestPermission && !lokaleFiler) {
+      try {
+        if ((await gemtMappe.requestPermission({ mode: "read" })) === "granted") return brugHandle(gemtMappe);
+      } catch (e) {
+        /* falder tilbage til at vælge mappen igen */
+      }
+    }
+    if (window.showDirectoryPicker) {
+      try {
+        const h = await window.showDirectoryPicker({ id: "intercount-videoer", mode: "read" });
+        await idb("gem", h);
+        return brugHandle(h);
+      } catch (e) {
+        if (e && e.name === "AbortError") return;
+        /* fx blokeret i en forhåndsvisning – brug den almindelige mappevælger */
+      }
+    }
+    $("vaelg-mappe-afspil").click();
+  }
+
+  function efterMappevalg() {
+    const antal = data.katalog.videoer.filter((v) => findLokalFil(v)).length;
+    $("mappe-besked").hidden = true;
+    if (venter) afspil(venter.r, venter.sek);
+    if (!antal) {
+      $("spiller-fejl").hidden = false;
+      $("spiller-fejl").replaceChildren(
+        el("p", null, "Der var ingen af videoerne i den valgte mappe. Vælg den mappe, der indeholder mapperne med videoerne."),
+        knap("Vælg en anden mappe", null, vaelgVideomappe)
+      );
+      $("spiller-sektion").hidden = false;
+    }
+  }
+
+  // Tjekker ved start, om videoerne kan nås ved siden af appen, så brugeren får besked
+  // før de klikker, og ikke først når en video fejler.
+  async function tjekVideomappe() {
+    if (data.web) return; // på hjemmesiden ligger videoerne altid ved siden af siden
+    if (alleIndlejret()) return; // alle videoer ligger i selve filen
+    const foerste = data.katalog.videoer.find((v) => (v.type || "video") !== "dokument" && v.filnavn);
+    if (!foerste) return;
+    gemtMappe = await idb("hent");
+    if (gemtMappe && gemtMappe.queryPermission) {
+      try {
+        if ((await gemtMappe.queryPermission({ mode: "read" })) === "granted") return brugHandle(gemtMappe);
+      } catch (e) {
+        gemtMappe = null;
+      }
+    }
+    const proeve = document.createElement("video");
+    if (/\.(mp4|m4v)$/i.test(foerste.filnavn) && !proeve.canPlayType('video/mp4; codecs="avc1.640028"')) {
+      const b = $("mappe-besked");
+      b.textContent = "Denne browser kan ikke afspille videoerne (MP4). Åbn appen i Chrome eller Edge.";
+      b.hidden = false;
+      return;
+    }
+    proeve.preload = "metadata";
+    proeve.muted = true;
+    const fundet = await new Promise((ok) => {
+      const t = setTimeout(() => ok(true), 8000); // ingen afgørelse: antag at det virker
+      proeve.addEventListener("loadedmetadata", () => (clearTimeout(t), ok(true)));
+      proeve.addEventListener("error", () => (clearTimeout(t), ok(false)));
+      proeve.src = relativUrl(foerste.filnavn);
+    });
+    proeve.removeAttribute("src");
+    proeve.load();
+    if (fundet || lokaleFiler) return;
+    const b = $("mappe-besked");
+    b.replaceChildren(
+      el(
+        "span",
+        null,
+        gemtMappe
+          ? "Giv appen adgang til videomappen igen for at kunne afspille videoerne. "
+          : "Appen kan ikke finde videoerne ved siden af sig selv. Vælg mappen med videoerne for at kunne afspille dem. "
+      ),
+      knap(gemtMappe ? "Giv adgang" : "Vælg mappen med videoerne", null, vaelgVideomappe)
+    );
+    b.hidden = false;
+  }
+
+  function filerFraMappe(liste) {
+    // webkitRelativePath = "Valgt mappe/undermappe/fil.mp4" – den øverste mappe fjernes.
+    const ud = [];
+    for (const f of liste) {
+      const dele = (f.webkitRelativePath || f.name).split("/");
+      ud.push({ rel: (dele.length > 1 ? dele.slice(1) : dele).join("/").normalize("NFC"), fil: f });
+    }
+    return ud;
+  }
+
+  // ------------------------------------------------------------------ alle videoer
+  function tegnAlle() {
+    const rod = $("alle-liste");
+    rod.replaceChildren();
+    const grupper = new Map();
+    for (const v of data.katalog.videoer) {
+      const k = v.kategori || "Øvrige";
+      if (!grupper.has(k)) grupper.set(k, []);
+      grupper.get(k).push(v);
+    }
+    for (const [kat, vs] of grupper) {
+      rod.appendChild(el("h3", null, kat));
+      const ul = el("ul", "alle-ul");
+      for (const v of vs) {
+        const li = el("li");
+        const b = knap(v.titel || "Ukendt titel", "link", () => afspil({ id: v.id }, 0));
+        if (v.status === "mangler_fil") {
+          b.disabled = true;
+          b.title = "Filen er ikke tilgængelig";
+        }
+        li.appendChild(b);
+        li.appendChild(el("span", "lille", " " + (v.type === "dokument" ? "(PDF)" : v.varighed_sek ? "(" + K.tidTilTekst(v.varighed_sek) + ")" : "")));
+        ul.appendChild(li);
+      }
+      rod.appendChild(ul);
+    }
+    $("advarsel-uverificeret").hidden = !data.katalog.videoer.some((v) => v.ikke_verificeret && v.ikke_verificeret.length);
+  }
+
+  function tegnEksempler() {
+    const boks = $("eksempler");
+    boks.replaceChildren();
+    const eks = (data.eksempler || []).slice(0, 8);
+    if (eks.length) boks.appendChild(el("span", "lille", "Prøv fx: "));
+    for (const t of eks) {
+      boks.appendChild(
+        knap(String(t), "eksempel", () => {
+          $("soegefelt").value = t;
+          soeg(t);
+        })
+      );
+    }
+  }
+
+  // ------------------------------------------------------------------ administration
+  function visSide(side) {
+    if (side === "admin" && data.web) side = "soeg"; // ingen administration på den offentlige hjemmeside
+    $("side-soeg").hidden = side !== "soeg";
+    $("side-admin").hidden = side !== "admin";
+    if (side === "admin") tegnAdmin();
+    else {
+      bygMotor();
+      tegnAlle();
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function visUgemt(fejltekst) {
+    const b = $("ugemt");
+    b.replaceChildren();
+    if (fejltekst) {
+      b.appendChild(el("p", "besked fejl", fejltekst));
+    } else if (ugemt) {
+      b.appendChild(
+        el(
+          "p",
+          "besked advarsel",
+          "Du har ændringer, der kun er gemt i denne browser. Klik »Gem ny version af appen« og erstat den gamle fil, så ændringerne kommer med, når appen åbnes andre steder."
+        )
+      );
+    }
+  }
+
+  function adminStatus(tekst, fejl) {
+    $("admin-status").replaceChildren(el("p", fejl ? "fejl" : "", tekst));
+  }
+
+  function tegnAdmin() {
+    visUgemt();
+    const vs = data.katalog.videoer;
+    const tr = data.transskriptioner || {};
+    $("admin-oversigt").textContent =
+      `${vs.length} videoer · ${Object.values(tr).filter((t) => t.segmenter && t.segmenter.length).length} med transskription · ` +
+      `${vs.filter((v) => v.ikke_verificeret.length).length} med ikke-verificerede felter`;
+    tegnAdminListe();
+    if (valgtId) visVideo(valgtId);
+  }
+
+  function tegnAdminListe() {
+    const f = $("filter").value.toLowerCase();
+    const ul = $("videoliste");
+    ul.replaceChildren();
+    for (const v of data.katalog.videoer) {
+      if (f && !(v.id + " " + (v.titel || "") + " " + v.filnavn).toLowerCase().includes(f)) continue;
+      const li = el("li");
+      const b = knap("", v.id === valgtId ? "valgt" : "", () => {
+        valgtId = v.id;
+        tegnAdminListe();
+        visVideo(v.id);
+      });
+      b.appendChild(el("strong", null, v.id + " "));
+      b.appendChild(document.createTextNode(v.titel || "Ukendt titel"));
+      if (v.status === "mangler_fil") b.appendChild(el("span", "maerke roed", "fil mangler"));
+      if (v.status === "aendret") b.appendChild(el("span", "maerke roed", "ændret"));
+      b.appendChild(v.ikke_verificeret.length ? el("span", "maerke", "ikke verificeret") : el("span", "maerke groen", "gennemgået"));
+      if (v.testdata) b.appendChild(el("span", "maerke", "TESTDATA"));
+      li.appendChild(b);
+      ul.appendChild(li);
+    }
+  }
+
+  function felt(label, input, verFelt, v) {
+    const d = el("div", "felt");
+    const l = el("label", null, label);
+    l.htmlFor = input.id;
+    d.appendChild(l);
+    d.appendChild(input);
+    if (verFelt) {
+      const vl = el("label", "verificer");
+      const cb = el("input");
+      cb.type = "checkbox";
+      cb.dataset.verificer = verFelt;
+      cb.checked = !v.ikke_verificeret.includes(verFelt);
+      vl.appendChild(cb);
+      vl.appendChild(document.createTextNode("Gennemgået og korrekt"));
+      d.appendChild(vl);
+    }
+    return d;
+  }
+  function input(id, vaerdi, flere, hoej) {
+    const i = el(flere ? "textarea" : "input", hoej ? "hoej" : "");
+    if (!flere) i.type = "text";
+    i.id = id;
+    i.value = vaerdi || "";
+    i.maxLength = flere ? 200000 : 300;
+    return i;
+  }
+
+  function visVideo(id) {
+    const v = data.katalog.videoer.find((x) => x.id === id);
+    const r = $("redigering");
+    r.replaceChildren();
+    if (!v) return;
+    r.appendChild(el("h2", null, v.id + " – " + (v.titel || "Ukendt titel")));
+    const t = el("table", "info-tabel");
+    [
+      ["Fil", v.filnavn],
+      ["Type", v.type],
+      ["Varighed", v.varighed_sek ? K.tidTilTekst(v.varighed_sek) : "ukendt"],
+      ["Status", v.status],
+      ["Titel-kilde", v.titel_kilde || "ukendt"],
+      ["Metadata-kilde", v.metadata_kilde || "ukendt"],
+      ["Sidst opdateret", v.opdateret || "ukendt"],
+    ].forEach(([a, b]) => {
+      const tr = el("tr");
+      tr.appendChild(el("td", "fed", a));
+      tr.appendChild(el("td", null, b));
+      t.appendChild(tr);
+    });
+    r.appendChild(t);
+    if (v.fejl.length) r.appendChild(el("p", "fejl", "Fejl/advarsler: " + v.fejl.join(" | ")));
+
+    r.appendChild(felt("Titel", input("f-titel", v.titel), "titel", v));
+    r.appendChild(felt("Kategori", input("f-kategori", v.kategori), null, v));
+    r.appendChild(felt("Beskrivelse", input("f-beskrivelse", v.beskrivelse, true), "beskrivelse", v));
+    r.appendChild(felt("Arbejdsgang (hvilken opgave videoen løser)", input("f-arbejdsgang", v.arbejdsgang, true), "arbejdsgang", v));
+    const trin = v.trin.map((x) => (x.tid !== null ? K.tidTilTekst(x.tid) + " " : "") + x.tekst).join("\n");
+    r.appendChild(felt("Trin – én linje pr. trin, evt. med tidspunkt først (fx »1:05 Tryk på Gem«)", input("f-trin", trin, true, true), "trin", v));
+    r.appendChild(felt("Søgeord og synonymer – ét pr. linje", input("f-soegeord", v.soegeord.join("\n"), true, true), "soegeord", v));
+    r.appendChild(felt("Forudsætninger – én pr. linje", input("f-forudsaetninger", v.forudsaetninger.join("\n"), true), "forudsaetninger", v));
+    r.appendChild(felt("Interne noter (bruges ikke i søgningen)", input("f-noter", v.noter, true), null, v));
+    const ryd = el("label", "verificer");
+    const rydCb = el("input");
+    rydCb.type = "checkbox";
+    rydCb.id = "f-ryd";
+    ryd.appendChild(rydCb);
+    ryd.appendChild(document.createTextNode("Ryd fejl/advarsler (fx efter at have kontrolleret en ændret fil)"));
+    r.appendChild(ryd);
+    r.appendChild(el("div", "handlinger")).appendChild(knap("Gem ændringer", null, () => gemVideo(v)));
+
+    // Transskription
+    r.appendChild(el("h3", null, "Transskription"));
+    const tr = (data.transskriptioner || {})[v.id];
+    r.appendChild(
+      el(
+        "p",
+        "lille",
+        tr
+          ? "Kilde: " + tr.kilde + (tr.verificeret ? " · gennemgået" : " · IKKE gennemgået – kan indeholde fejl")
+          : "Ingen transskription endnu. Indsæt teksten herunder, eller indlæs en fil (.srt, .vtt, .txt eller .json)."
+      )
+    );
+    r.appendChild(el("p", "lille", "Én linje pr. tekststykke. Start gerne linjen med tidspunktet, fx »0:42 Nu trykker vi på Indtægter«."));
+    const ta = input("f-transskription", K.transskriptionSomTekst(tr), true, true);
+    r.appendChild(ta);
+    const vl = el("label", "verificer");
+    const vcb = el("input");
+    vcb.type = "checkbox";
+    vcb.id = "f-tr-verificeret";
+    vcb.checked = !!(tr && tr.verificeret);
+    vl.appendChild(vcb);
+    vl.appendChild(document.createTextNode("Transskriptionen er gennemlyttet og korrekt"));
+    r.appendChild(vl);
+    const filInput = el("input");
+    filInput.type = "file";
+    filInput.accept = ".srt,.vtt,.txt,.json";
+    filInput.hidden = true;
+    filInput.addEventListener("change", async () => {
+      const f = filInput.files[0];
+      if (!f) return;
+      try {
+        if (f.size > 5 * 1024 * 1024) throw new Error("Filen er for stor (højst 5 MB).");
+        const ny = K.parseTransskriptionsfil(f.name, await f.text());
+        ta.value = K.transskriptionSomTekst(ny);
+        adminStatus(`${f.name} er indlæst (${ny.segmenter.length} tekststykker). Klik »Gem transskription«.`);
+      } catch (e) {
+        adminStatus("Filen kunne ikke læses: " + e.message, true);
+      }
+    });
+    r.appendChild(filInput);
+    const h = el("div", "handlinger");
+    h.appendChild(knap("Gem transskription", "sekundaer", () => gemTransskription(v, ta.value, vcb.checked)));
+    h.appendChild(knap("Indlæs fil …", "sekundaer", () => filInput.click()));
+    r.appendChild(h);
+  }
+
+  function linjer(id) {
+    return $(id)
+      .value.split("\n")
+      .map((s) => s.trim())
+      .filter(Boolean);
+  }
+
+  function gemVideo(v) {
+    const trin = [];
+    for (const [nr, l] of linjer("f-trin").entries()) {
+      const m = l.match(/^(\d{1,2}:\d{2}(?::\d{2})?)\s+(.*)$/);
+      if (m && K.tekstTilTid(m[1]) === null) return adminStatus(`Trin nr. ${nr + 1} har et ugyldigt tidsstempel.`, true);
+      trin.push(m ? { tid: K.tekstTilTid(m[1]), tekst: m[2] } : { tid: null, tekst: l });
+    }
+    const ikkeVer = [];
+    document.querySelectorAll("#redigering input[data-verificer]").forEach((cb) => {
+      if (!cb.checked) ikkeVer.push(cb.dataset.verificer);
+    });
+    if (v.ikke_verificeret.includes("transskription")) ikkeVer.push("transskription");
+    const tekst = (id) => $(id).value.trim() || null;
+    const nyTitel = tekst("f-titel");
+    if (nyTitel !== v.titel) v.titel_kilde = "manuel";
+    Object.assign(v, {
+      titel: nyTitel,
+      kategori: tekst("f-kategori"),
+      beskrivelse: tekst("f-beskrivelse"),
+      arbejdsgang: tekst("f-arbejdsgang"),
+      trin,
+      soegeord: linjer("f-soegeord"),
+      forudsaetninger: linjer("f-forudsaetninger"),
+      noter: tekst("f-noter"),
+      ikke_verificeret: K.VERIFICERBARE_FELTER.filter((f) => ikkeVer.includes(f)),
+      opdateret: K.nu(),
+    });
+    if ($("f-ryd").checked) {
+      v.fejl = [];
+      if (v.status === "aendret") v.status = "indekseret";
+    }
+    gemLokalt();
+    bygMotor();
+    tegnAdmin();
+    adminStatus(v.id + " er gemt i browseren og bruges med det samme i søgningen.");
+  }
+
+  function gemTransskription(v, tekst, verificeret) {
+    data.transskriptioner = data.transskriptioner || {};
+    const tidligere = data.transskriptioner[v.id];
+    const segmenter = K.parseTekstTransskription(tekst);
+    if (segmenter.length) {
+      let kilde = "manuel";
+      if (tidligere && /^(whisper|pdf)/.test(tidligere.kilde)) kilde = tidligere.kilde.replace(/ \(redigeret\)$/, "") + " (redigeret)";
+      data.transskriptioner[v.id] = { kilde, verificeret, segmenter };
+    } else delete data.transskriptioner[v.id];
+    const iv = new Set(v.ikke_verificeret);
+    if (verificeret && segmenter.length) iv.delete("transskription");
+    else iv.add("transskription");
+    v.ikke_verificeret = K.VERIFICERBARE_FELTER.filter((f) => iv.has(f));
+    v.opdateret = K.nu();
+    gemLokalt();
+    bygMotor();
+    tegnAdmin();
+    adminStatus(`Transskriptionen er gemt (${segmenter.length} tekststykker).`);
+  }
+
+  async function sha256(fil) {
+    if (!(window.crypto && crypto.subtle)) throw new Error("Browseren kan ikke beregne filens fingeraftryk. Brug Chrome eller Edge.");
+    const buf = await fil.arrayBuffer();
+    const h = await crypto.subtle.digest("SHA-256", buf);
+    return [...new Uint8Array(h)].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  function varighed(fil) {
+    return new Promise((ok) => {
+      const v = document.createElement("video");
+      const url = URL.createObjectURL(fil);
+      const faerdig = (d) => {
+        URL.revokeObjectURL(url);
+        ok(d);
+      };
+      v.preload = "metadata";
+      v.onloadedmetadata = () => faerdig(isFinite(v.duration) ? v.duration : null);
+      v.onerror = () => faerdig(null);
+      setTimeout(() => faerdig(null), 8000);
+      v.src = url;
+    });
+  }
+
+  async function importer(liste) {
+    const filer = filerFraMappe(liste);
+    const kendte = new Map(data.katalog.videoer.map((v) => [v.filnavn.normalize("NFC"), v]));
+    const ud = [];
+    let i = 0;
+    for (const { rel, fil } of filer) {
+      i++;
+      adminStatus(`Læser fil ${i} af ${filer.length}: ${rel}`);
+      const e = K.endelse(rel);
+      if (![...K.VIDEO_ENDELSER, ...K.DOKUMENT_ENDELSER].includes(e)) {
+        ud.push({ rel, sha256: "", stoerrelse: fil.size });
+        continue;
+      }
+      try {
+        const f = { rel, sha256: await sha256(fil), stoerrelse: fil.size };
+        const kendt = kendte.get(rel);
+        if (K.VIDEO_ENDELSER.includes(e) && !(kendt && kendt.varighed_sek)) f.varighed_sek = await varighed(fil);
+        ud.push(f);
+      } catch (err) {
+        adminStatus(`Filen ${rel} kunne ikke læses: ${err.message}`, true);
+        return;
+      }
+    }
+    const rapport = K.importerFiler(data.katalog, ud);
+    lokaleFiler = new Map(filer.map((x) => [x.rel, x.fil]));
+    gemLokalt();
+    bygMotor();
+    tegnAdmin();
+    const dele = [rapport.resume];
+    if (rapport.nye.length) dele.push("Nye: " + rapport.nye.join(", ") + " – udfyld beskrivelse og søgeord.");
+    if (rapport.aendrede.length) dele.push("Ændrede: " + rapport.aendrede.join(", "));
+    if (rapport.flyttede.length) dele.push("Flyttede/omdøbte: " + rapport.flyttede.join(", "));
+    if (rapport.manglende.length) dele.push("Mangler: " + rapport.manglende.join(", "));
+    rapport.dubletter.forEach((d) => dele.push(`Dublet sprunget over: ${d.fil} (samme som ${d.samme_som})`));
+    rapport.afviste.forEach((a) => dele.push(`Afvist: ${a.fil} – ${a.aarsag}`));
+    rapport.advarsler.forEach((a) => dele.push(a));
+    $("admin-status").replaceChildren(el("pre", "rapport", dele.join("\n")));
+  }
+
+  function nyVersionsId() {
+    const a = new Uint8Array(8);
+    crypto.getRandomValues(a);
+    return [...a].map((b) => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  function hent(navn, indhold, type) {
+    const url = URL.createObjectURL(new Blob(Array.isArray(indhold) ? indhold : [indhold], { type }));
+    const a = el("a");
+    a.href = url;
+    a.download = navn;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  function gemApp(web) {
+    web = web === true;
+    const ny = Object.assign({}, data, { version_id: nyVersionsId(), bygget: K.nu() });
+    if (web) {
+      // Hjemmeside-udgaven: uden administration og uden indbyggede videoer (de ligger som filer på webhotellet).
+      ny.web = true;
+      delete ny.indlejrede;
+    }
+    // "<" escapes, så teksten i kataloget aldrig kan afslutte script-blokken.
+    const json = JSON.stringify(ny).replace(/</g, "\\u003c");
+    const start = '<script type="application/json" id="app-data">';
+    const a = ORIGINAL_HTML.indexOf(start);
+    const b = ORIGINAL_HTML.indexOf("<" + "/script>", a);
+    if (a < 0 || b < 0) return adminStatus("Appen kunne ikke gemmes (uventet filformat).", true);
+    let html = ORIGINAL_HTML.slice(0, a + start.length) + json + ORIGINAL_HTML.slice(b);
+    // De indbyggede videoer kommer efter koden og er derfor ikke med i ORIGINAL_HTML; de sættes ind igen.
+    const filer = document.getElementById("indlejrede-filer");
+    const slut = html.lastIndexOf("</" + "body>");
+    const dele = filer && slut > 0 && !web ? [html.slice(0, slut), filer.outerHTML, html.slice(slut)] : [html];
+    html = null;
+    if (web) {
+      hent("index.html", dele, "text/html;charset=utf-8");
+      adminStatus(
+        "index.html er hentet (se mappen Overførsler). Læg den op på hjemmesiden sammen med mapperne med videoerne, " +
+          "så den erstatter den gamle index.html."
+      );
+      return;
+    }
+    hent("InterCount Videosøgning.html", dele, "text/html;charset=utf-8");
+    lagerGem(null);
+    ugemt = false;
+    visUgemt();
+    adminStatus(
+      "Den nye version er hentet (se mappen Overførsler). Flyt den over i videomappen, så den erstatter den gamle fil " +
+        "»InterCount Videosøgning.html«. Åbn derefter den nye fil."
+    );
+  }
+
+  function eksporter() {
+    hent("katalog.json", JSON.stringify(data.katalog, null, 2), "application/json");
+    adminStatus("katalog.json er hentet. Den kan bruges i server-versionen (mappen data/).");
+  }
+
+  function fortryd() {
+    if (!confirm("Vil du kassere alle ændringer, der kun er gemt i denne browser?")) return;
+    lagerGem(null);
+    ugemt = false;
+    data = JSON.parse($("app-data").textContent);
+    bygMotor();
+    valgtId = null;
+    $("redigering").replaceChildren(el("p", "lille", "Vælg en video i listen."));
+    tegnAdmin();
+    adminStatus("Ændringerne er kasseret.");
+  }
+
+  // ------------------------------------------------------------------ opstart
+  function start() {
+    try {
+      data = indlaesData();
+      bygMotor();
+    } catch (e) {
+      $("start-fejl").textContent =
+        "Videokataloget i appen kunne ikke indlæses. Åbn en tidligere version af filen, eller kontakt den ansvarlige. (" + e.message + ")";
+      $("start-fejl").hidden = false;
+      return;
+    }
+    tegnEksempler();
+    tegnAlle();
+    // Søgning startes med knappen eller Enter – uden en <form>, så det også virker, hvor
+    // browseren eller en forhåndsvisning blokerer formularer.
+    $("soegeknap").addEventListener("click", () => soeg($("soegefelt").value));
+    $("soegefelt").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.isComposing) {
+        e.preventDefault();
+        soeg($("soegefelt").value);
+      }
+    });
+    $("luk-spiller").addEventListener("click", lukSpiller);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !$("spiller-sektion").hidden) lukSpiller();
+    });
+    $("vaelg-mappe-afspil").addEventListener("change", (e) => {
+      if (!e.target.files.length) return;
+      lokaleFiler = new Map(filerFraMappe(e.target.files).map((x) => [x.rel, x.fil]));
+      e.target.value = "";
+      efterMappevalg();
+    });
+    tjekVideomappe();
+    $("til-admin").addEventListener("click", () => visSide("admin"));
+    $("til-soeg").addEventListener("click", () => visSide("soeg"));
+    $("filter").addEventListener("input", tegnAdminListe);
+    $("importer").addEventListener("click", () => $("vaelg-mappe-import").click());
+    $("vaelg-mappe-import").addEventListener("change", (e) => {
+      if (e.target.files.length) importer(e.target.files);
+      e.target.value = "";
+    });
+    $("gem-app").addEventListener("click", () => gemApp(false));
+    $("gem-web").addEventListener("click", () => gemApp(true));
+    $("eksporter").addEventListener("click", eksporter);
+    $("fortryd").addEventListener("click", fortryd);
+    if (ugemt) visUgemt();
+    if (data.web) {
+      // Hjemmeside-udgaven: administrationen fjernes helt, da den ikke må være offentlig uden adgangskontrol.
+      $("til-admin").hidden = true;
+      $("side-admin").replaceChildren(); // indholdet fjernes, så det heller ikke kan vises via udviklerværktøjer
+    }
+  }
+  start();
+})();
+
+</script>
+
+</body>
+</html>
