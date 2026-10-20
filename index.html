@@ -136,6 +136,18 @@ main.indhold { padding-top: 24px; }
 .gitter-type.dok { color: var(--groen); background: var(--groen-lys); }
 .gitter-tekst { margin: 0; color: var(--daempet); font-size: .92rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
 .gitter-kort button { align-self: flex-start; margin-top: 4px; }
+
+/* Tydeligere forslag til spørgsmål */
+.eksempler { margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 10px; }
+.eksempler-titel { grid-column: 1 / -1; margin: 0 0 2px; font-size: .9rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--daempet); }
+.eksempel { display: flex; align-self: stretch; height: 100%; margin: 0; align-items: center; justify-content: space-between; gap: 12px; text-align: left; width: 100%;
+  background: var(--accent-lys); color: var(--accent-moerk); border: 1.5px solid #b8d2ee; border-radius: 12px;
+  padding: 12px 16px; font-size: 1.02rem; font-weight: 600; line-height: 1.35; transition: background .15s, color .15s, border-color .15s, transform .15s; }
+.eksempel::after { content: "→"; font-size: 1.15rem; flex-shrink: 0; transition: transform .15s; }
+.eksempel:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.eksempel:hover::after { transform: translateX(3px); }
+.eksempel:focus-visible { outline: 3px solid #f2b21b; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .eksempel, .eksempel::after { transition: none; } }
 </style>
 </head>
 <body>
@@ -1558,7 +1570,7 @@ main.indhold { padding-top: 24px; }
     const boks = $("eksempler");
     boks.replaceChildren();
     const eks = (data.eksempler || []).slice(0, 8);
-    if (eks.length) boks.appendChild(el("span", "lille", "Prøv fx: "));
+    if (eks.length) boks.appendChild(el("p", "eksempler-titel", "Populære spørgsmål"));
     for (const t of eks) {
       boks.appendChild(
         knap(String(t), "eksempel", () => {
