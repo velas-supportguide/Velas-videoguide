@@ -163,6 +163,32 @@ body.startside main.indhold { padding-top: 0; }
 
 .eksempler-titel { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -.015em; line-height: 1.2; gap: 12px; margin: 18px 0 8px; }
 .eksempler-titel::before { width: 6px; height: 1.05em; }
+
+/* Emnekort */
+.emner { display: none; }
+.emne-raekke { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+.emne-kort { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; background: var(--flade); color: var(--tekst);
+  border: 1.5px solid var(--kant); border-radius: 14px; padding: 18px 20px; font-weight: 400; transition: border-color .15s, box-shadow .15s; }
+.emne-kort:hover { border-color: var(--accent); box-shadow: 0 6px 18px rgba(10,92,173,.12); }
+.emne-navn { font-size: 1.2rem; font-weight: 700; }
+.emne-antal { color: var(--daempet); font-size: .95rem; }
+.alle-kort { background: #2b3240; border-color: #2b3240; color: #fff; }
+.alle-kort .emne-antal { color: #c9cfda; }
+.alle-kort:hover { background: #1d2330; border-color: #1d2330; }
+
+/* Startsiden fylder hele skærmen med større elementer */
+body.startside .top { justify-content: space-evenly; padding-top: clamp(24px, 4vh, 48px); }
+body.startside .emner { display: block; margin-top: clamp(8px, 2vh, 24px); }
+body.startside .top h1 { font-size: clamp(2rem, 5.5vw, 4.2rem); margin-bottom: clamp(10px, 2vh, 22px); }
+body.startside .top .intro { font-size: clamp(1.15rem, 1.9vw, 1.55rem); margin-bottom: clamp(18px, 3.5vh, 40px); }
+body.startside .soegeform input { font-size: clamp(1.15rem, 1.5vw, 1.4rem); padding: clamp(14px, 2.2vh, 22px) 22px; }
+body.startside #soegeknap { font-size: clamp(1.1rem, 1.4vw, 1.3rem); padding: 0 clamp(26px, 3vw, 44px); }
+body.startside .eksempler { margin-top: clamp(18px, 3.5vh, 40px); gap: 12px; }
+body.startside .eksempel { padding: clamp(12px, 2vh, 20px) 20px; font-size: clamp(1rem, 1.2vw, 1.15rem); }
+body.startside .faner { display: none; } /* emnekortene fører til alle videoer */
+body.startside .emner .eksempler-titel { margin-top: clamp(18px, 3.5vh, 40px); }
+body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
+@media (max-width: 560px) { body.startside #soegeknap { padding: 16px; } body.startside .top h1 { font-size: 1.85rem; } }
 </style>
 </head>
 <body>
@@ -180,6 +206,7 @@ body.startside main.indhold { padding-top: 0; }
         <button id="soegeknap" type="button">Søg</button>
       </div>
       <div class="eksempler" id="eksempler" aria-label="Eksempler på spørgsmål"></div>
+      <div id="emner" class="emner" aria-label="Bladr efter emne"></div>
       <div class="faner" role="tablist" aria-label="Visning">
         <button type="button" role="tab" id="fane-soeg" class="fane" aria-selected="true" aria-controls="visning-soeg">Søg</button>
         <button type="button" role="tab" id="fane-alle" class="fane" aria-selected="false" aria-controls="alle-sektion">Alle videoer</button>
@@ -1545,6 +1572,7 @@ body.startside main.indhold { padding-top: 0; }
       grupper.get(k).push(v);
     }
     $("fane-alle").textContent = "Alle videoer (" + data.katalog.videoer.length + ")";
+    tegnEmner();
     for (const [kat, vs] of grupper) {
       const gruppe = el("section", "gitter-gruppe");
       gruppe.appendChild(el("h2", null, kat + " "));
@@ -1567,6 +1595,37 @@ body.startside main.indhold { padding-top: 0; }
       gruppe.appendChild(ul);
       rod.appendChild(gruppe);
     }
+  }
+
+  function tegnEmner() {
+    const boks = $("emner");
+    boks.replaceChildren();
+    const grupper = new Map();
+    for (const v of data.katalog.videoer) {
+      const k = v.kategori || "Øvrige";
+      grupper.set(k, (grupper.get(k) || 0) + 1);
+    }
+    boks.appendChild(el("p", "eksempler-titel", "Bladr efter emne"));
+    const raekke = el("div", "emne-raekke");
+    for (const [kat, n] of grupper) {
+      const b = el("button", "emne-kort");
+      b.type = "button";
+      b.appendChild(el("span", "emne-navn", kat));
+      b.appendChild(el("span", "emne-antal", n + (n === 1 ? " vejledning" : " vejledninger")));
+      b.addEventListener("click", () => {
+        visVisning("alle");
+        const h = [...document.querySelectorAll(".gitter-gruppe h2")].find((x) => x.firstChild.textContent.trim() === kat);
+        if (h) h.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      raekke.appendChild(b);
+    }
+    const alle = el("button", "emne-kort alle-kort");
+    alle.type = "button";
+    alle.appendChild(el("span", "emne-navn", "Se alle videoer"));
+    alle.appendChild(el("span", "emne-antal", data.katalog.videoer.length + " i alt"));
+    alle.addEventListener("click", () => visVisning("alle"));
+    raekke.appendChild(alle);
+    boks.appendChild(raekke);
   }
 
   function visVisning(navn, gemHash) {
