@@ -110,6 +110,13 @@ nav input { width: 100%; padding: 8px 10px; border: 1px solid var(--kant); borde
 pre.rapport { white-space: pre-wrap; background: var(--bg); padding: 10px; border-radius: 8px; font-size: .85rem; }
 @media (max-width: 800px) { .admin-layout { grid-template-columns: 1fr; } .videoliste { max-height: 40vh; } }
 
+
+/* Større tekst og bredere indhold på store skærme */
+html { font-size: clamp(16px, calc(0.5vw + 11px), 20px); }
+body { font-size: 1rem; }
+.indhold { max-width: min(1280px, 100%); padding: 0 clamp(16px, 3vw, 48px); }
+.intro { max-width: 75ch; font-size: 1.05rem; }
+.fod { font-size: .9rem; }
 </style>
 </head>
 <body>
