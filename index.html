@@ -1104,6 +1104,7 @@ pre.rapport { white-space: pre-wrap; background: var(--bg); padding: 10px; borde
   function indlaesData() {
     const raa = JSON.parse($("app-data").textContent);
     const lager = lagerHent();
+    if (raa.web) return raa; // hjemmesiden bruger aldrig kladder fra browseren
     if (lager && lager.base === raa.version_id && lager.data) {
       ugemt = true;
       return lager.data;
