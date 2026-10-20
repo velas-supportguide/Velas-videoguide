@@ -155,6 +155,11 @@ main.indhold { padding-top: 24px; }
 .top .intro { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: #2f3747; max-width: 62ch; margin-bottom: 24px; }
 .eksempler-titel { font-size: 1.15rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: #2b3240; display: flex; align-items: center; gap: 10px; margin: 6px 0 4px; }
 .eksempler-titel::before { content: ""; width: 5px; height: 1.2em; border-radius: 3px; background: #2b3240; }
+
+/* Startside: toppen fylder det meste af skærmen, indtil man søger */
+body.startside .top { min-height: calc(100vh - 90px); min-height: calc(100svh - 90px); display: flex; flex-direction: column; justify-content: center; }
+body.startside .top > .indhold { width: 100%; }
+body.startside main.indhold { padding-top: 0; }
 </style>
 </head>
 <body>
@@ -2006,6 +2011,13 @@ main.indhold { padding-top: 24px; }
     $("fane-soeg").addEventListener("click", () => { visVisning("soeg"); $("soegefelt").focus(); });
     $("fane-alle").addEventListener("click", () => visVisning("alle"));
     if (location.hash === "#alle") visVisning("alle", false);
+    // Startside: før der er søgt eller åbnet noget, fylder toppen det meste af skærmen.
+    const opdaterStart = () => {
+      const tom = !$("visning-soeg").hidden && !$("resultater").children.length && !$("besked").textContent.trim() && $("spiller-sektion").hidden && $("indlaeser").hidden;
+      document.body.classList.toggle("startside", tom);
+    };
+    new MutationObserver(opdaterStart).observe($("side-soeg"), { subtree: true, childList: true, attributes: true, attributeFilter: ["hidden"], characterData: true });
+    opdaterStart();
     $("filter").addEventListener("input", tegnAdminListe);
     $("importer").addEventListener("click", () => $("vaelg-mappe-import").click());
     $("vaelg-mappe-import").addEventListener("change", (e) => {
