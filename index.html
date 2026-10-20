@@ -134,8 +134,10 @@ main.indhold { padding-top: 24px; }
 .gitter-kort h3 { font-size: 1.08rem; line-height: 1.3; }
 .gitter-type { align-self: flex-start; font-size: .78rem; font-weight: 600; color: var(--accent); background: var(--accent-lys); padding: 2px 9px; border-radius: 999px; }
 .gitter-type.dok { color: var(--groen); background: var(--groen-lys); }
-.gitter-tekst { margin: 0; color: var(--daempet); font-size: .92rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
-.gitter-kort button { align-self: flex-start; margin-top: 4px; }
+.gitter-tekst { margin: 0; color: var(--daempet); font-size: .92rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.gitter-kort > button { align-self: flex-start; margin-top: auto; }
+.gitter-kort > .handlinger { margin-top: auto; padding-top: 4px; }
+.gitter-kort > .gitter-tekst + button, .gitter-kort > h3 + button { margin-top: auto; }
 
 /* Tydeligere forslag til spørgsmål */
 .eksempler { margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 10px; }
@@ -189,6 +191,19 @@ body.startside .faner { display: none; } /* emnekortene fører til alle videoer 
 body.startside .emner .eksempler-titel { margin-top: clamp(18px, 3.5vh, 40px); }
 body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
 @media (max-width: 560px) { body.startside #soegeknap { padding: 16px; } body.startside .top h1 { font-size: 1.85rem; } }
+
+/* Søgeresultater som kort i et gitter */
+.resultat-gitter { margin-top: 4px; }
+.resultat-kort { border-top: 4px solid var(--kant); }
+.resultat-kort.niveau-3 { border-top-color: var(--groen); }
+.resultat-kort.niveau-2 { border-top-color: var(--accent); }
+.resultat-kort.niveau-1 { border-top-color: #c4a35a; }
+.kort-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.kort-top .relevans { font-size: .78rem; padding: 2px 9px; }
+.kort-kategori { margin: 0; font-size: .82rem; color: var(--daempet); }
+.resultat-kort .handlinger { margin-top: auto; padding-top: 4px; gap: 8px; }
+.resultat-kort .handlinger button { margin: 0; }
+#besked:not(:empty) { margin-bottom: 14px; }
 </style>
 </head>
 <body>
@@ -206,7 +221,7 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
         <button id="soegeknap" type="button">Søg</button>
       </div>
       <div class="eksempler" id="eksempler" aria-label="Eksempler på spørgsmål"></div>
-      <div id="emner" class="emner" aria-label="Bladr efter emne"></div>
+      <div id="emner" class="emner" aria-label="Se videoer efter emne"></div>
       <div class="faner" role="tablist" aria-label="Visning">
         <button type="button" role="tab" id="fane-soeg" class="fane" aria-selected="true" aria-controls="visning-soeg">Søg</button>
         <button type="button" role="tab" id="fane-alle" class="fane" aria-selected="false" aria-controls="alle-sektion">Alle videoer</button>
@@ -228,7 +243,7 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
     <div id="visning-soeg" role="tabpanel" aria-labelledby="fane-soeg">
     <div id="indlaeser" class="indlaeser" hidden role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span> Søger …</div>
     <div id="besked" role="status" aria-live="polite"></div>
-    <ol id="resultater" class="resultater" aria-label="Søgeresultater"></ol>
+    <ol id="resultater" class="gitter resultat-gitter" aria-label="Søgeresultater"></ol>
     </div>
     <section id="alle-sektion" role="tabpanel" aria-labelledby="fane-alle" hidden>
       <div id="alle-liste"></div>
@@ -1259,43 +1274,33 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
   }
 
   function resultatKort(r) {
-    const li = el("li", "kort niveau-" + r.relevans.niveau);
-    const hoved = el("div", "kort-hoved");
-    hoved.appendChild(el("h3", null, r.titel));
+    const dok = r.type === "dokument";
+    const li = el("li", "gitter-kort resultat-kort niveau-" + r.relevans.niveau);
+    const top = el("div", "kort-top");
+    top.appendChild(el("span", "gitter-type" + (dok ? " dok" : ""), dok ? "PDF" + (r.sider ? " · " + r.sider + " sider" : "") : r.varighed ? "Video · " + r.varighed : "Video"));
     const rel = el("span", "relevans niveau-" + r.relevans.niveau, r.relevans.label);
     rel.title = "Hvor godt videoens beskrivelse passer til ordene i dit spørgsmål. Ikke en sandsynlighed.";
-    hoved.appendChild(rel);
-    li.appendChild(hoved);
-    const meta = [];
-    if (r.type === "dokument") meta.push("PDF-vejledning" + (r.sider ? ", " + r.sider + " sider" : ""));
-    else if (r.varighed) meta.push("Varighed " + r.varighed);
-    if (r.kategori) meta.push(r.kategori);
-    if (meta.length) li.appendChild(el("p", "lille", meta.join(" · ")));
-    if (r.beskrivelse) li.appendChild(el("p", null, r.beskrivelse));
-    if (r.begrundelser.length) {
-      const b = el("div", "begrundelse");
-      b.appendChild(el("p", "lille fed", "Hvorfor denne video:"));
-      const ul = el("ul");
-      r.begrundelser.forEach((t) => ul.appendChild(el("li", null, t)));
-      b.appendChild(ul);
-      li.appendChild(b);
-    }
+    top.appendChild(rel);
+    li.appendChild(top);
+    li.appendChild(el("h3", null, r.titel));
+    if (r.beskrivelse) li.appendChild(el("p", "gitter-tekst", r.beskrivelse));
+    if (r.kategori) li.appendChild(el("p", "kort-kategori", r.kategori));
     if (r.testdata) li.appendChild(el("p", "lille note-tekst", "TESTDATA – ikke en rigtig video."));
     const h = el("div", "handlinger");
     if (!r.afspilbar) {
-      h.appendChild(el("p", "fejl lille", "Filen er ikke tilgængelig lige nu. Kontakt den ansvarlige for videoerne."));
+      h.appendChild(el("p", "fejl lille", "Filen er ikke tilgængelig lige nu."));
     } else {
-      h.appendChild(knap(r.type === "dokument" ? "Åbn vejledning" : "Afspil video", null, () => afspil(r, 0)));
+      h.appendChild(knap(dok ? "Åbn vejledning" : "Afspil video", null, () => afspil(r, 0)));
       if (r.tidsstempel) {
         const t = knap("Spring til " + r.tidsstempel.visning, "sekundaer", () => afspil(r, r.tidsstempel.sek));
         t.title = r.tidsstempel.tekst || "";
         h.appendChild(t);
-        h.appendChild(el("span", "lille", "Ca. tidspunkt: " + (r.tidsstempel.tekst || "")));
       }
     }
     li.appendChild(h);
     return li;
   }
+
 
   // ------------------------------------------------------------------ afspilning
   function relativUrl(filnavn) {
@@ -1605,7 +1610,7 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
       const k = v.kategori || "Øvrige";
       grupper.set(k, (grupper.get(k) || 0) + 1);
     }
-    boks.appendChild(el("p", "eksempler-titel", "Bladr efter emne"));
+    boks.appendChild(el("p", "eksempler-titel", "Se videoer efter emne"));
     const raekke = el("div", "emne-raekke");
     for (const [kat, n] of grupper) {
       const b = el("button", "emne-kort");
