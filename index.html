@@ -148,6 +148,13 @@ main.indhold { padding-top: 24px; }
 .eksempel:hover::after { transform: translateX(3px); }
 .eksempel:focus-visible { outline: 3px solid #f2b21b; outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .eksempel, .eksempel::after { transition: none; } }
+
+/* Mere markant overskrift, intro og forslagstitel */
+.top h1 { font-size: clamp(1.75rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -.02em; color: var(--accent-moerk); margin-bottom: 14px; }
+.top h1 .brand { background: linear-gradient(90deg, #0a5cad 0%, #0f86c9 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.top .intro { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: #2f3747; max-width: 62ch; margin-bottom: 24px; }
+.eksempler-titel { font-size: 1.15rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--accent); display: flex; align-items: center; gap: 10px; margin: 6px 0 4px; }
+.eksempler-titel::before { content: ""; width: 5px; height: 1.2em; border-radius: 3px; background: var(--accent); }
 </style>
 </head>
 <body>
@@ -157,7 +164,7 @@ main.indhold { padding-top: 24px; }
 <div id="side-soeg">
   <header class="top">
     <div class="indhold">
-      <h1>Find hjælp til InterCount</h1>
+      <h1>Find hjælp til <span class="brand">InterCount</span></h1>
       <p class="intro">Skriv med dine egne ord, hvad du gerne vil gøre. Så finder vi den instruktionsvideo, der bedst viser hvordan – og hvor i videoen du skal kigge.</p>
       <div id="soegeform" class="soegeform" role="search">
         <label for="soegefelt" class="skjult">Hvad vil du gerne gøre i InterCount?</label>
