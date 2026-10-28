@@ -205,6 +205,41 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
 .resultat-kort .handlinger button { margin: 0; }
 #besked:not(:empty) { margin-bottom: 14px; }
 .fod a { color: var(--accent); font-weight: 600; }
+
+/* Hjælp-knap og kontaktoversigt */
+.hjaelp-knap { position: fixed; right: clamp(12px, 2vw, 28px); bottom: clamp(12px, 2vw, 28px); z-index: 50; display: inline-flex; align-items: center; gap: 10px;
+  background: #2b3240; color: #fff; border-radius: 999px; padding: 12px 20px 12px 12px; font-size: 1rem; box-shadow: 0 6px 20px rgba(20,30,50,.25); }
+.hjaelp-knap:hover { background: #1d2330; }
+.hjaelp-knap:focus-visible, .hjaelp-luk:focus-visible { outline: 3px solid #f2b21b; outline-offset: 2px; }
+.hjaelp-ikon { width: 28px; height: 28px; border-radius: 50%; background: #fff; color: #2b3240; display: grid; place-items: center; font-weight: 800; }
+.fod { padding-bottom: 90px; }
+.hjaelp-dialog { border: 0; border-radius: 16px; padding: 0; width: min(860px, calc(100vw - 24px)); max-height: calc(100vh - 32px); color: var(--tekst); box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.hjaelp-dialog::backdrop { background: rgba(20,25,35,.55); }
+.hjaelp-hoved { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 22px 24px 0; }
+.hjaelp-hoved h2 { font-size: clamp(1.4rem, 2.4vw, 1.8rem); color: #2b3240; }
+.hjaelp-luk { background: var(--bg); color: var(--tekst); width: 40px; height: 40px; padding: 0; border-radius: 50%; font-size: 1.1rem; }
+.hjaelp-luk:hover { background: var(--kant); }
+.hjaelp-intro { margin: 6px 24px 18px; color: var(--daempet); }
+.hjaelp-kort { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; padding: 0 24px 24px; }
+.kontakt { border: 1.5px solid var(--kant); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; }
+.kontakt h3 { font-size: 1.3rem; color: var(--accent-moerk); }
+.kontakt-rolle { margin: 0 0 4px; color: var(--daempet); }
+.kontakt-linjer { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 4px; }
+.kontakt-linjer a { font-size: 1.15rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+.kontakt-linjer a:hover { text-decoration: underline; }
+.etiket { display: inline-block; min-width: 70px; font-size: .82rem; font-weight: 600; color: var(--daempet); text-transform: uppercase; letter-spacing: .03em; margin: 0; }
+.tider { border-collapse: collapse; font-size: .95rem; }
+.tider td { padding: 2px 16px 2px 0; }
+.kontakt-ekstra { margin-top: auto; background: var(--bg); border-radius: 10px; padding: 12px 14px; }
+.kontakt-ekstra p { margin: 0 0 6px; font-size: .95rem; }
+.kontakt-link { font-weight: 600; color: var(--accent); }
+.besked-hjaelp { margin: 8px 0 0; }
+@media (max-width: 560px) { .hjaelp-knap { padding: 10px 16px 10px 10px; font-size: .95rem; } }
+.kontakt-linjer li { display: grid; grid-template-columns: 88px 1fr; align-items: baseline; gap: 8px; }
+.kontakt-linjer .etiket { min-width: 0; }
+.kontakt-linjer a { overflow-wrap: anywhere; }
+.tider td { white-space: nowrap; }
+@media (max-width: 560px) { .kontakt-linjer li { grid-template-columns: 64px 1fr; } .kontakt-linjer a { font-size: 1.02rem; } .tider td { padding-right: 10px; font-size: .9rem; } .hjaelp-kort, .hjaelp-hoved { padding-left: 16px; padding-right: 16px; } .hjaelp-intro { margin-left: 16px; margin-right: 16px; } }
 </style>
 </head>
 <body>
@@ -254,6 +289,47 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
     <p>Videoerne er lavet af InterCount og findes også på deres hjemmeside: <a href="https://intercount.dk/support/vejledninger/" target="_blank" rel="noopener">Vejledninger – InterCount</a></p>
     <button type="button" id="til-admin" class="link" hidden>Administration af videokataloget</button>
   </footer>
+<button type="button" id="hjaelp-knap" class="hjaelp-knap" aria-haspopup="dialog" aria-controls="hjaelp-dialog">
+  <span aria-hidden="true" class="hjaelp-ikon">?</span> Har du brug for hjælp?
+</button>
+<dialog id="hjaelp-dialog" class="hjaelp-dialog" aria-labelledby="hjaelp-titel">
+  <div class="hjaelp-hoved">
+    <h2 id="hjaelp-titel">Har du brug for hjælp?</h2>
+    <button type="button" class="hjaelp-luk" data-luk aria-label="Luk">✕</button>
+  </div>
+  <p class="hjaelp-intro">Kan du ikke finde svaret i videoerne, kan du kontakte en af disse:</p>
+  <div class="hjaelp-kort">
+    <section class="kontakt">
+      <h3>Velas</h3>
+      <p class="kontakt-rolle">Kontakt receptionen</p>
+      <ul class="kontakt-linjer">
+        <li><span class="etiket">Telefon</span> <a href="tel:+4570154000">70 15 40 00</a></li>
+        <li><span class="etiket">Mail</span> <a href="mailto:velas@velas.dk">velas@velas.dk</a></li>
+      </ul>
+      <p class="etiket">Åbningstider</p>
+      <table class="tider"><tr><td>Mandag – torsdag</td><td>kl. 8.00 – 16.00</td></tr><tr><td>Fredag</td><td>kl. 8.00 – 13.00</td></tr></table>
+      <div class="kontakt-ekstra">
+        <p><strong>Find din rådgiver i Velas</strong><br>Vælg »område«, »lokation« og »rolle« for at finde den rigtige person at kontakte.</p>
+        <a class="kontakt-link" href="https://velas.dk/kontakt/" target="_blank" rel="noopener">Se Velas' kontakter →</a>
+      </div>
+    </section>
+    <section class="kontakt">
+      <h3>InterCount support</h3>
+      <p class="kontakt-rolle">Hjælp til selve InterCount-systemet</p>
+      <ul class="kontakt-linjer">
+        <li><span class="etiket">Telefon</span> <a href="tel:+4587405040">87 40 50 40</a></li>
+        <li><span class="etiket">Mail</span> <a href="mailto:support@intercount.dk">support@intercount.dk</a></li>
+      </ul>
+      <p class="etiket">Åbningstider</p>
+      <table class="tider"><tr><td>Mandag – torsdag</td><td>kl. 8.00 – 16.00</td></tr><tr><td>Fredag</td><td>kl. 8.00 – 15.30</td></tr></table>
+      <div class="kontakt-ekstra">
+        <p><strong>Skriftlige vejledninger</strong><br>InterCount har også vejledninger på deres hjemmeside.</p>
+        <a class="kontakt-link" href="https://intercount.dk/support/vejledninger/" target="_blank" rel="noopener">Se InterCounts vejledninger →</a>
+      </div>
+    </section>
+  </div>
+</dialog>
+
 </div>
 
 <div id="side-admin" hidden>
@@ -1271,6 +1347,12 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
       const n = d.resultater.length;
       visBesked(n === 1 ? "1 video passer til dit spørgsmål." : n + " videoer passer til dit spørgsmål – den bedste står øverst.");
     } else visBesked(d.besked, typer[d.status]);
+    if (d.status !== "ok" && d.status !== "ugyldig") {
+      const hb = el("p", "besked-hjaelp");
+      hb.appendChild(document.createTextNode("Finder du ikke det, du leder efter? "));
+      hb.appendChild(knap("Har du brug for hjælp?", "link", () => $("hjaelp-dialog").showModal()));
+      $("besked").appendChild(hb);
+    }
     $("resultater").replaceChildren(...d.resultater.map(resultatKort));
   }
 
@@ -2079,6 +2161,9 @@ body.startside .top { padding-bottom: clamp(24px, 4vh, 48px); }
     $("fane-soeg").addEventListener("click", () => { visVisning("soeg"); $("soegefelt").focus(); });
     $("fane-alle").addEventListener("click", () => visVisning("alle"));
     if (location.hash === "#alle") visVisning("alle", false);
+    const dlg = $("hjaelp-dialog");
+    $("hjaelp-knap").addEventListener("click", () => dlg.showModal());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.closest("[data-luk]")) dlg.close(); });
     // Startside: før der er søgt eller åbnet noget, fylder toppen det meste af skærmen.
     const opdaterStart = () => {
       const tom = !$("visning-soeg").hidden && !$("resultater").children.length && !$("besked").textContent.trim() && $("spiller-sektion").hidden && $("indlaeser").hidden;
