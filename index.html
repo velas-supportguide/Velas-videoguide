@@ -268,6 +268,54 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 #intro-indhold { padding-top: 32px; padding-bottom: 100px; min-height: 40vh; }
 @media (prefers-reduced-motion: reduce) { .valg-knap, .valg-pil { transition: none; } .valg-knap:hover { transform: none; } }
 .valg-ikon svg { width: 28px; height: 28px; flex-shrink: 0; }
+
+/* Introduktion som lille webinar */
+.kursus-under { margin: 10px 0 18px; color: var(--daempet); font-size: 1.1rem; }
+.kursus-fremdrift { max-width: 640px; }
+.fremdrift-tekst { margin-bottom: 8px; font-size: 1.02rem; color: var(--daempet); }
+.fremdrift-tekst strong { color: var(--groen); font-size: 1.3rem; }
+.fremdrift-bar { height: 12px; background: var(--kant); border-radius: 999px; overflow: hidden; }
+.fremdrift-bar span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #1f7a46, #34a868); border-radius: 999px; transition: width .4s ease; }
+.kursus-layout { display: grid; grid-template-columns: minmax(260px, 320px) 1fr; gap: 28px; align-items: start; }
+@media (max-width: 900px) { .kursus-layout { grid-template-columns: 1fr; } }
+.lektion-liste { background: var(--flade); border: 1px solid var(--kant); border-radius: 14px; padding: 16px; position: sticky; top: 16px; }
+@media (max-width: 900px) { .lektion-liste { position: static; } }
+.liste-titel { margin: 0 0 10px; font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--daempet); }
+.lektion-liste ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.lektion-punkt button { width: 100%; display: flex; gap: 12px; align-items: flex-start; text-align: left; background: none; color: var(--tekst); border: 1.5px solid transparent; border-radius: 12px; padding: 12px; font-weight: 400; }
+.lektion-punkt button:hover { background: var(--bg); }
+.lektion-punkt.aktiv button { background: var(--accent-lys); border-color: #b8d2ee; }
+.lek-nr { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--bg); border: 2px solid var(--kant); color: var(--daempet); }
+.lektion-punkt.aktiv .lek-nr { border-color: var(--accent); color: var(--accent); background: #fff; }
+.lektion-punkt.faerdig .lek-nr { background: var(--groen); border-color: var(--groen); color: #fff; font-size: 0; }
+.lektion-punkt.faerdig .lek-nr::after { content: "✓"; font-size: 1rem; }
+.lek-tekst { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.lek-titel { font-weight: 700; line-height: 1.3; }
+.lek-meta { font-size: .85rem; color: var(--daempet); }
+.lektion-punkt.faerdig .lek-status { color: var(--groen); font-weight: 600; }
+.lek-bar { height: 5px; background: var(--kant); border-radius: 999px; overflow: hidden; margin-top: 2px; }
+.lek-fyld { display: block; height: 100%; width: 0; background: var(--groen); transition: width .4s ease; }
+.lektion { min-width: 0; }
+.lek-etiket { margin: 0 0 4px; font-weight: 700; color: var(--accent); font-size: .9rem; text-transform: uppercase; letter-spacing: .04em; }
+.lektion h2 { font-size: clamp(1.4rem, 2.6vw, 2rem); margin: 0 0 16px; line-height: 1.2; }
+.lektion h3 { font-size: 1.15rem; margin: 28px 0 10px; }
+.lek-video video { width: 100%; max-height: 70vh; background: #000; border-radius: 12px; display: block; }
+.lek-knapper { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; align-items: center; }
+.lek-knapper button:disabled { opacity: .45; cursor: default; }
+#lek-marker { margin-right: auto; }
+.lek-beskrivelse { margin: 0; color: #2f3747; max-width: 75ch; }
+.kapitler { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.kapitel button { width: 100%; display: flex; gap: 14px; text-align: left; background: var(--flade); color: var(--tekst); border: 1px solid var(--kant); border-radius: 10px; padding: 10px 14px; font-weight: 400; }
+.kapitel button:hover { border-color: var(--accent); }
+.kapitel.nu button { background: var(--accent-lys); border-color: var(--accent); }
+.kap-tid { flex-shrink: 0; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 42px; }
+.kursus-slut { max-width: 680px; margin: 20px auto; text-align: center; background: var(--flade); border: 1px solid var(--kant); border-radius: 18px; padding: clamp(28px, 5vw, 52px); }
+.kursus-slut h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin: 14px 0 10px; }
+.kursus-slut p { color: var(--daempet); margin: 0 auto; max-width: 52ch; }
+.kursus-slut .lek-knapper { justify-content: center; margin-top: 24px; }
+.slut-ikon { width: 72px; height: 72px; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; font-size: 2.2rem; color: #fff; background: var(--groen); }
+.knap-link { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: var(--radius); }
+.knap-link:hover { background: var(--accent-moerk); }
 </style>
 </head>
 <body>
@@ -300,6 +348,11 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
     <div class="indhold">
       <a class="tilbage" href="#">← Tilbage</a>
       <h1>Kort introduktion til InterCount</h1>
+      <p class="kursus-under" id="kursus-under"></p>
+      <div class="kursus-fremdrift" id="kursus-fremdrift">
+        <div class="fremdrift-tekst"><strong id="fremdrift-pct">0 %</strong> <span id="fremdrift-status"></span></div>
+        <div class="fremdrift-bar" role="progressbar" aria-labelledby="fremdrift-pct" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="fremdrift-fyld"></span></div>
+      </div>
     </div>
   </header>
   <main class="indhold" id="intro-indhold"></main>
@@ -1778,6 +1831,175 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
     boks.appendChild(raekke);
   }
 
+  // ------------------------------------------------------------------ introduktion (lille webinar)
+  const KURSUS = { navn: "Digitalt Arkiv", lektioner: ["V03", "V01"] };
+  const KURSUS_NOEGLE = "intercount-videosoeg:intro-fremdrift";
+  let kursusAktiv = 0, kursusVideo = null;
+  function kursusHent() { try { return JSON.parse(localStorage.getItem(KURSUS_NOEGLE) || "{}") || {}; } catch (e) { return {}; } }
+  function kursusGem(f) { try { localStorage.setItem(KURSUS_NOEGLE, JSON.stringify(f)); } catch (e) {} }
+  let kursusData = kursusHent();
+  const lekVideo = (id) => data.katalog.videoer.find((v) => v.id === id);
+  function lekStatus(id) {
+    const v = lekVideo(id), f = kursusData[id] || {};
+    const dur = Math.max(1, Math.floor(v.varighed_sek || 1));
+    const pct = f.faerdig ? 100 : Math.min(100, Math.round(((f.set || []).length / dur) * 100));
+    return { pct, faerdig: !!f.faerdig, startet: pct > 0 };
+  }
+  function kursusSamlet() {
+    const st = KURSUS.lektioner.map(lekStatus);
+    return { pct: Math.round(st.reduce((a, x) => a + x.pct, 0) / st.length), faerdige: st.filter((x) => x.faerdig).length };
+  }
+  function tegnFremdrift() {
+    const { pct, faerdige } = kursusSamlet(), n = KURSUS.lektioner.length;
+    $("fremdrift-pct").textContent = pct + " %";
+    $("fremdrift-status").textContent = faerdige === n ? "· Du har gennemført hele introduktionen 🎉" : "· " + faerdige + " af " + n + " lektioner gennemført";
+    $("fremdrift-fyld").style.width = pct + "%";
+    document.querySelector(".fremdrift-bar").setAttribute("aria-valuenow", String(pct));
+    document.querySelectorAll(".lektion-punkt").forEach((li) => {
+      const s = lekStatus(li.dataset.id);
+      li.classList.toggle("faerdig", s.faerdig);
+      li.querySelector(".lek-fyld").style.width = s.pct + "%";
+      li.querySelector(".lek-status").textContent = s.faerdig ? "Gennemført" : s.startet ? s.pct + " % set" : "Ikke startet";
+    });
+    const mk = $("lek-marker");
+    if (mk) mk.textContent = lekStatus(KURSUS.lektioner[kursusAktiv]).faerdig ? "✓ Gennemført" : "Markér som gennemført";
+  }
+  function markerFaerdig(id) {
+    kursusData[id] = Object.assign({}, kursusData[id], { faerdig: true });
+    kursusGem(kursusData);
+    tegnFremdrift();
+    if (KURSUS.lektioner.every((x) => lekStatus(x).faerdig)) visAfslutning();
+  }
+  function stopKursusVideo() {
+    if (kursusVideo) { const v = kursusVideo; kursusVideo = null; v.pause(); v.removeAttribute("src"); v.load(); }
+  }
+  function tegnKursus() {
+    const rod = $("intro-indhold");
+    stopKursusVideo();
+    rod.replaceChildren();
+    const samletSek = KURSUS.lektioner.reduce((a, id) => a + (lekVideo(id).varighed_sek || 0), 0);
+    $("kursus-under").textContent = "Et kort forløb om " + KURSUS.navn + " · " + KURSUS.lektioner.length + " lektioner · ca. " + Math.round(samletSek / 60) + " min.";
+    const layout = el("div", "kursus-layout");
+    const nav = el("nav", "lektion-liste");
+    nav.setAttribute("aria-label", "Lektioner");
+    nav.appendChild(el("p", "liste-titel", "Lektioner"));
+    const ol = el("ol");
+    KURSUS.lektioner.forEach((id, i) => {
+      const v = lekVideo(id);
+      const li = el("li", "lektion-punkt" + (i === kursusAktiv ? " aktiv" : ""));
+      li.dataset.id = id;
+      const b = el("button");
+      b.type = "button";
+      if (i === kursusAktiv) b.setAttribute("aria-current", "step");
+      b.appendChild(el("span", "lek-nr", String(i + 1)));
+      const t = el("span", "lek-tekst");
+      t.appendChild(el("span", "lek-titel", v.titel));
+      t.appendChild(el("span", "lek-meta", K.tidTilTekst(v.varighed_sek) + " · "));
+      t.lastChild.appendChild(el("span", "lek-status", ""));
+      const bar = el("span", "lek-bar"); bar.appendChild(el("span", "lek-fyld"));
+      t.appendChild(bar);
+      b.appendChild(t);
+      b.addEventListener("click", () => { kursusAktiv = i; tegnKursus(); });
+      li.appendChild(b);
+      ol.appendChild(li);
+    });
+    nav.appendChild(ol);
+    layout.appendChild(nav);
+
+    const id = KURSUS.lektioner[kursusAktiv], v = lekVideo(id);
+    const omr = el("section", "lektion");
+    omr.appendChild(el("p", "lek-etiket", "Lektion " + (kursusAktiv + 1) + " af " + KURSUS.lektioner.length));
+    omr.appendChild(el("h2", null, v.titel));
+    const vid = el("video");
+    vid.controls = true; vid.preload = "metadata"; vid.playsInline = true;
+    vid.src = relativUrl(v.filnavn);
+    kursusVideo = vid;
+    const f = kursusData[id] || {};
+    if (f.pos && f.pos < (v.varighed_sek || 0) - 5) vid.addEventListener("loadedmetadata", () => { vid.currentTime = f.pos; }, { once: true });
+    const set = new Set(f.set || []);
+    let sidst = -1, gemTid = 0;
+    vid.addEventListener("timeupdate", () => {
+      if (kursusVideo !== vid) return; // videoen er lukket
+      const t = Math.floor(vid.currentTime);
+      if (!vid.paused && !vid.seeking) set.add(t);
+      if (t !== sidst) {
+        sidst = t;
+        document.querySelectorAll(".kapitel").forEach((k) => k.classList.toggle("nu", +k.dataset.fra <= vid.currentTime && vid.currentTime < +k.dataset.til));
+      }
+      const nu = Date.now();
+      if (nu - gemTid > 1500) {
+        gemTid = nu;
+        kursusData[id] = Object.assign({}, kursusData[id], { set: [...set], pos: vid.currentTime });
+        if (set.size / Math.max(1, Math.floor(v.varighed_sek || 1)) >= 0.9) kursusData[id].faerdig = true;
+        kursusGem(kursusData);
+        tegnFremdrift();
+      }
+    });
+    vid.addEventListener("ended", () => {
+      if (kursusVideo !== vid) return;
+      kursusData[id] = Object.assign({}, kursusData[id], { set: [...set], pos: 0 });
+      kursusGem(kursusData);
+      markerFaerdig(id);
+    });
+    const ramme = el("div", "lek-video"); ramme.appendChild(vid);
+    omr.appendChild(ramme);
+
+    const knapper = el("div", "lek-knapper");
+    const forr = knap("← Forrige lektion", "sekundaer", () => { kursusAktiv--; tegnKursus(); });
+    forr.disabled = kursusAktiv === 0;
+    const mark = knap("", "sekundaer", () => markerFaerdig(id));
+    mark.id = "lek-marker";
+    const sidste = kursusAktiv === KURSUS.lektioner.length - 1;
+    const naeste = knap(sidste ? "Afslut introduktionen →" : "Næste lektion →", null, () => {
+      if (sidste) { markerFaerdig(id); visAfslutning(); } else { kursusAktiv++; tegnKursus(); }
+    });
+    knapper.append(forr, mark, naeste);
+    omr.appendChild(knapper);
+
+    if (v.beskrivelse) { omr.appendChild(el("h3", null, "Det lærer du")); omr.appendChild(el("p", "lek-beskrivelse", v.beskrivelse)); }
+    if (v.trin && v.trin.length) {
+      omr.appendChild(el("h3", null, "Kapitler i videoen"));
+      const kl = el("ol", "kapitler");
+      v.trin.forEach((tr, j) => {
+        const til = j + 1 < v.trin.length ? v.trin[j + 1].tid : 1e9;
+        const li = el("li", "kapitel");
+        li.dataset.fra = tr.tid; li.dataset.til = til;
+        const kb = el("button"); kb.type = "button";
+        kb.appendChild(el("span", "kap-tid", K.tidTilTekst(tr.tid)));
+        kb.appendChild(el("span", "kap-tekst", tr.tekst));
+        kb.addEventListener("click", () => { vid.currentTime = tr.tid; vid.play().catch(() => {}); ramme.scrollIntoView({ behavior: "smooth", block: "start" }); });
+        li.appendChild(kb); kl.appendChild(li);
+      });
+      omr.appendChild(kl);
+    }
+    layout.appendChild(omr);
+    rod.appendChild(layout);
+    tegnFremdrift();
+  }
+  function visAfslutning() {
+    stopKursusVideo();
+    const rod = $("intro-indhold");
+    rod.replaceChildren();
+    const k = el("section", "kursus-slut");
+    k.appendChild(el("div", "slut-ikon", "✓"));
+    k.appendChild(el("h2", null, "Godt gået! Du har gennemført introduktionen"));
+    k.appendChild(el("p", null, "Du kender nu det vigtigste om " + KURSUS.navn + " i InterCount. Har du spørgsmål til andre opgaver, kan du bruge søgefunktionen."));
+    const h = el("div", "lek-knapper");
+    const s1 = el("a", "knap-link", "Gå til søgefunktionen →"); s1.href = "#soeg";
+    h.append(s1, knap("Se lektionerne igen", "sekundaer", () => { kursusAktiv = 0; tegnKursus(); }),
+      knap("Nulstil fremdrift", "link", () => { kursusData = {}; kursusGem(kursusData); kursusAktiv = 0; tegnKursus(); }));
+    k.appendChild(h);
+    rod.appendChild(k);
+    tegnFremdrift();
+  }
+  function startKursus() {
+    kursusData = kursusHent();
+    const foerste = KURSUS.lektioner.findIndex((id) => !lekStatus(id).faerdig);
+    if (foerste < 0) { visAfslutning(); return; }
+    kursusAktiv = foerste;
+    tegnKursus();
+  }
+
   function visVisning(navn, gemHash) {
     const alle = navn === "alle";
     $("visning-soeg").hidden = alle;
@@ -2230,6 +2452,7 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
       $("side-intro").hidden = rute !== "intro";
       $("side-soeg").hidden = rute !== "soeg";
       if (rute !== "soeg") lukSpiller();
+      if (rute === "intro") startKursus(); else stopKursusVideo();
       if (h === "#alle") visVisning("alle", false);
       else if (h === "#soeg") visVisning("soeg", false);
       if (rute === "soeg" && h === "#soeg" && !$("resultater").children.length) setTimeout(() => $("soegefelt").focus(), 0);
