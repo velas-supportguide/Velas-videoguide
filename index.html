@@ -377,6 +377,14 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .raad-slut .raad-tekst { font-weight: 700; color: var(--groen); }
 .raad-knap { display: block; text-align: center; background: var(--accent); color: #fff !important; text-decoration: none; font-weight: 700; padding: 11px 16px; border-radius: 10px; }
 .raad-knap:hover { background: var(--accent-moerk); }
+
+/* Rådgiver: tydeligt at valgene foretages på velas.dk */
+.raad-note { margin: -6px 0 10px !important; font-size: .88rem !important; color: var(--daempet); font-style: italic; }
+.raad-forloeb li { align-items: flex-start; }
+.raad-forloeb li:not(:last-child)::after { top: 30px; }
+.raad-forloeb .raad-tekst { padding-top: 4px; line-height: 1.4; }
+.raad-ord { background: linear-gradient(transparent 55%, #ffe08a 55%); color: #1d2330; font-weight: 800; padding: 0 2px; }
+.raad-knap .ud-ikon { vertical-align: -2px; margin-left: 4px; }
 </style>
 </head>
 <body>
@@ -457,15 +465,16 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
       <p class="etiket">Åbningstider</p>
       <table class="tider"><tr><td>Mandag – torsdag</td><td>kl. 8.00 – 16.00</td></tr><tr><td>Fredag</td><td>kl. 8.00 – 13.00</td></tr></table>
       <div class="kontakt-ekstra">
-        <p class="raad-titel"><strong>Find din rådgiver i Velas</strong></p>
+        <p class="raad-titel"><strong>Find din rådgiver på velas.dk</strong></p>
+        <p class="raad-note">Det gør du på Velas' egen hjemmeside – ikke her i videoguiden.</p>
         <ol class="raad-forloeb">
-          <li><span class="raad-nr">1</span><div><span class="raad-tekst">Åbn Velas' kontaktside</span></div></li>
-          <li><span class="raad-nr">2</span><div><span class="raad-tekst">Vælg dit <span class="skjult">område</span></span><span class="raad-dropdown" aria-hidden="true">Område <b>▾</b></span></div></li>
-          <li><span class="raad-nr">3</span><div><span class="raad-tekst">Vælg din <span class="skjult">lokation</span></span><span class="raad-dropdown" aria-hidden="true">Lokation <b>▾</b></span></div></li>
-          <li><span class="raad-nr">4</span><div><span class="raad-tekst">Vælg en <span class="skjult">rolle</span></span><span class="raad-dropdown" aria-hidden="true">Rolle <b>▾</b></span></div></li>
-          <li class="raad-slut"><span class="raad-nr">✓</span><div><span class="raad-tekst">Så vises den rigtige person at kontakte</span></div></li>
+          <li><span class="raad-nr">1</span><span class="raad-tekst">Gå til Velas' kontaktside via knappen herunder. Den åbner i en ny fane.</span></li>
+          <li><span class="raad-nr">2</span><span class="raad-tekst">Vælg <mark class="raad-ord">område</mark></span></li>
+          <li><span class="raad-nr">3</span><span class="raad-tekst">Vælg <mark class="raad-ord">lokation</mark></span></li>
+          <li><span class="raad-nr">4</span><span class="raad-tekst">Vælg <mark class="raad-ord">rolle</mark></span></li>
+          <li class="raad-slut"><span class="raad-nr">✓</span><span class="raad-tekst">Så vises den rigtige person at kontakte</span></li>
         </ol>
-        <a class="raad-knap" href="https://velas.dk/kontakt/" target="_blank" rel="noopener">Find din rådgiver på velas.dk <span aria-hidden="true">→</span></a>
+        <a class="raad-knap" href="https://velas.dk/kontakt/" target="_blank" rel="noopener">Gå til velas.dk/kontakt <svg class="ud-ikon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span class="skjult"> (åbner i en ny fane)</span></a>
       </div>
     </section>
     <section class="kontakt">
