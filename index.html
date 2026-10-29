@@ -313,6 +313,15 @@ button.emne-titel:hover .fold-luk { background: #d4e5f7; }
   .guide-spring { order: 3; width: 100%; text-align: center; }
 }
 body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen helt frem */
+
+/* Tydelig markering af stærke match */
+.resultat-kort.niveau-3 { background: linear-gradient(180deg, #eaf7ef 0%, #ffffff 55%); border: 2px solid #2e9a5c; border-top: 6px solid var(--groen); box-shadow: 0 8px 22px rgba(31,122,70,.16); }
+.resultat-kort.niveau-3 .relevans { background: var(--groen); color: #fff; font-size: .82rem; padding: 4px 11px; box-shadow: 0 2px 6px rgba(31,122,70,.3); }
+.resultat-kort.niveau-3 .relevans::before { content: "★ "; }
+.resultat-kort.niveau-3 h3 { color: #145c33; }
+.resultat-kort.niveau-3 .handlinger > button:first-child { background: var(--groen); }
+.resultat-kort.niveau-3 .handlinger > button:first-child:hover { background: #17633a; }
+.resultat-kort.niveau-2 .relevans, .resultat-kort.niveau-1 .relevans { font-weight: 600; }
 </style>
 </head>
 <body>
