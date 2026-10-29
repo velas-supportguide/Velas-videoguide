@@ -10,7 +10,7 @@
 [hidden] { display: none !important; }
 :root {
   --bg: #f6f7f9; --flade: #ffffff; --tekst: #1d2330; --daempet: #5b6475; --kant: #dde1e8;
-  --accent: #c8102e; --accent-moerk: #9b0c23; --accent-lys: #fdeef0;
+  --accent: #d9272a; --accent-moerk: #a8181d; --accent-lys: #fdeeee;
   --groen: #1f7a46; --groen-lys: #e5f4ec; --gul: #8a5a00; --gul-lys: #fdf3dc; --roed: #b42318; --roed-lys: #fdecea;
   --radius: 10px;
 }
@@ -34,13 +34,13 @@ button:disabled { opacity: .55; cursor: not-allowed; }
 button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 #soegeknap { padding: 14px 26px; font-size: 1.1rem; }
 .sekundaer { background: var(--accent-lys); color: var(--accent); }
-.sekundaer:hover { background: #fad9de; }
+.sekundaer:hover { background: #fbdadb; }
 .eksempler { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .eksempel { background: var(--bg); color: var(--tekst); border: 1px solid var(--kant); font-weight: 400; padding: 6px 12px; font-size: .92rem; border-radius: 999px; }
 .eksempel:hover { background: var(--accent-lys); border-color: var(--accent); }
 main { padding-top: 20px; padding-bottom: 40px; }
 .besked { padding: 12px 16px; border-radius: var(--radius); background: var(--flade); border: 1px solid var(--kant); margin: 0 0 16px; }
-.besked.info { background: var(--accent-lys); border-color: #f2bcc4; }
+.besked.info { background: var(--accent-lys); border-color: #f5c3c4; }
 .besked.advarsel { background: var(--gul-lys); border-color: #f0d9a6; color: #4d3500; }
 .besked.fejl, .fejl { color: var(--roed); }
 .besked.fejl { background: var(--roed-lys); border-color: #f5c2bd; }
@@ -143,7 +143,7 @@ main.indhold { padding-top: 24px; }
 .eksempler { margin-top: 18px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 10px; }
 .eksempler-titel { grid-column: 1 / -1; margin: 0 0 2px; font-size: .9rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--daempet); }
 .eksempel { display: flex; align-self: stretch; height: 100%; margin: 0; align-items: center; justify-content: space-between; gap: 12px; text-align: left; width: 100%;
-  background: var(--accent-lys); color: var(--accent-moerk); border: 1.5px solid #f2bcc4; border-radius: 12px;
+  background: var(--accent-lys); color: var(--accent-moerk); border: 1.5px solid #f5c3c4; border-radius: 12px;
   padding: 12px 16px; font-size: 1.02rem; font-weight: 600; line-height: 1.35; transition: background .15s, color .15s, border-color .15s, transform .15s; }
 .eksempel::after { content: "→"; font-size: 1.15rem; flex-shrink: 0; transition: transform .15s; }
 .eksempel:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -153,7 +153,7 @@ main.indhold { padding-top: 24px; }
 
 /* Mere markant overskrift, intro og forslagstitel */
 .top h1 { font-size: clamp(1.75rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -.02em; color: var(--accent-moerk); margin-bottom: 14px; }
-.top h1 .brand { background: linear-gradient(90deg, #c8102e 0%, #e8414b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.top h1 .brand { background: linear-gradient(90deg, #d9272a 0%, #f0585a 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .top .intro { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: #2f3747; max-width: 62ch; margin-bottom: 24px; }
 .eksempler-titel { font-size: 1.15rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: #2b3240; display: flex; align-items: center; gap: 10px; margin: 6px 0 4px; }
 .eksempler-titel::before { content: ""; width: 5px; height: 1.2em; border-radius: 3px; background: #2b3240; }
@@ -171,7 +171,7 @@ body.startside main.indhold { padding-top: 0; }
 .emne-raekke { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
 .emne-kort { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; background: var(--flade); color: var(--tekst);
   border: 1.5px solid var(--kant); border-radius: 14px; padding: 18px 20px; font-weight: 400; transition: border-color .15s, box-shadow .15s; }
-.emne-kort:hover { border-color: var(--accent); box-shadow: 0 6px 18px rgba(200,16,46,.12); }
+.emne-kort:hover { border-color: var(--accent); box-shadow: 0 6px 18px rgba(233,49,51,.12); }
 .emne-navn { font-size: 1.2rem; font-weight: 700; }
 .emne-antal { color: var(--daempet); font-size: .95rem; }
 .alle-kort { background: #2b3240; border-color: #2b3240; color: #fff; }
@@ -245,12 +245,12 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 .side-valg { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; background: var(--flade); }
 .valg-indhold { width: 100%; padding-top: clamp(32px, 6vh, 64px); padding-bottom: clamp(32px, 6vh, 64px); }
 .valg-indhold h1 { font-size: clamp(2rem, 5.5vw, 4.2rem); line-height: 1.1; letter-spacing: -.02em; color: var(--accent-moerk); margin: 0 0 clamp(14px, 2.5vh, 26px); }
-.valg-indhold h1 .brand { background: linear-gradient(90deg, #c8102e 0%, #e8414b 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.valg-indhold h1 .brand { background: linear-gradient(90deg, #d9272a 0%, #f0585a 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .valg-spoergsmaal { font-size: clamp(1.2rem, 2.2vw, 1.75rem); line-height: 1.4; color: #2f3747; max-width: 40ch; margin: 0 0 clamp(26px, 5vh, 56px); font-weight: 500; }
 .valg-kort { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(14px, 2vw, 24px); }
 .valg-knap { position: relative; display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: var(--tekst); background: var(--accent-lys);
-  border: 2px solid #f2bcc4; border-radius: 18px; padding: clamp(22px, 3.5vh, 40px) clamp(22px, 2.5vw, 36px); padding-right: 72px; transition: background .15s, border-color .15s, transform .15s, box-shadow .15s; }
-.valg-knap:hover { border-color: var(--accent); box-shadow: 0 10px 28px rgba(200,16,46,.15); transform: translateY(-2px); }
+  border: 2px solid #f5c3c4; border-radius: 18px; padding: clamp(22px, 3.5vh, 40px) clamp(22px, 2.5vw, 36px); padding-right: 72px; transition: background .15s, border-color .15s, transform .15s, box-shadow .15s; }
+.valg-knap:hover { border-color: var(--accent); box-shadow: 0 10px 28px rgba(233,49,51,.15); transform: translateY(-2px); }
 .valg-knap:focus-visible { outline: 3px solid #f2b21b; outline-offset: 3px; }
 .valg-knap.primaer { background: var(--accent); border-color: var(--accent); color: #fff; }
 .valg-knap.primaer:hover { background: var(--accent-moerk); border-color: var(--accent-moerk); }
@@ -258,7 +258,7 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 .valg-titel { font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 800; letter-spacing: -.01em; color: var(--accent-moerk); }
 .valg-knap.primaer .valg-titel { color: #fff; }
 .valg-tekst { font-size: 1.05rem; color: var(--daempet); }
-.valg-knap.primaer .valg-tekst { color: #fde3e6; }
+.valg-knap.primaer .valg-tekst { color: #fde4e4; }
 .valg-pil { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); font-size: 1.8rem; transition: transform .15s; }
 .valg-knap:hover .valg-pil { transform: translate(4px, -50%); }
 .tilbage { display: inline-block; margin-bottom: 14px; color: var(--accent); font-weight: 600; text-decoration: none; }
@@ -281,11 +281,11 @@ body.startside .emner .emne-titel { margin-top: clamp(18px, 3.5vh, 40px); }
 /* Fold-titel for emner */
 button.emne-titel { background: none; border: 0; padding: 0; cursor: pointer; width: 100%; justify-content: flex-start; text-align: left; }
 .fold-luk { margin-left: auto; font-size: .9rem; font-weight: 700; color: var(--accent); background: var(--accent-lys); padding: 6px 14px; border-radius: 999px; letter-spacing: 0; }
-button.emne-titel:hover .fold-luk { background: #fad9de; }
+button.emne-titel:hover .fold-luk { background: #fbdadb; }
 /* Rundvisning */
 .guide-genstart { background: var(--accent-lys); color: var(--accent); border-radius: 999px; padding: 7px 16px; font-size: .95rem; margin-bottom: 14px; }
 .guide-genstart::before { content: "?"; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .8rem; margin-right: 8px; font-weight: 800; }
-.guide-genstart:hover { background: #fad9de; }
+.guide-genstart:hover { background: #fbdadb; }
 .guide-lag { position: fixed; inset: 0; z-index: 900; background: transparent; }
 .guide-lys { position: absolute; z-index: 901; border-radius: 16px; box-shadow: 0 0 0 4px #f2b21b, 0 0 0 200vmax rgba(15,22,35,.62); pointer-events: none; transition: top .25s ease, left .25s ease, width .25s ease, height .25s ease; }
 .guide-maal { position: relative; }
@@ -343,7 +343,7 @@ body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen he
 .felt-boks input { flex: 1; width: 100%; }
 body.har-tale .felt-boks input { padding-right: 64px !important; }
 .tale-knap { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; padding: 0; border-radius: 50%; display: grid; place-items: center; background: var(--accent-lys); color: var(--accent); }
-.tale-knap:hover { background: #fad9de; }
+.tale-knap:hover { background: #fbdadb; }
 .tale-knap:focus-visible { outline: 3px solid #f2b21b; outline-offset: 2px; }
 .tale-knap.lytter { background: #b42318; color: #fff; animation: tale-puls 1.4s ease-out infinite; }
 @keyframes tale-puls { 0% { box-shadow: 0 0 0 0 rgba(180,35,24,.45); } 100% { box-shadow: 0 0 0 14px rgba(180,35,24,0); } }
@@ -359,6 +359,16 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .tale-knap.lytter { background: #2b3240; }
 @keyframes tale-puls { 0% { box-shadow: 0 0 0 0 rgba(43,50,64,.45); } 100% { box-shadow: 0 0 0 14px rgba(43,50,64,0); } }
 .luk-knap { background: #2b3240; }
+
+/* Velas' logorød (#E93133) på de store, markante elementer */
+:root { --velas-roed: #e93133; }
+.top h1 .brand, .valg-indhold h1 .brand { background: linear-gradient(90deg, #e93133 0%, #f0585a 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+#soegeknap { background: var(--velas-roed); }
+#soegeknap:hover { background: #c9262a; }
+.eksempel:hover { background: var(--velas-roed); border-color: var(--velas-roed); }
+.fane[aria-selected="true"] { border-bottom-color: var(--velas-roed); }
+.guide-titel { text-decoration-color: var(--velas-roed); }
+.guide-lys { box-shadow: 0 0 0 4px #f2b21b, 0 0 0 200vmax rgba(15,22,35,.62); }
 </style>
 </head>
 <body>
