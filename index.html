@@ -267,29 +267,6 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 .valg-ikon svg { width: 28px; height: 28px; flex-shrink: 0; }
 
 
-/* Guide til hjemmesiden på startsiden */
-.valg-spoergsmaal { max-width: 60ch; }
-.guide { list-style: none; margin: 0 0 clamp(26px, 5vh, 48px); padding: 0; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr); gap: clamp(8px, 1.2vw, 16px); align-items: stretch; }
-.guide-trin { position: relative; background: var(--flade); border: 1.5px solid var(--kant); border-radius: 18px; padding: 26px 22px 22px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 16px rgba(20,30,50,.05); }
-.guide-nr { position: absolute; top: -18px; left: 20px; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; font-weight: 800; font-size: 1.1rem; box-shadow: 0 0 0 5px var(--flade); }
-.guide-titel { margin: 4px 0 0; font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.3; color: #2b3240; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 6px; }
-.guide-trin p { margin: 0; color: #3a4354; line-height: 1.55; }
-.guide-pil { align-self: center; color: var(--accent); width: clamp(28px, 3vw, 44px); }
-.guide-pil svg { width: 100%; height: auto; display: block; }
-.guide-demo { background: var(--bg); border-radius: 12px; padding: 14px; min-height: 86px; display: flex; gap: 8px; align-items: center; }
-.demo-soeg .demo-felt { flex: 1; background: #fff; border: 1.5px solid var(--kant); border-radius: 8px; padding: 9px 10px; font-size: .85rem; color: var(--daempet); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.demo-soeg .demo-knap { background: var(--accent); color: #fff; font-weight: 700; font-size: .85rem; border-radius: 8px; padding: 9px 12px; }
-.demo-forslag { flex-direction: column; align-items: stretch; gap: 6px; }
-.demo-forslag span { background: var(--accent-lys); color: var(--accent-moerk); border: 1px solid #b8d2ee; border-radius: 8px; padding: 6px 10px; font-size: .8rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.demo-bibliotek { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.demo-bibliotek span { height: 26px; background: #fff; border: 1px solid var(--kant); border-radius: 6px; position: relative; }
-.demo-bibliotek span::after { content: ""; position: absolute; left: 6px; right: 40%; top: 9px; height: 6px; border-radius: 3px; background: #c9d6e6; }
-.guide-cta { max-width: 640px; }
-@media (max-width: 980px) {
-  .guide { grid-template-columns: 1fr; gap: 26px; }
-  .guide-pil { justify-self: center; transform: rotate(90deg); width: 36px; margin: -8px 0; }
-  .guide-cta { max-width: none; }
-}
 /* Emnekort sammenklappet til en lille knap */
 .emne-fold { display: inline-flex; align-items: center; gap: 10px; background: var(--flade); color: #2b3240; border: 1.5px solid var(--kant); border-radius: 999px; padding: 10px 18px; font-weight: 700; font-size: 1rem; }
 .emne-fold:hover { border-color: var(--accent); color: var(--accent); }
@@ -300,54 +277,54 @@ body.startside .emner .emne-titel { margin-top: clamp(18px, 3.5vh, 40px); }
 .side-valg .valg-spoergsmaal { font-size: clamp(1.1rem, 1.8vw, 1.45rem); margin-bottom: clamp(30px, 5vh, 48px); }
 .guide-cta { margin: 0 auto; }
 .guide-cta .valg-knap { padding-top: clamp(18px, 3vh, 30px); padding-bottom: clamp(18px, 3vh, 30px); }
+
+/* Fold-titel for emner */
+button.emne-titel { background: none; border: 0; padding: 0; cursor: pointer; width: 100%; justify-content: flex-start; text-align: left; }
+.fold-luk { margin-left: auto; font-size: .9rem; font-weight: 700; color: var(--accent); background: var(--accent-lys); padding: 6px 14px; border-radius: 999px; letter-spacing: 0; }
+button.emne-titel:hover .fold-luk { background: #d4e5f7; }
+/* Rundvisning */
+.guide-genstart { background: var(--accent-lys); color: var(--accent); border-radius: 999px; padding: 7px 16px; font-size: .95rem; margin-bottom: 14px; }
+.guide-genstart::before { content: "?"; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: .8rem; margin-right: 8px; font-weight: 800; }
+.guide-genstart:hover { background: #d4e5f7; }
+.guide-lag { position: fixed; inset: 0; z-index: 900; background: transparent; }
+.guide-lys { position: absolute; z-index: 901; border-radius: 16px; box-shadow: 0 0 0 4px #f2b21b, 0 0 0 200vmax rgba(15,22,35,.62); pointer-events: none; transition: top .25s ease, left .25s ease, width .25s ease, height .25s ease; }
+.guide-maal { position: relative; }
+.guide-boble { position: absolute; z-index: 902; width: min(460px, calc(100vw - 32px)); background: #fff; border-radius: 16px; padding: 22px 22px 18px; box-shadow: 0 18px 50px rgba(0,0,0,.35); }
+.guide-boble::before { content: ""; position: absolute; top: -9px; left: var(--pil-x, 40px); width: 18px; height: 18px; background: #fff; transform: translateX(-50%) rotate(45deg); border-radius: 3px; }
+.guide-boble.over::before { top: auto; bottom: -9px; }
+.guide-trin-nr { margin: 0 0 6px; font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
+.guide-titel { margin: 0 0 10px; font-size: 1.35rem; line-height: 1.3; color: #2b3240; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.guide-tekst { margin: 0 0 16px; color: #3a4354; line-height: 1.55; }
+.guide-fod { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.guide-prikker { display: flex; gap: 6px; }
+.guide-prikker span { width: 9px; height: 9px; border-radius: 50%; background: var(--kant); }
+.guide-prikker span.aktiv { background: var(--accent); }
+.guide-knapper { display: flex; gap: 8px; align-items: center; margin-left: auto; }
+.guide-spring { color: var(--daempet); }
+.guide-cta-knap { width: 100%; margin-top: 16px; text-align: left; font: inherit; cursor: pointer; padding: 18px 64px 18px 20px; }
+.guide-cta-knap .valg-titel { font-size: 1.35rem; }
+.guide-cta-knap .valg-ikon { width: 44px; height: 44px; }
+@media (prefers-reduced-motion: reduce) { .guide-lys { transition: none; } }
+@media (max-width: 560px) {
+  .guide-boble { padding: 18px 18px 16px; }
+  .guide-fod { flex-direction: column; align-items: stretch; gap: 12px; }
+  .guide-knapper { margin-left: 0; width: 100%; flex-wrap: wrap; }
+  .guide-knapper button:not(.guide-spring) { flex: 1; }
+  .guide-spring { order: 3; width: 100%; text-align: center; }
+}
+body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen helt frem */
 </style>
 </head>
 <body>
 <a class="spring-over" href="#soegefelt">Gå til søgefeltet</a>
 <p id="start-fejl" class="besked fejl" role="alert" hidden></p>
 
-<div id="side-valg" class="side-valg">
-  <main class="indhold valg-indhold">
-    <h1>Find hjælp til <span class="brand">InterCount</span></h1>
-    <p class="valg-spoergsmaal">Her finder du korte videoer, der viser, hvordan du løser opgaver i InterCount. Sådan bruger du siden:</p>
-    <div class="guide" role="list">
-      <div class="guide-trin" role="listitem">
-        <span class="guide-nr">1</span>
-        <h2 class="guide-titel">Sådan virker søgefunktionen</h2>
-        <div class="guide-demo demo-soeg" aria-hidden="true"><span class="demo-felt">Hvordan sender jeg en faktura?</span><span class="demo-knap">Søg</span></div>
-        <p>Skriv med dine egne ord, hvad du vil gøre i InterCount. Siden finder de videoer, der passer bedst, og viser den bedste øverst. Ofte kan du springe direkte til det sted i videoen, hvor svaret er.</p>
-      </div>
-      <div class="guide-pil" aria-hidden="true"><svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h40M33 3l10 9-10 9"/></svg></div>
-      <div class="guide-trin" role="listitem">
-        <span class="guide-nr">2</span>
-        <h2 class="guide-titel">Sådan virker populære spørgsmål</h2>
-        <div class="guide-demo demo-forslag" aria-hidden="true"><span>Hvordan opretter jeg en kreditnota? →</span><span>Hvordan scanner jeg et bilag? →</span></div>
-        <p>Under søgefeltet står de spørgsmål, som flest har brug for svar på. Klik på et af dem, så søger siden for dig – du behøver ikke skrive noget selv.</p>
-      </div>
-      <div class="guide-pil" aria-hidden="true"><svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h40M33 3l10 9-10 9"/></svg></div>
-      <div class="guide-trin" role="listitem">
-        <span class="guide-nr">3</span>
-        <h2 class="guide-titel">Sådan virker videobiblioteket</h2>
-        <div class="guide-demo demo-bibliotek" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <p>Under fanen »Alle videoer« finder du alle vejledninger samlet og sorteret efter emne. Her kan du bladre i ro og mag og starte en video med ét klik.</p>
-      </div>
-    </div>
-    <div class="guide-cta">
-      <a class="valg-knap primaer" href="#soeg">
-        <span class="valg-ikon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></span>
-        <span class="valg-titel">Benyt søgefunktionen</span>
-        <span class="valg-tekst">Skriv med dine egne ord, hvad du vil gøre, og find den rigtige video.</span>
-        <span class="valg-pil" aria-hidden="true">→</span>
-      </a>
-    </div>
-  </main>
-</div>
 
 
-<div id="side-soeg" hidden>
+<div id="side-soeg">
   <header class="top">
     <div class="indhold">
-      <a class="tilbage" href="#">← Tilbage til start</a>
+      <button type="button" id="vis-guide" class="guide-genstart">Sådan virker siden</button>
       <h1>Find hjælp til <span class="brand">InterCount</span></h1>
       <p class="intro">Skriv med dine egne ord, hvad du gerne vil gøre. Så finder vi den instruktionsvideo, der bedst viser hvordan – og hvor i videoen du skal kigge.</p>
       <div id="soegeform" class="soegeform" role="search">
@@ -1800,14 +1777,21 @@ body.startside .emner .emne-titel { margin-top: clamp(18px, 3.5vh, 40px); }
     fold.appendChild(el("span", null, "Se videoer efter emne"));
     fold.appendChild(el("span", "fold-pil", "▾"));
     boks.appendChild(fold);
-    const titel = el("p", "eksempler-titel emne-titel", "Se videoer efter emne");
+    const titel = el("button", "eksempler-titel emne-titel");
+    titel.type = "button";
+    titel.setAttribute("aria-expanded", "true");
+    titel.setAttribute("aria-controls", "emne-raekke");
+    titel.appendChild(el("span", null, "Se videoer efter emne"));
+    titel.appendChild(el("span", "fold-luk", "Skjul ▴"));
     titel.hidden = true;
     boks.appendChild(titel);
     const raekke = el("div", "emne-raekke");
     raekke.hidden = true;
     raekke.id = "emne-raekke";
     fold.setAttribute("aria-controls", "emne-raekke");
-    fold.addEventListener("click", () => { fold.hidden = true; titel.hidden = false; raekke.hidden = false; });
+    const saetFold = (aaben) => { fold.hidden = aaben; titel.hidden = !aaben; raekke.hidden = !aaben; (aaben ? titel : fold).focus(); };
+    fold.addEventListener("click", () => saetFold(true));
+    titel.addEventListener("click", () => saetFold(false));
     for (const [kat, n] of grupper) {
       const b = el("button", "emne-kort");
       b.type = "button";
@@ -2274,20 +2258,111 @@ body.startside .emner .emne-titel { margin-top: clamp(18px, 3.5vh, 40px); }
     $("til-soeg").addEventListener("click", () => visSide("soeg"));
     $("fane-soeg").addEventListener("click", () => { visVisning("soeg"); $("soegefelt").focus(); });
     $("fane-alle").addEventListener("click", () => visVisning("alle"));
-    // Startvalg: introduktion eller søgning. Styres af adressens #, så browserens tilbage-knap virker.
+    // Adressens # styrer fanerne, så browserens tilbage-knap virker.
     const visRute = () => {
       const h = location.hash;
-      const rute = h === "#soeg" || h === "#alle" ? "soeg" : "valg";
-      $("side-valg").hidden = rute !== "valg";
-      $("side-soeg").hidden = rute !== "soeg";
-      if (rute !== "soeg") lukSpiller();
       if (h === "#alle") visVisning("alle", false);
-      else if (h === "#soeg") visVisning("soeg", false);
-      if (rute === "soeg" && h === "#soeg" && !$("resultater").children.length) setTimeout(() => $("soegefelt").focus(), 0);
-      window.scrollTo(0, 0);
+      else visVisning("soeg", false);
     };
     window.addEventListener("hashchange", visRute);
     visRute();
+
+    // ---------------------------------------------------------------- rundvisning i tre trin
+    const GUIDE_NOEGLE = "intercount-videosoeg:guide-set";
+    const GUIDE = [
+      { maal: () => $("soegeform"), titel: "Sådan virker søgefunktionen",
+        tekst: "Skriv med dine egne ord, hvad du vil gøre i InterCount – fx »Hvordan sender jeg en faktura?«. Siden finder de videoer, der passer bedst, og viser den bedste øverst. Ofte kan du springe direkte til det sted i videoen, hvor svaret er." },
+      { maal: () => $("eksempler"), titel: "Sådan virker populære spørgsmål",
+        tekst: "Her står de spørgsmål, som flest har brug for svar på. Klik på et af dem, så søger siden for dig – du behøver ikke skrive noget selv." },
+      { maal: () => $("emner"), titel: "Sådan virker videobiblioteket",
+        tekst: "Klik på »Se videoer efter emne« for at se alle vejledninger samlet og sorteret efter emne. Her kan du bladre i ro og mag og starte en video med ét klik. Efter en søgning finder du biblioteket under fanen »Alle videoer«.",
+        foer: () => { const f = document.querySelector(".emne-fold"); if (f && !f.hidden) f.click(); },
+        efter: () => { const t = document.querySelector(".emne-titel"); if (t && !t.hidden) t.click(); } },
+    ];
+    let guideTrin = -1;
+    const lag = el("div", "guide-lag"); lag.hidden = true;
+    const lys = el("div", "guide-lys"); lys.hidden = true;
+    const boble = el("div", "guide-boble"); boble.hidden = true;
+    boble.setAttribute("role", "dialog"); boble.setAttribute("aria-modal", "true"); boble.setAttribute("aria-labelledby", "guide-titel");
+    document.body.append(lag, lys, boble);
+    const placer = () => {
+      if (guideTrin < 0) return;
+      const r = GUIDE[guideTrin].maal().getBoundingClientRect(), pad = 10;
+      Object.assign(lys.style, { top: r.top + scrollY - pad + "px", left: r.left + scrollX - pad + "px", width: r.width + pad * 2 + "px", height: r.height + pad * 2 + "px" });
+      const bw = boble.offsetWidth, bh = boble.offsetHeight, vw = document.documentElement.clientWidth;
+      let left = Math.min(Math.max(16, r.left), vw - bw - 16);
+      let top = r.bottom + pad + 16;
+      const pladsUnder = top + bh <= innerHeight - 8, pladsOver = r.top - pad - 16 - bh >= 8;
+      if (!pladsUnder && pladsOver) top = r.top - pad - 16 - bh;
+      boble.style.left = left + scrollX + "px";
+      boble.style.top = top + scrollY + "px";
+      boble.classList.toggle("over", top < r.top);
+      boble.style.setProperty("--pil-x", Math.min(Math.max(28, r.left + 40 - left), bw - 28) + "px");
+      return { under: top >= r.top, nederst: top + bh, oeverst: r.top - pad, bobleTop: top };
+    };
+    // Sørger for, at både det oplyste område og boblen kan ses på skærmen.
+    const tilpasRul = () => {
+      const p = placer();
+      if (!p) return;
+      if (p.nederst > innerHeight - 12) {
+        const behov = p.nederst - innerHeight + 12;
+        // helst uden at skjule toppen af det oplyste område, men boblen skal altid kunne ses
+        const ryk = behov <= p.oeverst - 12 ? behov : Math.min(behov, Math.max(0, p.bobleTop - 8));
+        scrollBy(0, ryk);
+      }
+    };
+    const visTrin = (i) => {
+      if (guideTrin >= 0 && GUIDE[guideTrin].efter && i !== guideTrin) GUIDE[guideTrin].efter();
+      guideTrin = i;
+      const t = GUIDE[i];
+      if (t.foer) t.foer();
+      document.querySelectorAll(".guide-maal").forEach((x) => x.classList.remove("guide-maal"));
+      t.maal().classList.add("guide-maal");
+      boble.replaceChildren();
+      const prik = el("div", "guide-prikker");
+      GUIDE.forEach((_, j) => prik.appendChild(el("span", j <= i ? "aktiv" : "")));
+      boble.appendChild(el("p", "guide-trin-nr", "Trin " + (i + 1) + " af " + GUIDE.length));
+      const h = el("h2", "guide-titel", t.titel); h.id = "guide-titel";
+      boble.append(h, el("p", "guide-tekst", t.tekst));
+      const fod = el("div", "guide-fod");
+      fod.appendChild(prik);
+      const kn = el("div", "guide-knapper");
+      if (i > 0) kn.appendChild(knap("← Tilbage", "sekundaer", () => visTrin(i - 1)));
+      if (i < GUIDE.length - 1) {
+        kn.prepend(knap("Spring over", "link guide-spring", afslutGuide));
+        kn.appendChild(knap("Næste →", null, () => visTrin(i + 1)));
+      }
+      fod.appendChild(kn);
+      boble.appendChild(fod);
+      if (i === GUIDE.length - 1) {
+        const cta = el("button", "valg-knap primaer guide-cta-knap");
+        cta.type = "button";
+        cta.innerHTML = '<span class="valg-ikon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></span><span class="valg-titel">Benyt søgefunktionen</span><span class="valg-tekst">Skriv med dine egne ord, hvad du vil gøre, og find den rigtige video.</span><span class="valg-pil" aria-hidden="true">→</span>';
+        cta.addEventListener("click", afslutGuide);
+        boble.appendChild(cta);
+      }
+      [lag, lys, boble].forEach((x) => (x.hidden = false));
+      document.body.classList.add("guide-aktiv");
+      const rr = t.maal().getBoundingClientRect();
+      scrollBy(0, rr.top - Math.max(16, Math.min(120, innerHeight * 0.12)));
+      requestAnimationFrame(() => { tilpasRul(); const b = boble.querySelector(".guide-cta-knap") || boble.querySelector(".guide-knapper button:last-child"); if (b) b.focus(); });
+    };
+    function afslutGuide() {
+      if (guideTrin >= 0 && GUIDE[guideTrin].efter) GUIDE[guideTrin].efter();
+      guideTrin = -1;
+      [lag, lys, boble].forEach((x) => (x.hidden = true));
+      document.body.classList.remove("guide-aktiv");
+      document.querySelectorAll(".guide-maal").forEach((x) => x.classList.remove("guide-maal"));
+      try { localStorage.setItem(GUIDE_NOEGLE, "1"); } catch (e) {}
+      window.scrollTo(0, 0);
+      $("soegefelt").focus();
+    }
+    addEventListener("resize", placer);
+    document.addEventListener("keydown", (e) => { if (guideTrin >= 0 && e.key === "Escape") afslutGuide(); });
+    $("vis-guide").addEventListener("click", () => { visVisning("soeg"); lukSpiller(); visBesked(""); $("resultater").replaceChildren(); setTimeout(() => visTrin(0), 30); });
+    let guideSet = false;
+    try { guideSet = localStorage.getItem(GUIDE_NOEGLE) === "1"; } catch (e) {}
+    if (!guideSet && location.hash !== "#alle") setTimeout(() => visTrin(0), 300);
     const dlg = $("hjaelp-dialog");
     $("hjaelp-knap").addEventListener("click", () => dlg.showModal());
     dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.closest("[data-luk]")) dlg.close(); });
