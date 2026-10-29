@@ -2369,8 +2369,12 @@ body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen he
     addEventListener("resize", placer);
     document.addEventListener("keydown", (e) => { if (guideTrin >= 0 && e.key === "Escape") afslutGuide(); });
     $("vis-guide").addEventListener("click", () => { visVisning("soeg"); lukSpiller(); visBesked(""); $("resultater").replaceChildren(); setTimeout(() => visTrin(0), 30); });
-    // Rundvisningen vises automatisk, hver gang siden åbnes (ikke ved direkte link til »Alle videoer«).
-    if (location.hash !== "#alle") setTimeout(() => visTrin(0), 300);
+    // Rundvisningen vises automatisk, hver gang siden åbnes.
+    const startGuide = () => { if (guideTrin < 0) { if (location.hash === "#alle") visVisning("soeg"); visTrin(0); } };
+    if (document.readyState === "complete") setTimeout(startGuide, 300);
+    else addEventListener("load", () => setTimeout(startGuide, 300), { once: true });
+    // Også når browseren viser siden fra sin hukommelse (fx via tilbage-knappen).
+    addEventListener("pageshow", (e) => { if (e.persisted) setTimeout(startGuide, 300); });
     const dlg = $("hjaelp-dialog");
     $("hjaelp-knap").addEventListener("click", () => dlg.showModal());
     dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.closest("[data-luk]")) dlg.close(); });
