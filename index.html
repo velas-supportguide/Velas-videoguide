@@ -337,6 +337,19 @@ body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen he
 .hjaelp-knap { font-size: 1.15rem; font-weight: 700; padding: 15px 26px 15px 15px; gap: 12px; }
 .hjaelp-ikon { width: 34px; height: 34px; font-size: 1.1rem; }
 @media (max-width: 560px) { .hjaelp-knap { font-size: 1.02rem; padding: 12px 18px 12px 12px; } .hjaelp-ikon { width: 30px; height: 30px; } .guide-genstart { font-size: 1rem; } }
+
+/* Søg med stemmen */
+.felt-boks { position: relative; flex: 1; min-width: 0; display: flex; }
+.felt-boks input { flex: 1; width: 100%; }
+body.har-tale .felt-boks input { padding-right: 64px !important; }
+.tale-knap { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 46px; height: 46px; padding: 0; border-radius: 50%; display: grid; place-items: center; background: var(--accent-lys); color: var(--accent); }
+.tale-knap:hover { background: #d4e5f7; }
+.tale-knap:focus-visible { outline: 3px solid #f2b21b; outline-offset: 2px; }
+.tale-knap.lytter { background: #b42318; color: #fff; animation: tale-puls 1.4s ease-out infinite; }
+@keyframes tale-puls { 0% { box-shadow: 0 0 0 0 rgba(180,35,24,.45); } 100% { box-shadow: 0 0 0 14px rgba(180,35,24,0); } }
+@media (prefers-reduced-motion: reduce) { .tale-knap.lytter { animation: none; } }
+.tale-status { margin: 10px 0 0; font-size: 1rem; color: #2f3747; background: var(--accent-lys); border-radius: 10px; padding: 8px 14px; display: inline-block; }
+.tale-status.fejl { background: var(--roed-lys); color: var(--roed); }
 </style>
 </head>
 <body>
@@ -353,9 +366,13 @@ body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen he
       <p class="intro">Skriv med dine egne ord, hvad du gerne vil gøre. Så finder vi den instruktionsvideo, der bedst viser hvordan – og hvor i videoen du skal kigge.</p>
       <div id="soegeform" class="soegeform" role="search">
         <label for="soegefelt" class="skjult">Hvad vil du gerne gøre i InterCount?</label>
-        <input id="soegefelt" name="q" type="search" maxlength="300" placeholder="Hvad vil du gerne gøre i InterCount?" enterkeyhint="search" autocomplete="off">
+        <div class="felt-boks">
+          <input id="soegefelt" name="q" type="search" maxlength="300" placeholder="Hvad vil du gerne gøre i InterCount?" enterkeyhint="search" autocomplete="off">
+          <button type="button" id="tale-knap" class="tale-knap" aria-label="Søg med din stemme" title="Søg med din stemme" aria-pressed="false" hidden><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2.5" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5M8.5 21.5h7"/></svg></button>
+        </div>
         <button id="soegeknap" type="button">Søg</button>
       </div>
+      <p id="tale-status" class="tale-status" role="status" aria-live="polite" hidden></p>
       <div class="eksempler" id="eksempler" aria-label="Eksempler på spørgsmål"></div>
       <div id="emner" class="emner" aria-label="Se videoer efter emne"></div>
       <div class="faner" role="tablist" aria-label="Visning">
@@ -2270,6 +2287,69 @@ body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen he
     // Søgning startes med knappen eller Enter – uden en <form>, så det også virker, hvor
     // browseren eller en forhåndsvisning blokerer formularer.
     $("soegeknap").addEventListener("click", () => soeg($("soegefelt").value));
+
+    // ---------------------------------------------------------------- søg med stemmen (Web Speech API)
+    const TaleGenk = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (TaleGenk && window.isSecureContext) {
+      const taleKnap = $("tale-knap"), taleStatus = $("tale-status"), felt = $("soegefelt");
+      taleKnap.hidden = false;
+      document.body.classList.add("har-tale");
+      let rec = null, lytter = false, sidsteTekst = "";
+      const status = (t, fejl) => { taleStatus.textContent = t || ""; taleStatus.hidden = !t; taleStatus.classList.toggle("fejl", !!fejl); };
+      const stop = () => { lytter = false; taleKnap.classList.remove("lytter"); taleKnap.setAttribute("aria-pressed", "false"); taleKnap.setAttribute("aria-label", "Søg med din stemme"); };
+      const start = async () => {
+        rec = new TaleGenk();
+        rec.lang = "da-DK";
+        rec.interimResults = true;
+        rec.maxAlternatives = 1;
+        rec.continuous = false;
+        // Brug genkendelse direkte på enheden, hvis browseren kan det på dansk – så forlader lyden ikke computeren.
+        try {
+          if (TaleGenk.available && "processLocally" in rec) {
+            const tilg = await TaleGenk.available({ langs: ["da-DK"], processLocally: true });
+            if (tilg === "available") rec.processLocally = true;
+          }
+        } catch (e) {}
+        sidsteTekst = "";
+        rec.onstart = () => {
+          lytter = true;
+          taleKnap.classList.add("lytter");
+          taleKnap.setAttribute("aria-pressed", "true");
+          taleKnap.setAttribute("aria-label", "Stop med at lytte");
+          status("🎙️ Lytter … sig dit spørgsmål, fx »Hvordan sender jeg en faktura?«");
+        };
+        rec.onresult = (e) => {
+          let tekst = "", endelig = false;
+          for (let i = e.resultIndex; i < e.results.length; i++) { tekst += e.results[i][0].transcript; if (e.results[i].isFinal) endelig = true; }
+          tekst = tekst.trim();
+          if (!tekst) return;
+          sidsteTekst = tekst;
+          felt.value = tekst.charAt(0).toUpperCase() + tekst.slice(1);
+          if (endelig) { status("Du sagde: »" + felt.value + "«"); soeg(felt.value); }
+        };
+        rec.onerror = (e) => {
+          const beskeder = {
+            "not-allowed": "Siden har ikke adgang til mikrofonen. Giv adgang i browserens indstillinger (ikonet ved adresselinjen), og prøv igen.",
+            "service-not-allowed": "Talegenkendelse er slået fra i denne browser. Skriv dit spørgsmål i stedet.",
+            "no-speech": "Jeg hørte ikke noget. Tryk på mikrofonen, og prøv igen.",
+            "audio-capture": "Der blev ikke fundet en mikrofon. Tjek, at den er tilsluttet.",
+            "network": "Talegenkendelse kræver forbindelse til internettet. Prøv igen, eller skriv dit spørgsmål.",
+            "language-not-supported": "Browseren kan ikke genkende dansk tale. Prøv Chrome eller Edge, eller skriv dit spørgsmål.",
+          };
+          if (e.error !== "aborted") status(beskeder[e.error] || "Talegenkendelsen virkede ikke. Prøv igen, eller skriv dit spørgsmål.", true);
+          stop();
+        };
+        rec.onend = () => {
+          // Hvis browseren stoppede uden et endeligt resultat, søges der på det, den nåede at høre.
+          if (lytter && sidsteTekst && !taleStatus.textContent.startsWith("Du sagde")) { status("Du sagde: »" + felt.value + "«"); soeg(felt.value); }
+          else if (lytter && !sidsteTekst && !taleStatus.classList.contains("fejl")) status("");
+          stop();
+        };
+        try { rec.start(); } catch (e) { status("Talegenkendelsen kunne ikke starte. Prøv igen.", true); stop(); }
+      };
+      taleKnap.addEventListener("click", () => { if (lytter && rec) rec.stop(); else start(); });
+      felt.addEventListener("input", () => { if (!lytter) status(""); });
+    }
     $("soegefelt").addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.isComposing) {
         e.preventDefault();
@@ -2304,7 +2384,7 @@ body.guide-aktiv { padding-bottom: 70vh; } /* giver plads til at rulle boblen he
     const GUIDE_NOEGLE = "intercount-videosoeg:guide-set";
     const GUIDE = [
       { maal: () => $("soegeform"), titel: "Sådan virker søgefunktionen",
-        tekst: "Skriv med dine egne ord, hvad du vil gøre i InterCount – fx »Hvordan sender jeg en faktura?«. Siden finder de videoer, der passer bedst, og viser den bedste øverst. Ofte kan du springe direkte til det sted i videoen, hvor svaret er." },
+        tekst: "Skriv med dine egne ord, hvad du vil gøre i InterCount – fx »Hvordan sender jeg en faktura?«." + (document.body.classList.contains("har-tale") ? " Du kan også trykke på mikrofonen 🎤 og sige dit spørgsmål." : "") + " Siden finder de videoer, der passer bedst, og viser den bedste øverst. Ofte kan du springe direkte til det sted i videoen, hvor svaret er." },
       { maal: () => $("eksempler"), titel: "Sådan virker populære spørgsmål",
         tekst: "Her står de spørgsmål, som flest har brug for svar på. Klik på et af dem, så søger siden for dig – du behøver ikke skrive noget selv." },
       { maal: () => $("emner"), titel: "Sådan virker videobiblioteket",
