@@ -447,6 +447,29 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .raekke-kort, .raekke-kort.niveau-1, .raekke-kort.niveau-2 { border-top: 1px solid var(--kant); }
 .raekke-kort.niveau-3 { border-top: 2px solid #2e9a5c; }
 @media (max-width: 560px) { .trin-knap { flex-wrap: wrap; row-gap: 6px; } .trin-tekst { flex-basis: calc(100% - 60px); } .trin-svar { margin-left: 56px; } }
+
+/* Andre videoer i højre side */
+.resultat-liste.med-andre { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 20px; align-items: start; }
+.resultat-liste.med-andre .hero-kort { grid-template-columns: minmax(0, 44%) minmax(0, 1fr); }
+.andre-kolonne { position: sticky; top: 16px; background: #fff; border: 1px solid var(--kant); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.andre-kolonne h2 { margin: 0; font-size: 1.1rem; line-height: 1.3; }
+.andre-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.andre-liste .raekke-kort { display: grid; grid-template-columns: 104px minmax(0, 1fr); grid-template-areas: "mini tekst" "maerke maerke" "knap knap"; gap: 8px 12px; padding: 10px; border-radius: 12px; background: var(--bg); border: 1px solid var(--kant); align-items: center; }
+.andre-liste .raekke-kort.niveau-3 { border: 2px solid #2e9a5c; background: #fff; }
+.andre-liste .raekke-mini-knap { grid-area: mini; width: 104px; flex: none; }
+.andre-liste .raekke-tekst { grid-area: tekst; }
+.andre-liste .raekke-tekst h3 { font-size: .98rem; }
+.andre-liste .raekke-tekst .kort-kategori { font-size: .8rem; }
+.andre-liste .relevans { grid-area: maerke; justify-self: start; font-size: .75rem; padding: 3px 9px; }
+.andre-liste .handlinger { grid-area: knap; display: flex; gap: 6px; margin: 0; }
+.andre-liste .handlinger button { flex: 1; padding: 8px 10px; font-size: .92rem; }
+.andre-liste .raekke-kort { order: 0; }
+@media (max-width: 1100px) {
+  .resultat-liste.med-andre { grid-template-columns: 1fr; }
+  .resultat-liste.med-andre .hero-kort { grid-template-columns: minmax(0, 480px) minmax(0, 1fr); }
+  .andre-kolonne { position: static; }
+}
+@media (max-width: 860px) { .resultat-liste.med-andre .hero-kort { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -1579,12 +1602,22 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
       hb.appendChild(knap("Har du brug for hjælp?", "link", () => $("hjaelp-dialog").showModal()));
       $("besked").appendChild(hb);
     }
-    const kort = d.resultater.map((r, i) => (i === 0 ? heroKort(r) : raekkeKort(r)));
-    if (kort.length > 1) {
-      const ov = el("li", "andre-overskrift");
-      ov.appendChild(el("h2", null, "Andre videoer, der måske kan hjælpe"));
-      kort.splice(1, 0, ov);
+    const kort = [];
+    if (d.resultater.length) kort.push(heroKort(d.resultater[0]));
+    const andre = d.resultater.slice(1);
+    if (andre.length) {
+      // De øvrige videoer står i en kolonne til højre for det bedste svar (under det på smalle skærme).
+      const side = el("li", "andre-kolonne");
+      const h = el("h2", null, "Andre videoer, der måske kan hjælpe");
+      h.id = "andre-titel";
+      side.appendChild(h);
+      const ol = el("ol", "andre-liste");
+      ol.setAttribute("aria-labelledby", "andre-titel");
+      andre.forEach((r) => ol.appendChild(raekkeKort(r)));
+      side.appendChild(ol);
+      kort.push(side);
     }
+    $("resultater").classList.toggle("med-andre", andre.length > 0);
     $("resultater").replaceChildren(...kort);
   }
 
