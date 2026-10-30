@@ -481,6 +481,25 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .andre-afspil { background: var(--accent); color: #fff; }
 .andre-afspil:hover { background: var(--accent-moerk); }
 .andre-liste .relevans.niveau-2 { background: #fff; border: 1px solid #b8d2ee; }
+
+/* Større »Bedste svar« og større video i det store kort */
+.hero-tekst .relevans { font-size: 1.05rem; padding: 8px 16px; }
+.hero-kort.niveau-3 .relevans { box-shadow: 0 3px 10px rgba(31,122,70,.3); }
+.hero-kort { grid-template-columns: minmax(0, 640px) minmax(0, 1fr); }
+.resultat-liste.med-andre .hero-kort { grid-template-columns: minmax(0, 56%) minmax(0, 1fr); }
+.mini-play { width: 80px; height: 80px; }
+.mini-play svg { width: 34px; height: 34px; }
+.miniature.stor .mini-tid { font-size: .95rem; padding: 3px 9px; right: 10px; bottom: 10px; }
+.hero-afspil { height: 60px; font-size: 1.2rem; }
+@media (max-width: 1100px) { .resultat-liste.med-andre .hero-kort { grid-template-columns: minmax(0, 560px) minmax(0, 1fr); } }
+@media (max-width: 860px) { .hero-kort, .resultat-liste.med-andre .hero-kort { grid-template-columns: 1fr; } }
+
+/* Stor video øverst i det store kort, tekst og trin under */
+.hero-kort, .resultat-liste.med-andre .hero-kort { grid-template-columns: 1fr; }
+.hero-kort .hero-tekst .relevans, .resultat-kort.niveau-3.hero-kort .relevans { font-size: 1.1rem; padding: 9px 18px; }
+.hero-kort .hero-trin { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.hero-kort .hero-trin .trin-knap { height: 100%; }
+@media (max-width: 700px) { .hero-kort .hero-trin { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
