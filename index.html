@@ -508,6 +508,37 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .hero-kort .hero-trin .trin-knap { height: 100%; }
 @media (max-width: 700px) { .hero-kort .hero-trin { grid-template-columns: 1fr; } }
 .spiller iframe.youtube { width: 100%; aspect-ratio: 16 / 9; max-height: 70vh; border: 0; border-radius: 6px; background: #000; display: block; }
+/* Kompakt top: kun efter en søgning. Titlen bliver mindre, introteksten skjules, og Populære spørgsmål foldes sammen. */
+.populaere-fold { display: none; }
+body.har-soegt #side-soeg .top { padding-top: 18px; }
+body.har-soegt #side-soeg .top .indhold { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 12px; align-items: center; }
+body.har-soegt #side-soeg .top .indhold > * { grid-column: 1 / -1; }
+body.har-soegt #side-soeg .top .indhold > h1 { grid-column: 1; grid-row: 1; font-size: clamp(1.25rem, 1.7vw, 1.75rem); line-height: 1.2; margin: 0; }
+body.har-soegt #side-soeg .top .indhold > #vis-guide { grid-column: 3; grid-row: 1; justify-self: end; margin: 0; font-size: .95rem; padding: 8px 16px 8px 10px; }
+body.har-soegt #vis-guide::before { width: 22px; height: 22px; font-size: .8rem; margin-right: 8px; }
+body.har-soegt #side-soeg .top .intro { display: none; }
+body.har-soegt #soegeform { margin-top: 14px; }
+body.har-soegt:not(.populaere-aaben) #eksempler { display: none; }
+body.har-soegt .faner { margin-top: 12px; align-items: center; }
+body.har-soegt:not(.guide-aktiv) #eksempler .eksempler-titel { display: none; }
+body.har-soegt #besked .besked:not(.info):not(.advarsel):not(.fejl) { background: none; border: 0; padding: 0; color: var(--daempet); font-size: .95rem; margin-bottom: 12px; }
+body.har-soegt #side-soeg .top .indhold > .populaere-fold { grid-column: 2; grid-row: 1; justify-self: end; }
+body.har-soegt .populaere-fold { display: inline-flex; align-items: center; gap: 8px; margin: 0; background: var(--flade); color: #2b3240; border: 1.5px solid var(--kant); border-radius: 999px; padding: 7px 16px; font-size: .95rem; font-weight: 700; }
+body.har-soegt .populaere-fold:hover { border-color: var(--accent); color: var(--accent); }
+body.har-soegt .populaere-fold .fold-pil { font-size: .8rem; transition: transform .15s; }
+body.populaere-aaben .populaere-fold .fold-pil { transform: rotate(180deg); }
+@media (max-width: 560px) {
+  body.har-soegt #side-soeg .top { padding-top: 14px; }
+  body.har-soegt #side-soeg .top .indhold > #vis-guide { font-size: 0; padding: 9px; }
+  body.har-soegt #side-soeg .top .indhold > #vis-guide::before { width: 24px; height: 24px; font-size: 13px; margin-right: 0; }
+  body.har-soegt #soegeform { flex-direction: row; margin-top: 10px; }
+  body.har-soegt #soegeknap { padding: 0 16px; }
+  body.har-soegt #side-soeg .top .indhold { grid-template-columns: minmax(0, 1fr) auto; }
+  body.har-soegt #side-soeg .top .indhold > #vis-guide { grid-column: 2; }
+  body.har-soegt #side-soeg .top .indhold > .populaere-fold { grid-column: 1 / -1; grid-row: auto; justify-self: start; margin-top: 10px; }
+  body.har-soegt .faner { margin-top: 10px; }
+  body.har-soegt .fane { padding: 8px 14px; }
+}
 </style>
 </head>
 <body>
@@ -531,6 +562,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
         <button id="soegeknap" type="button">Søg</button>
       </div>
       <p id="tale-status" class="tale-status" role="status" aria-live="polite" hidden></p>
+      <button type="button" id="vis-populaere" class="populaere-fold" aria-expanded="false" aria-controls="eksempler">Populære spørgsmål <span class="fold-pil" aria-hidden="true">▾</span></button>
       <div class="eksempler" id="eksempler" aria-label="Eksempler på spørgsmål"></div>
       <div id="emner" class="emner" aria-label="Se videoer efter emne"></div>
       <div class="faner" role="tablist" aria-label="Visning">
@@ -1610,6 +1642,8 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 
   function soeg(q) {
     lukSpiller(); // en ny søgning lukker den video, der er åben
+    document.body.classList.remove("populaere-aaben");
+    $("vis-populaere").setAttribute("aria-expanded", "false");
     q = (q || "").trim();
     $("resultater").replaceChildren();
     if (!q) {
@@ -2843,7 +2877,17 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     const opdaterStart = () => {
       const tom = !$("side-soeg").hidden && !$("visning-soeg").hidden && !$("resultater").children.length && !$("besked").textContent.trim() && $("spiller-sektion").hidden && $("indlaeser").hidden;
       document.body.classList.toggle("startside", tom);
+      // Kompakt top, når der er søgt: resultater eller en besked i søgevisningen.
+      const soegt = !tom && !$("side-soeg").hidden && !$("visning-soeg").hidden && (!!$("resultater").children.length || !!$("besked").textContent.trim() || !$("spiller-sektion").hidden);
+      document.body.classList.toggle("har-soegt", soegt);
+      if (!soegt) saetPopulaere(false);
     };
+    const saetPopulaere = (aaben) => {
+      if (document.body.classList.contains("populaere-aaben") === aaben) return;
+      document.body.classList.toggle("populaere-aaben", aaben);
+      $("vis-populaere").setAttribute("aria-expanded", String(aaben));
+    };
+    $("vis-populaere").addEventListener("click", () => saetPopulaere(!document.body.classList.contains("populaere-aaben")));
     new MutationObserver(opdaterStart).observe($("side-soeg"), { subtree: true, childList: true, attributes: true, attributeFilter: ["hidden"], characterData: true });
     opdaterStart();
     $("filter").addEventListener("input", tegnAdminListe);
