@@ -448,7 +448,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .raekke-kort.niveau-3 { border-top: 2px solid #2e9a5c; }
 @media (max-width: 560px) { .trin-knap { flex-wrap: wrap; row-gap: 6px; } .trin-tekst { flex-basis: calc(100% - 60px); } .trin-svar { margin-left: 56px; } }
 
-/* Andre videoer i højre side */
+/* Andre vejledninger i højre side */
 .resultat-liste.med-andre { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 20px; align-items: start; }
 .resultat-liste.med-andre .hero-kort { grid-template-columns: minmax(0, 44%) minmax(0, 1fr); }
 .andre-kolonne { position: sticky; top: 16px; background: #fff; border: 1px solid var(--kant); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
@@ -1638,7 +1638,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     tegnResultater(d.resultater);
   }
 
-  // Tegner resultaterne: den første som det store kort, resten i kolonnen »Andre videoer«.
+  // Tegner resultaterne: den første som det store kort, resten i kolonnen »Andre vejledninger«.
   let sidsteResultater = [];
   function tegnResultater(liste) {
     sidsteResultater = liste.slice();
@@ -1648,7 +1648,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     if (andre.length) {
       // De øvrige videoer står i en kolonne til højre for det bedste svar (under det på smalle skærme).
       const side = el("li", "andre-kolonne");
-      const h = el("h2", null, "Andre videoer, der måske kan hjælpe");
+      const h = el("h2", null, "Andre vejledninger, der måske kan hjælpe");
       h.id = "andre-titel";
       side.appendChild(h);
       const ol = el("ol", "andre-liste");
@@ -1661,7 +1661,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     $("resultater").replaceChildren(...kort);
   }
 
-  // En video valgt under »Andre videoer« rykker op i det store kort med trinene og afspilles.
+  // En video valgt under »Andre vejledninger« rykker op i det store kort med trinene og afspilles.
   function vaelgAndenVideo(r, sek) {
     const rest = sidsteResultater.filter((x) => x.id !== r.id);
     tegnResultater([r, ...rest]);
