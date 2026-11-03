@@ -571,7 +571,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     <h2 id="hjaelp-titel">Har du brug for hjælp?</h2>
     <button type="button" class="hjaelp-luk" data-luk aria-label="Luk">✕</button>
   </div>
-  <p class="hjaelp-intro">Kan du ikke finde svaret i videoerne, kan du kontakte en af disse:</p>
+  <p class="hjaelp-intro" id="hjaelp-intro">Kan du ikke finde svaret i videoerne, kan du kontakte en af disse:</p>
   <div class="hjaelp-kort">
     <section class="kontakt">
       <h3>Velas</h3>
@@ -1634,10 +1634,21 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     if (d.status !== "ok" && d.status !== "ugyldig") {
       const hb = el("p", "besked-hjaelp");
       hb.appendChild(document.createTextNode("Finder du ikke det, du leder efter? "));
-      hb.appendChild(knap("Har du brug for hjælp?", "link", () => $("hjaelp-dialog").showModal()));
+      hb.appendChild(knap("Har du brug for hjælp?", "link", () => aabnHjaelp()));
       $("besked").appendChild(hb);
     }
     tegnResultater(d.resultater);
+    // Ingen relevante vejledninger: vis straks, hvem man kan kontakte.
+    if (d.status === "ingen_match") aabnHjaelp(true);
+  }
+
+  const HJAELP_INTRO = "Kan du ikke finde svaret i videoerne, kan du kontakte en af disse:";
+  function aabnHjaelp(ingenSvar) {
+    const dlg = $("hjaelp-dialog");
+    $("hjaelp-intro").textContent = ingenSvar
+      ? "Vi fandt ingen vejledning, der passer til dit spørgsmål. Kontakt en af disse, så hjælper de dig videre:"
+      : HJAELP_INTRO;
+    if (!dlg.open) dlg.showModal();
   }
 
   // Tegner resultaterne: den første som det store kort, resten i kolonnen »Andre vejledninger«.
@@ -2812,7 +2823,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     // Også når browseren viser siden fra sin hukommelse (fx via tilbage-knappen).
     addEventListener("pageshow", (e) => { if (e.persisted) setTimeout(startGuide, 300); });
     const dlg = $("hjaelp-dialog");
-    $("hjaelp-knap").addEventListener("click", () => dlg.showModal());
+    $("hjaelp-knap").addEventListener("click", () => aabnHjaelp());
     dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.closest("[data-luk]")) dlg.close(); });
     // Startside: før der er søgt eller åbnet noget, fylder toppen det meste af skærmen.
     const opdaterStart = () => {
