@@ -539,6 +539,15 @@ body.populaere-aaben .populaere-fold .fold-pil { transform: rotate(180deg); }
   body.har-soegt .faner { margin-top: 10px; }
   body.har-soegt .fane { padding: 8px 14px; }
 }
+/* Titlen fører tilbage til forsiden (uden rundvisning). Ligner kun en knap, når der er søgt. */
+.til-forside { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; border-radius: 10px; }
+.til-forside .hjem-ikon { display: none; flex-shrink: 0; }
+.til-forside:focus-visible { outline: 3px solid #f2b21b; outline-offset: 4px; }
+body.har-soegt .til-forside { padding: 6px 12px 6px 8px; margin-left: -8px; }
+body.har-soegt .til-forside .hjem-ikon { display: block; color: var(--accent); }
+body.har-soegt .til-forside:hover { background: var(--accent-lys); }
+body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
+@media (max-width: 560px) { body.har-soegt .til-forside { gap: 8px; } body.har-soegt .til-forside .hjem-ikon { width: 18px; height: 18px; } }
 </style>
 </head>
 <body>
@@ -551,7 +560,7 @@ body.populaere-aaben .populaere-fold .fold-pil { transform: rotate(180deg); }
   <header class="top">
     <div class="indhold">
       <button type="button" id="vis-guide" class="guide-genstart">Sådan virker siden</button>
-      <h1>Velas' Videoguide til <span class="brand">InterCount</span></h1>
+      <h1><a href="#soeg" id="til-forside" class="til-forside"><svg class="hjem-ikon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/></svg>Velas' Videoguide til <span class="brand">InterCount</span><span class="skjult til-forside-tekst"> – gå til forsiden</span></a></h1>
       <p class="intro">Skriv med dine egne ord, hvad du gerne vil gøre. Så finder vi den instruktionsvideo, der bedst viser hvordan – og hvor i videoen du skal kigge.</p>
       <div id="soegeform" class="soegeform" role="search">
         <label for="soegefelt" class="skjult">Hvad vil du gerne gøre i InterCount?</label>
@@ -2880,6 +2889,7 @@ body.populaere-aaben .populaere-fold .fold-pil { transform: rotate(180deg); }
       // Kompakt top, når der er søgt: resultater eller en besked i søgevisningen.
       const soegt = !tom && !$("side-soeg").hidden && !$("visning-soeg").hidden && (!!$("resultater").children.length || !!$("besked").textContent.trim() || !$("spiller-sektion").hidden);
       document.body.classList.toggle("har-soegt", soegt);
+      $("til-forside").tabIndex = soegt ? 0 : -1;
       if (!soegt) saetPopulaere(false);
     };
     const saetPopulaere = (aaben) => {
@@ -2888,6 +2898,18 @@ body.populaere-aaben .populaere-fold .fold-pil { transform: rotate(180deg); }
       $("vis-populaere").setAttribute("aria-expanded", String(aaben));
     };
     $("vis-populaere").addEventListener("click", () => saetPopulaere(!document.body.classList.contains("populaere-aaben")));
+    // Tilbage til forsiden fra en søgning – uden at rundvisningen starter igen.
+    $("til-forside").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!document.body.classList.contains("har-soegt")) return;
+      visVisning("soeg");
+      lukSpiller();
+      visBesked("");
+      $("resultater").replaceChildren();
+      $("soegefelt").value = "";
+      window.scrollTo(0, 0);
+      $("soegefelt").focus();
+    });
     new MutationObserver(opdaterStart).observe($("side-soeg"), { subtree: true, childList: true, attributes: true, attributeFilter: ["hidden"], characterData: true });
     opdaterStart();
     $("filter").addEventListener("input", tegnAdminListe);
