@@ -21,7 +21,7 @@ body { margin: 0; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, s
 .spring-over { position: absolute; left: -999px; }
 .spring-over:focus { left: 8px; top: 8px; background: #fff; padding: 8px; z-index: 10; }
 .top { background: var(--flade); border-bottom: 1px solid var(--kant); padding: 32px 0 20px; }
-h1 { margin: 0 0 8px; font-size: clamp(1.6rem, 4vw, 2.2rem); }
+h1 { margin: 0 0 8px; font-size: clamp(1.6rem, 3vw, 2.2rem); }
 h2 { margin: 0; font-size: 1.2rem; }
 h3 { margin: 0; font-size: 1.1rem; }
 .intro { margin: 0 0 20px; color: var(--daempet); max-width: 60ch; }
@@ -112,7 +112,7 @@ pre.rapport { white-space: pre-wrap; background: var(--bg); padding: 10px; borde
 
 
 /* Større tekst og bredere indhold på store skærme */
-html { font-size: clamp(16px, calc(0.5vw + 11px), 20px); }
+html { font-size: clamp(13px, calc(0.375vw + 8.25px), 15px); } /* ca. 25 % mindre end før */
 body { font-size: 1rem; }
 .indhold { max-width: min(1280px, 100%); padding: 0 clamp(16px, 3vw, 48px); }
 .intro { max-width: 75ch; font-size: 1.05rem; }
@@ -144,7 +144,7 @@ main.indhold { padding-top: 24px; }
 .eksempler-titel { grid-column: 1 / -1; margin: 0 0 2px; font-size: .9rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--daempet); }
 .eksempel { display: flex; align-self: stretch; height: 100%; margin: 0; align-items: center; justify-content: space-between; gap: 12px; text-align: left; width: 100%;
   background: var(--accent-lys); color: var(--accent-moerk); border: 1.5px solid #b8d2ee; border-radius: 12px;
-  padding: 12px 16px; font-size: 1.02rem; font-weight: 600; line-height: 1.35; transition: background .15s, color .15s, border-color .15s, transform .15s; }
+  padding: 10px 16px; font-size: 1.05rem; font-weight: 600; line-height: 1.35; transition: background .15s, color .15s, border-color .15s, transform .15s; }
 .eksempel::after { content: "→"; font-size: 1.15rem; flex-shrink: 0; transition: transform .15s; }
 .eksempel:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 .eksempel:hover::after { transform: translateX(3px); }
@@ -152,9 +152,9 @@ main.indhold { padding-top: 24px; }
 @media (prefers-reduced-motion: reduce) { .eksempel, .eksempel::after { transition: none; } }
 
 /* Mere markant overskrift, intro og forslagstitel */
-.top h1 { font-size: clamp(1.75rem, 4.5vw, 3rem); line-height: 1.1; letter-spacing: -.02em; color: var(--accent-moerk); margin-bottom: 14px; }
+.top h1 { font-size: clamp(1.75rem, 3.38vw, 3rem); line-height: 1.1; letter-spacing: -.02em; color: var(--accent-moerk); margin-bottom: 14px; }
 .top h1 .brand { background: linear-gradient(90deg, #0a5cad 0%, #0f86c9 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.top .intro { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.5; color: #2f3747; max-width: 62ch; margin-bottom: 24px; }
+.top .intro { font-size: clamp(1.1rem, 1.2vw, 1.3rem); line-height: 1.5; color: #2f3747; max-width: 62ch; margin-bottom: 24px; }
 .eksempler-titel { font-size: 1.15rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: #2b3240; display: flex; align-items: center; gap: 10px; margin: 6px 0 4px; }
 .eksempler-titel::before { content: ""; width: 5px; height: 1.2em; border-radius: 3px; background: #2b3240; }
 
@@ -163,7 +163,7 @@ body.startside #side-soeg .top { min-height: calc(100vh - 90px); min-height: cal
 body.startside #side-soeg .top > .indhold { width: 100%; }
 body.startside main.indhold { padding-top: 0; }
 
-.eksempler-titel { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -.015em; line-height: 1.2; gap: 12px; margin: 18px 0 8px; }
+.eksempler-titel { font-size: clamp(1.25rem, 1.5vw, 1.6rem); font-weight: 800; letter-spacing: -.015em; line-height: 1.2; gap: 12px; margin: 18px 0 8px; }
 .eksempler-titel::before { width: 6px; height: 1.05em; }
 
 /* Emnekort */
@@ -181,12 +181,14 @@ body.startside main.indhold { padding-top: 0; }
 /* Startsiden fylder hele skærmen med større elementer */
 body.startside #side-soeg .top { justify-content: space-evenly; padding-top: clamp(24px, 4vh, 48px); }
 body.startside .emner { display: block; margin-top: clamp(8px, 2vh, 24px); }
-body.startside #side-soeg .top h1 { font-size: clamp(2rem, 5.5vw, 4.2rem); margin-bottom: clamp(10px, 2vh, 22px); }
-body.startside #side-soeg .top .intro { font-size: clamp(1.15rem, 1.9vw, 1.55rem); margin-bottom: clamp(18px, 3.5vh, 40px); }
-body.startside .soegeform input { font-size: clamp(1.15rem, 1.5vw, 1.4rem); padding: clamp(14px, 2.2vh, 22px) 22px; }
-body.startside #soegeknap { font-size: clamp(1.1rem, 1.4vw, 1.3rem); padding: 0 clamp(26px, 3vw, 44px); }
+body.startside #side-soeg .top h1 { font-size: clamp(2rem, 4.12vw, 4.2rem); margin-bottom: clamp(10px, 2vh, 22px); }
+body.startside #side-soeg .top .intro { font-size: clamp(1.15rem, 1.42vw, 1.55rem); margin-bottom: clamp(18px, 3.5vh, 40px); }
+body.startside .soegeform input { font-size: clamp(1.15rem, 1.12vw, 1.4rem); padding: clamp(14px, 2.2vh, 22px) 22px; }
+body.startside #soegeknap { font-size: clamp(1.1rem, 1.05vw, 1.3rem); padding: 0 clamp(26px, 3vw, 44px); }
 body.startside .eksempler { margin-top: clamp(18px, 3.5vh, 40px); gap: 12px; }
-body.startside .eksempel { padding: clamp(12px, 2vh, 20px) 20px; font-size: clamp(1rem, 1.2vw, 1.15rem); }
+body.startside .eksempel { padding: clamp(10px, 1.5vh, 14px) 16px; font-size: 1.05rem; }
+body.startside .eksempel::after { font-size: 1rem; }
+@media (max-width: 560px) { .soegeform input, body.startside .soegeform input { font-size: 16px; } }
 body.startside .faner { display: none; } /* emnekortene fører til alle videoer */
 body.startside .emner .eksempler-titel { margin-top: clamp(18px, 3.5vh, 40px); }
 body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
@@ -216,7 +218,7 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 .hjaelp-dialog { border: 0; border-radius: 16px; padding: 0; width: min(860px, calc(100vw - 24px)); max-height: calc(100vh - 32px); color: var(--tekst); box-shadow: 0 20px 60px rgba(0,0,0,.3); }
 .hjaelp-dialog::backdrop { background: rgba(20,25,35,.55); }
 .hjaelp-hoved { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 22px 24px 0; }
-.hjaelp-hoved h2 { font-size: clamp(1.4rem, 2.4vw, 1.8rem); color: #2b3240; }
+.hjaelp-hoved h2 { font-size: clamp(1.4rem, 1.8vw, 1.8rem); color: #2b3240; }
 .hjaelp-luk { background: var(--bg); color: var(--tekst); width: 40px; height: 40px; padding: 0; border-radius: 50%; font-size: 1.1rem; }
 .hjaelp-luk:hover { background: var(--kant); }
 .hjaelp-intro { margin: 6px 24px 18px; color: var(--daempet); }
@@ -244,9 +246,9 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 /* Startvalg og introside */
 .side-valg { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; background: var(--flade); }
 .valg-indhold { width: 100%; padding-top: clamp(32px, 6vh, 64px); padding-bottom: clamp(32px, 6vh, 64px); }
-.valg-indhold h1 { font-size: clamp(2rem, 5.5vw, 4.2rem); line-height: 1.1; letter-spacing: -.02em; color: var(--accent-moerk); margin: 0 0 clamp(14px, 2.5vh, 26px); }
+.valg-indhold h1 { font-size: clamp(2rem, 4.12vw, 4.2rem); line-height: 1.1; letter-spacing: -.02em; color: var(--accent-moerk); margin: 0 0 clamp(14px, 2.5vh, 26px); }
 .valg-indhold h1 .brand { background: linear-gradient(90deg, #0a5cad 0%, #0f86c9 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.valg-spoergsmaal { font-size: clamp(1.2rem, 2.2vw, 1.75rem); line-height: 1.4; color: #2f3747; max-width: 40ch; margin: 0 0 clamp(26px, 5vh, 56px); font-weight: 500; }
+.valg-spoergsmaal { font-size: clamp(1.2rem, 1.65vw, 1.75rem); line-height: 1.4; color: #2f3747; max-width: 40ch; margin: 0 0 clamp(26px, 5vh, 56px); font-weight: 500; }
 .valg-kort { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(14px, 2vw, 24px); }
 .valg-knap { position: relative; display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: var(--tekst); background: var(--accent-lys);
   border: 2px solid #b8d2ee; border-radius: 18px; padding: clamp(22px, 3.5vh, 40px) clamp(22px, 2.5vw, 36px); padding-right: 72px; transition: background .15s, border-color .15s, transform .15s, box-shadow .15s; }
@@ -255,7 +257,7 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 .valg-knap.primaer { background: var(--accent); border-color: var(--accent); color: #fff; }
 .valg-knap.primaer:hover { background: var(--accent-moerk); border-color: var(--accent-moerk); }
 .valg-ikon { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 1.5rem; background: #fff; color: var(--accent); }
-.valg-titel { font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 800; letter-spacing: -.01em; color: var(--accent-moerk); }
+.valg-titel { font-size: clamp(1.3rem, 1.65vw, 1.7rem); font-weight: 800; letter-spacing: -.01em; color: var(--accent-moerk); }
 .valg-knap.primaer .valg-titel { color: #fff; }
 .valg-tekst { font-size: 1.05rem; color: var(--daempet); }
 .valg-knap.primaer .valg-tekst { color: #dbe8f6; }
@@ -273,8 +275,8 @@ body.startside #side-soeg .top { padding-bottom: clamp(24px, 4vh, 48px); }
 .fold-pil { font-size: .9rem; }
 body.startside .emner .emne-fold { margin-top: clamp(16px, 3vh, 32px); }
 body.startside .emner .emne-titel { margin-top: clamp(18px, 3.5vh, 40px); }
-.valg-indhold h1 { font-size: clamp(2rem, 4.6vw, 3.6rem); margin-bottom: clamp(10px, 2vh, 18px); }
-.side-valg .valg-spoergsmaal { font-size: clamp(1.1rem, 1.8vw, 1.45rem); margin-bottom: clamp(30px, 5vh, 48px); }
+.valg-indhold h1 { font-size: clamp(2rem, 3.45vw, 3.6rem); margin-bottom: clamp(10px, 2vh, 18px); }
+.side-valg .valg-spoergsmaal { font-size: clamp(1.1rem, 1.35vw, 1.45rem); margin-bottom: clamp(30px, 5vh, 48px); }
 .guide-cta { margin: 0 auto; }
 .guide-cta .valg-knap { padding-top: clamp(18px, 3vh, 30px); padding-bottom: clamp(18px, 3vh, 30px); }
 
@@ -410,7 +412,7 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .hero-tekst { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .hero-tekst .relevans { align-self: flex-start; font-size: .88rem; padding: 6px 13px; }
 .hero-kort.niveau-3 .relevans { background: var(--groen); color: #fff; }
-.hero-tekst h3 { margin: 0; font-size: clamp(1.4rem, 2.2vw, 1.8rem); line-height: 1.25; }
+.hero-tekst h3 { margin: 0; font-size: clamp(1.4rem, 1.65vw, 1.8rem); line-height: 1.25; }
 .hero-kort.niveau-3 h3 { color: #145c33; }
 .hero-beskrivelse { margin: 0; color: #3a4354; line-height: 1.55; font-size: 1.02rem; }
 .hero-trin-titel { margin: 8px 0 0; font-size: .82rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--daempet); }
