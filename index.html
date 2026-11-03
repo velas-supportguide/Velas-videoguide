@@ -450,6 +450,11 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
 .raekke-kort.niveau-3 { border-top: 2px solid #2e9a5c; }
 @media (max-width: 560px) { .trin-knap { flex-wrap: wrap; row-gap: 6px; } .trin-tekst { flex-basis: calc(100% - 60px); } .trin-svar { margin-left: 56px; } }
 
+/* Ingen resultater: tydelig mulighed for at få hjælp */
+.ingen-svar { margin-top: 14px; background: #fff; border: 2px solid var(--accent); border-radius: 16px; padding: clamp(18px, 3vw, 28px); display: flex; flex-direction: column; align-items: flex-start; gap: 10px; box-shadow: 0 8px 22px rgba(10,92,173,.12); }
+.ingen-svar h2 { font-size: 1.35rem; color: var(--accent-moerk); }
+.ingen-svar p { margin: 0; color: #2f3747; font-size: 1.05rem; }
+.ingen-svar-knap { margin-top: 6px; font-size: 1.1rem; font-weight: 700; padding: 13px 24px; border-radius: 12px; }
 /* Andre vejledninger i højre side */
 .resultat-liste.med-andre { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 20px; align-items: start; }
 .resultat-liste.med-andre .hero-kort { grid-template-columns: minmax(0, 44%) minmax(0, 1fr); }
@@ -1630,16 +1635,24 @@ body.har-tale .felt-boks input { padding-right: 64px !important; }
     if (d.status === "ok") {
       const n = d.resultater.length;
       visBesked(n === 1 ? "1 vejledning passer til dit spørgsmål." : n + " vejledninger passer til dit spørgsmål – den bedste står øverst.");
-    } else visBesked(d.besked, typer[d.status]);
-    if (d.status !== "ok" && d.status !== "ugyldig") {
+    } else if (d.status === "ingen_match") visBesked(null);
+    else visBesked(d.besked, typer[d.status]);
+    if (d.status === "ingen_match") {
+      // Ingen relevante vejledninger: vis tydeligt, at man kan få hjælp af en person.
+      const boks = el("div", "ingen-svar");
+      boks.appendChild(el("h2", null, "Vi fandt ingen vejledning, der passer"));
+      boks.appendChild(el("p", null, "Prøv at skrive spørgsmålet med andre ord, eller få hjælp af en person hos Velas eller InterCount support."));
+      const k = knap("Få hjælp af en person", null, () => aabnHjaelp(true));
+      k.classList.add("ingen-svar-knap");
+      boks.appendChild(k);
+      $("besked").appendChild(boks);
+    } else if (d.status !== "ok" && d.status !== "ugyldig") {
       const hb = el("p", "besked-hjaelp");
       hb.appendChild(document.createTextNode("Finder du ikke det, du leder efter? "));
       hb.appendChild(knap("Har du brug for hjælp?", "link", () => aabnHjaelp()));
       $("besked").appendChild(hb);
     }
     tegnResultater(d.resultater);
-    // Ingen relevante vejledninger: vis straks, hvem man kan kontakte.
-    if (d.status === "ingen_match") aabnHjaelp(true);
   }
 
   const HJAELP_INTRO = "Kan du ikke finde svaret i videoerne, kan du kontakte en af disse:";
