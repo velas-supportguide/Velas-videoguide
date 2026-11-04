@@ -1938,6 +1938,43 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
     return bedste;
   }
 
+  // YouTubes automatiske undertekster (lavet ud fra lyden) er ofte forkerte på dansk.
+  // Siden beder afspilleren om at slå dem fra, når videoen er klar, og hver gang den starter.
+  // Seeren kan stadig selv slå dem til med CC-knappen i afspilleren.
+  const YT_OPRINDELSE = "https://www.youtube-nocookie.com";
+  function ytKommando(f, func, args) {
+    try {
+      f.contentWindow.postMessage(JSON.stringify({ event: "command", func, args: args || [], id: 1, channel: "widget" }), YT_OPRINDELSE);
+    } catch (e) {}
+  }
+  function slaaUndertekstFra(f) {
+    ytKommando(f, "unloadModule", ["captions"]);
+    ytKommando(f, "unloadModule", ["cc"]);
+    ytKommando(f, "setOption", ["captions", "track", {}]);
+  }
+  function ytLyt(f) {
+    try {
+      f.contentWindow.postMessage(JSON.stringify({ event: "listening", id: 1, channel: "widget" }), YT_OPRINDELSE);
+    } catch (e) {}
+    // Også et par gange efter start, hvis afspilleren indlæser underteksterne lidt senere.
+    [1500, 4000].forEach((ms) => setTimeout(() => { if (f.isConnected) slaaUndertekstFra(f); }, ms));
+  }
+  addEventListener("message", (e) => {
+    if (e.origin !== YT_OPRINDELSE) return;
+    const f = document.querySelector("#spiller-ramme iframe.youtube");
+    if (!f || e.source !== f.contentWindow) return;
+    let d;
+    try { d = typeof e.data === "string" ? JSON.parse(e.data) : e.data; } catch (x) { return; }
+    if (!d || typeof d !== "object") return;
+    const spiller = (d.event === "onStateChange" && d.info === 1) || (d.event === "infoDelivery" && d.info && d.info.playerState === 1);
+    const undertekst = d.event === "apiInfoDelivery" && d.info && d.info.captions && d.info.captions.track && Object.keys(d.info.captions.track).length;
+    // Kun i de første sekunder efter, at videoen er startet første gang – slår seeren selv
+    // underteksterne til senere, får de lov at blive.
+    if (spiller && !f.dataset.startet) f.dataset.startet = String(Date.now());
+    const tidligt = !f.dataset.startet || Date.now() - Number(f.dataset.startet) < 6000;
+    if (tidligt && (d.event === "onReady" || spiller || undertekst)) slaaUndertekstFra(f);
+  });
+
   function afspil(r, sek) {
     const v = data.katalog.videoer.find((x) => x.id === r.id);
     if (!v) return;
@@ -1970,11 +2007,14 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
       // Videoen vises fra InterCounts YouTube-kanal (privatlivsvenlig afspiller uden sporings-cookies før afspilning).
       const id = encodeURIComponent(v.youtube);
       const f = el("iframe", "youtube");
-      f.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1" + (sek ? "&start=" + Math.floor(sek) : "");
+      // enablejsapi gør, at siden kan slå YouTubes automatiske undertekster fra (se slaaUndertekstFra).
+      const oprindelse = /^https?:$/.test(location.protocol) ? "&origin=" + encodeURIComponent(location.origin) : "";
+      f.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1&cc_load_policy=0&enablejsapi=1" + oprindelse + (sek ? "&start=" + Math.floor(sek) : "");
       f.title = v.titel || "Video";
       f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
       f.allowFullscreen = true;
       f.referrerPolicy = "strict-origin-when-cross-origin";
+      f.addEventListener("load", () => ytLyt(f));
       ramme.appendChild(f);
       if (sek) info.appendChild(document.createTextNode("Videoen starter ved " + K.tidTilTekst(sek) + ". Du kan spole frit. "));
       const a = el("a", null, "Se videoen på YouTube");
