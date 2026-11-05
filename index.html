@@ -548,6 +548,41 @@ body.har-soegt .til-forside .hjem-ikon { display: block; color: var(--accent); }
 body.har-soegt .til-forside:hover { background: var(--accent-lys); }
 body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
 @media (max-width: 560px) { body.har-soegt .til-forside { gap: 8px; } body.har-soegt .til-forside .hjem-ikon { width: 18px; height: 18px; } }
+/* Video og PDF: petroleum for video, rød for PDF */
+:root { --video: #0b6e75; --video-lys: #e8f5f6; --video-kant: #a9d6da; --pdf: #9f2d20; --pdf-lys: #fcf3f1; --pdf-kant: #e7b8b1; }
+.type-filter { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; }
+.type-filter[hidden] { display: none; }
+.type-filter button { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: .95rem; font-weight: 700; padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--kant); background: #fff; color: #2b3240; cursor: pointer; }
+.type-filter button.f-video { border-color: var(--video-kant); }
+.type-filter button.f-dokument { border-color: var(--pdf-kant); }
+.type-filter .f-video .f-ikon { color: var(--video); }
+.type-filter .f-dokument .f-ikon { color: var(--pdf); }
+.type-filter .f-ikon { display: inline-flex; }
+.type-filter .f-ikon svg { width: 16px; height: 16px; }
+.type-filter button.valgt { background: #2b3240; color: #fff; border-color: #2b3240; }
+.type-filter button.valgt .f-ikon { color: #fff; }
+.type-filter button:disabled { opacity: .45; cursor: default; }
+.type-filter button:focus-visible { outline: 3px solid #f2b21b; outline-offset: 2px; }
+#resultater .resultat-kort.er-video { border-left: 6px solid var(--video); background: var(--video-lys); }
+#resultater .resultat-kort.er-pdf { border-left: 6px solid var(--pdf); background: var(--pdf-lys); }
+.type-baand { display: inline-flex; align-self: flex-start; align-items: center; gap: 9px; font-size: 1.05rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 7px 14px; border-radius: 8px; color: #fff; margin: 0 0 10px; white-space: nowrap; }
+.type-baand svg { width: 20px; height: 20px; flex-shrink: 0; }
+.type-baand.video { background: var(--video); }
+.type-baand.pdf { background: var(--pdf); }
+.andre-liste .type-baand { font-size: .95rem; padding: 5px 11px; gap: 7px; margin-bottom: 6px; }
+.andre-liste .type-baand svg { width: 16px; height: 16px; }
+.hero-tekst { display: flex; flex-direction: column; }
+.miniature .mini-tid { font-size: .95rem; padding: 3px 9px; }
+.miniature.lille .mini-tid { font-size: .8rem; }
+.miniature:not(.dok) .mini-tid { background: var(--video); }
+.miniature.dok .mini-tid { background: var(--pdf); }
+.miniature:not(.dok) .mini-play { background: var(--video); opacity: .94; }
+.hero-mini-knap:hover .mini-play, .raekke-mini-knap:hover .mini-play { background: #08555b; }
+.gitter-type { color: #fff; background: var(--video); }
+.gitter-type.dok { color: #fff; background: var(--pdf); }
+.gitter-kort:has(.gitter-type) { border-left: 6px solid var(--video); }
+.gitter-kort:has(.gitter-type.dok) { border-left-color: var(--pdf); }
+@media (max-width: 560px) { .type-baand { font-size: .95rem; padding: 6px 12px; } .type-filter button { font-size: .9rem; padding: 8px 12px; } }
 </style>
 </head>
 <body>
@@ -595,6 +630,7 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
     <div id="visning-soeg" role="tabpanel" aria-labelledby="fane-soeg">
     <div id="indlaeser" class="indlaeser" hidden role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span> Søger …</div>
     <div id="besked" role="status" aria-live="polite"></div>
+    <div id="type-filter" class="type-filter" role="group" aria-label="Vis kun videoer eller PDF-vejledninger" hidden></div>
     <ol id="resultater" class="resultat-liste" aria-label="Søgeresultater"></ol>
     </div>
     <section id="alle-sektion" role="tabpanel" aria-labelledby="fane-alle" hidden>
@@ -1838,6 +1874,7 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
       hb.appendChild(knap("Har du brug for hjælp?", "link", () => aabnHjaelp()));
       $("besked").appendChild(hb);
     }
+    typeFilter = "alle";
     tegnResultater(d.resultater);
   }
 
@@ -1852,8 +1889,39 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
 
   // Tegner resultaterne: den første som det store kort, resten i kolonnen »Andre vejledninger«.
   let sidsteResultater = [];
-  function tegnResultater(liste) {
-    sidsteResultater = liste.slice();
+  // Video og PDF skelnes tydeligt: petroleum for video, rød for PDF – med ikon og tekst, så farven ikke står alene.
+  const IKON_VIDEO = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>';
+  const IKON_PDF = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5M9 13h7M9 17h7"/></svg>';
+  function typeMaerke(r, lille) {
+    const dok = r.type === "dokument";
+    const m = el("span", "type-baand " + (dok ? "pdf" : "video"));
+    m.innerHTML = dok ? IKON_PDF : IKON_VIDEO;
+    m.appendChild(document.createTextNode(dok ? (lille ? "PDF" : "PDF-vejledning") : "Video" + (r.varighed ? " · " + r.varighed : "")));
+    return m;
+  }
+  let typeFilter = "alle";
+  function tegnTypeFilter(liste) {
+    const boks = $("type-filter");
+    boks.replaceChildren();
+    boks.hidden = !liste.length;
+    if (!liste.length) return;
+    const nv = liste.filter((r) => r.type !== "dokument").length, np = liste.length - nv;
+    for (const [noegle, tekst, n, ikon] of [["alle", "Alle", liste.length, ""], ["video", "Videoer", nv, IKON_VIDEO], ["dokument", "PDF-vejledninger", np, IKON_PDF]]) {
+      const b = el("button", "f-" + noegle + (typeFilter === noegle ? " valgt" : ""));
+      b.type = "button";
+      b.setAttribute("aria-pressed", String(typeFilter === noegle));
+      if (ikon) { const s = el("span", "f-ikon"); s.innerHTML = ikon; b.appendChild(s); }
+      b.appendChild(document.createTextNode(tekst + " (" + n + ")"));
+      b.disabled = !n;
+      b.addEventListener("click", () => { typeFilter = noegle; tegnResultater(sidsteResultater); });
+      boks.appendChild(b);
+    }
+  }
+
+  function tegnResultater(alle) {
+    sidsteResultater = alle.slice();
+    tegnTypeFilter(alle);
+    const liste = typeFilter === "alle" ? alle : alle.filter((r) => (r.type === "dokument" ? "dokument" : "video") === typeFilter);
     const kort = [];
     if (liste.length) kort.push(heroKort(liste[0]));
     const andre = liste.slice(1);
@@ -1909,7 +1977,7 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
   function heroKort(r) {
     const dok = r.type === "dokument";
     const v = data.katalog.videoer.find((x) => x.id === r.id) || {};
-    const li = el("li", "resultat-kort hero-kort niveau-" + r.relevans.niveau);
+    const li = el("li", "resultat-kort hero-kort niveau-" + r.relevans.niveau + (dok ? " er-pdf" : " er-video"));
     const venstre = el("div", "hero-medie");
     const mini = el("button", "hero-mini-knap");
     mini.type = "button";
@@ -1919,12 +1987,13 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
     venstre.appendChild(mini);
     const h = el("div", "handlinger");
     if (!r.afspilbar) h.appendChild(el("p", "fejl lille", "Filen er ikke tilgængelig lige nu."));
-    else h.appendChild(knap(dok ? "Åbn vejledning" : "Afspil video", "hero-afspil", () => afspil(r, 0)));
+    else h.appendChild(knap(dok ? "Åbn PDF-vejledning" : "Afspil video", "hero-afspil", () => afspil(r, 0)));
     venstre.appendChild(h);
     li.appendChild(venstre);
 
     const hoejre = el("div", "hero-tekst");
     hoejre.appendChild(relevansMaerke(r, true));
+    hoejre.appendChild(typeMaerke(r, false));
     hoejre.appendChild(el("h3", null, r.titel));
     const meta = [dok ? "PDF-vejledning" + (r.sider ? ", " + r.sider + " sider" : "") : r.varighed ? "Video · " + r.varighed : "Video"];
     if (r.kategori) meta.push(r.kategori);
@@ -1964,7 +2033,7 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
   }
   function raekkeKort(r) {
     const dok = r.type === "dokument";
-    const li = el("li", "resultat-kort raekke-kort niveau-" + r.relevans.niveau);
+    const li = el("li", "resultat-kort raekke-kort niveau-" + r.relevans.niveau + (dok ? " er-pdf" : " er-video"));
     const mini = el("button", "raekke-mini-knap");
     mini.type = "button";
     mini.setAttribute("aria-label", (dok ? "Åbn " : "Afspil ") + r.titel);
@@ -1972,6 +2041,7 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
     if (r.afspilbar) mini.addEventListener("click", () => vaelgAndenVideo(r, 0)); else mini.disabled = true;
     li.appendChild(mini);
     const tekst = el("div", "raekke-tekst");
+    tekst.appendChild(typeMaerke(r, true));
     tekst.appendChild(el("h3", null, r.titel));
     const meta = [dok ? "PDF · " + (r.sider ? r.sider + " sider" : "vejledning") : "Video · " + (r.varighed || "")];
     if (r.tidsstempel) meta.push("Svaret ca. ved " + r.tidsstempel.visning); else if (r.kategori) meta.push(r.kategori);
