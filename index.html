@@ -563,8 +563,11 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
 .type-filter button.valgt .f-ikon { color: #fff; }
 .type-filter button:disabled { opacity: .45; cursor: default; }
 .type-filter button:focus-visible { outline: 3px solid #f2b21b; outline-offset: 2px; }
-#resultater .resultat-kort.er-video { border-left: 6px solid var(--video); background: var(--video-lys); }
-#resultater .resultat-kort.er-pdf { border-left: 6px solid var(--pdf); background: var(--pdf-lys); }
+/* Søgeresultater: kortets farve følger relevansen (Bedste svar, Godt match osv.). Video/PDF ses på mærket med tekst og ikon. */
+#resultater .resultat-kort { background: #fff; }
+#resultater .resultat-kort.niveau-3 { border-left: 6px solid #2e9a5c; }
+#resultater .resultat-kort.niveau-2 { border-left: 6px solid var(--accent); }
+#resultater .resultat-kort.niveau-1 { border-left: 6px solid #c4a35a; }
 .type-baand { display: inline-flex; align-self: flex-start; align-items: center; gap: 9px; font-size: 1.05rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 7px 14px; border-radius: 8px; color: #fff; margin: 0 0 10px; white-space: nowrap; }
 .type-baand svg { width: 20px; height: 20px; flex-shrink: 0; }
 .type-baand.video { background: var(--video); }
@@ -578,6 +581,9 @@ body:not(.har-soegt) .til-forside { pointer-events: none; cursor: default; }
 .miniature.dok .mini-tid { background: var(--pdf); }
 .miniature:not(.dok) .mini-play { background: var(--video); opacity: .94; }
 .hero-mini-knap:hover .mini-play, .raekke-mini-knap:hover .mini-play { background: #08555b; }
+#resultater .miniature .mini-tid { background: rgba(0,0,0,.78); }
+#resultater .miniature:not(.dok) .mini-play { background: rgba(29,35,48,.82); opacity: 1; }
+#resultater .hero-mini-knap:hover .mini-play, #resultater .raekke-mini-knap:hover .mini-play { background: var(--accent); }
 .gitter-type { color: #fff; background: var(--video); }
 .gitter-type.dok { color: #fff; background: var(--pdf); }
 .gitter-kort:has(.gitter-type) { border-left: 6px solid var(--video); }
