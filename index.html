@@ -1833,6 +1833,7 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
     $("spiller-fejl").hidden = true;
     $("spiller-sektion").hidden = true;
     venter = null;
+    aabenVideo = null;
     if (objektUrl) {
       URL.revokeObjectURL(objektUrl);
       objektUrl = null;
@@ -1850,6 +1851,8 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
       $("soegefelt").focus();
       return;
     }
+    sidsteQ = q;
+    gemTrin({ trin: "soeg", q });
     $("indlaeser").hidden = false;
     // Lille pause, så indikatoren kan ses, og siden ikke føles frosset ved store kataloger.
     setTimeout(() => {
@@ -2212,6 +2215,8 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
     const v = data.katalog.videoer.find((x) => x.id === r.id);
     if (!v) return;
     venter = { r, sek };
+    aabenVideo = { id: v.id, sek: sek || 0 };
+    gemTrin({ trin: "video", vis: $("alle-sektion").hidden ? "soeg" : "alle", q: sidsteQ, id: v.id, sek: sek || 0 });
     const ramme = $("spiller-ramme");
     const fejl = $("spiller-fejl");
     fejl.hidden = true;
@@ -2544,7 +2549,75 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
     $("fane-soeg").setAttribute("aria-selected", String(!alle));
     $("fane-alle").setAttribute("aria-selected", String(alle));
     if (gemHash !== false) {
-      try { history.replaceState(null, "", alle ? "#alle" : "#soeg"); } catch (e) {}
+      if (alle) gemTrin({ trin: "alle" });
+      else if (trinNu().trin === "alle") gemTrin(aktueltSoegeTrin());
+      else try { history.replaceState(history.state, "", "#soeg"); } catch (e) {}
+    }
+  }
+
+  // ---------- Browserens tilbageknap
+  // Hver video eller PDF, man åbner, og videobiblioteket bliver et trin i browserens historik.
+  // En søgning bliver ét trin, når man kommer fra forsiden, men erstattes af den første video,
+  // man åbner. Tilbage fra video B går derfor til video A, og tilbage fra video A går til forsiden.
+  let sidsteQ = "";
+  let gendanner = false;
+  let aabenVideo = null; // { id, sek } for den video/PDF der vises lige nu
+  const trinNu = () => (history.state && history.state.trin ? history.state : { trin: "forside" });
+  function aktueltSoegeTrin() {
+    if (aabenVideo && !$("spiller-sektion").hidden) return { trin: "video", vis: "soeg", q: sidsteQ, id: aabenVideo.id, sek: aabenVideo.sek };
+    if (sidsteQ && $("resultater").children.length) return { trin: "soeg", q: sidsteQ };
+    return { trin: "forside" };
+  }
+  function gemTrin(ny) {
+    if (gendanner) return;
+    const nu = trinNu();
+    const hash = ny.trin === "alle" ? "#alle" : "#soeg";
+    let erstat;
+    if (ny.trin === "soeg") erstat = nu.trin !== "forside" && nu.trin !== "alle";
+    else if (ny.trin === "video") erstat = nu.trin === "soeg" || (nu.trin === "video" && nu.id === ny.id && nu.q === ny.q);
+    else erstat = nu.trin === ny.trin;
+    try {
+      if (erstat) history.replaceState(ny, "", hash);
+      else history.pushState(ny, "", hash);
+    } catch (e) {}
+  }
+  function gaaTilForside() {
+    visVisning("soeg", false);
+    lukSpiller();
+    visBesked("");
+    $("resultater").replaceChildren();
+    $("soegefelt").value = "";
+    sidsteQ = "";
+    window.scrollTo(0, 0);
+  }
+  function gendanTrin(t) {
+    gendanner = true;
+    try {
+      if (t.trin === "alle") {
+        lukSpiller();
+        visVisning("alle", false);
+        window.scrollTo(0, 0);
+      } else if (t.trin === "soeg" || t.trin === "video") {
+        if (t.vis === "alle") visVisning("alle", false);
+        else if (t.q && (t.q !== sidsteQ || !$("resultater").children.length)) {
+          lukSpiller();
+          $("soegefelt").value = t.q;
+          sidsteQ = t.q;
+          visSvar(motor.soeg(t.q));
+        } else visVisning("soeg", false);
+        if (t.trin === "video") {
+          const r = t.vis === "alle" ? null : sidsteResultater.find((x) => x.id === t.id);
+          if (r) vaelgAndenVideo(r, t.sek || 0);
+          else afspil({ id: t.id }, t.sek || 0);
+        } else {
+          lukSpiller();
+          window.scrollTo(0, 0);
+        }
+      } else gaaTilForside();
+    } catch (e) {
+      gaaTilForside();
+    } finally {
+      gendanner = false;
     }
   }
 
@@ -3029,7 +3102,14 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
         soeg($("soegefelt").value);
       }
     });
-    $("luk-spiller").addEventListener("click", lukSpiller);
+    $("luk-spiller").addEventListener("click", () => {
+      lukSpiller();
+      const nu = trinNu();
+      if (nu.trin === "video" && !gendanner) {
+        const ny = nu.vis === "alle" ? { trin: "alle" } : nu.q ? { trin: "soeg", q: nu.q } : { trin: "forside" };
+        try { history.replaceState(ny, "", ny.trin === "alle" ? "#alle" : "#soeg"); } catch (e) {}
+      }
+    });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !$("spiller-sektion").hidden) lukSpiller();
     });
@@ -3050,8 +3130,10 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
       if (h === "#alle") visVisning("alle", false);
       else visVisning("soeg", false);
     };
-    window.addEventListener("hashchange", visRute);
+    window.addEventListener("hashchange", () => { if (!history.state || !history.state.trin) visRute(); });
     visRute();
+    try { history.replaceState({ trin: location.hash === "#alle" ? "alle" : "forside" }, ""); } catch (e) {}
+    window.addEventListener("popstate", (e) => { if (e.state && e.state.trin) gendanTrin(e.state); });
 
     // ---------------------------------------------------------------- rundvisning i tre trin
     const GUIDE_NOEGLE = "intercount-videosoeg:guide-set";
@@ -3174,12 +3256,8 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
     $("til-forside").addEventListener("click", (e) => {
       e.preventDefault();
       if (!document.body.classList.contains("har-soegt")) return;
-      visVisning("soeg");
-      lukSpiller();
-      visBesked("");
-      $("resultater").replaceChildren();
-      $("soegefelt").value = "";
-      window.scrollTo(0, 0);
+      gaaTilForside();
+      gemTrin({ trin: "forside" });
       $("soegefelt").focus();
     });
     new MutationObserver(opdaterStart).observe($("side-soeg"), { subtree: true, childList: true, attributes: true, attributeFilter: ["hidden"], characterData: true });
