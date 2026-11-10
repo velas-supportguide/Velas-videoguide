@@ -550,6 +550,9 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
 /* Hele videokortet under »Andre vejledninger« kan klikkes. */
 .andre-liste .raekke-kort.klikbar { cursor: pointer; }
 .andre-liste .raekke-kort.klikbar:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
+#resultater .andre-liste .raekke-kort.klikbar { transition: box-shadow .15s, transform .15s, background-color .15s; }
+#resultater .andre-liste .raekke-kort.klikbar:hover { background: #f3f8fd; box-shadow: 0 8px 20px rgba(10,92,173,.18); transform: translateY(-2px); }
+#resultater .andre-liste .raekke-kort.klikbar:active { transform: translateY(0); }
 /* Video og PDF: petroleum for video, rød for PDF */
 :root { --video: #0b6e75; --video-lys: #e8f5f6; --video-kant: #a9d6da; --pdf: #9f2d20; --pdf-lys: #fcf3f1; --pdf-kant: #e7b8b1; }
 .type-filter { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; }
