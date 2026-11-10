@@ -547,7 +547,7 @@ body.har-soegt .til-forside .hjem-ikon { flex-shrink: 0; }
 body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9e8f8; }
 .til-forside:focus-visible { outline: 3px solid #f2b21b; outline-offset: 3px; }
 @media (max-width: 560px) { body.har-soegt #side-soeg .top .indhold > #til-forside { font-size: .95rem; padding: 8px 16px 8px 12px; gap: 8px; } body.har-soegt .til-forside .hjem-ikon { width: 18px; height: 18px; } }
-/* Hele videokortet under »Andre vejledninger« kan klikkes. */
+/* Hele kortet (video og PDF) under »Andre vejledninger« kan klikkes. */
 .andre-liste .raekke-kort.klikbar { cursor: pointer; }
 .andre-liste .raekke-kort.klikbar:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
 #resultater .andre-liste .raekke-kort.klikbar { transition: box-shadow .15s, transform .15s, background-color .15s; }
@@ -2071,8 +2071,8 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
       h.appendChild(knap(dok ? "Åbn" : "Afspil", "andre-afspil", () => vaelgAndenVideo(r, 0)));
     } else h.appendChild(el("span", "fejl lille", "Ikke tilgængelig"));
     li.appendChild(h);
-    // Et klik et vilkårligt sted på et videokort afspiller videoen. Knapperne beholder deres egen funktion.
-    if (!dok && r.afspilbar) {
+    // Et klik et vilkårligt sted på kortet åbner videoen eller PDF'en. Knapperne beholder deres egen funktion.
+    if (r.afspilbar) {
       li.classList.add("klikbar");
       li.addEventListener("click", (e) => {
         if (e.target.closest("button, a, input")) return;
