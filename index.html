@@ -3161,7 +3161,7 @@ body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9
     const ANBEFALET = [
       // På smalle skærme står kolonnen under det bedste svar. Så oplyses kun overskriften, så boblen kan ses.
       { maal: () => (underHinanden() ? $("andre-titel") : document.querySelector(".andre-kolonne")), side: "venstre",
-        titel: () => (underHinanden() ? "Flere svar herunder" : "Flere svar i højre side"),
+        titel: "Andre vejledninger der kan hjælpe",
         tekst: "Her står andre vejledninger, der også kan hjælpe. Både videoer og PDF'er. Klik hvor som helst på et kort for at åbne det." },
       { maal: () => springKnap().closest(".raekke-kort"), side: "venstre", titel: "Spring direkte til svaret",
         tekst: () => "Knappen med tiden, fx " + springKnap().textContent.trim() + ", starter videoen præcis dér, hvor dit spørgsmål bliver besvaret.",
