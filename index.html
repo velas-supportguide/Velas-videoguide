@@ -545,11 +545,11 @@ body.populaere-aaben .populaere-fold .fold-pil { transform: rotate(180deg); }
 /* Knappen »Tilbage til Forsiden« står i stedet for titlen, når der er søgt, eller videobiblioteket er åbent (uden rundvisning). */
 .til-forside { display: none; }
 body.har-soegt #side-soeg .top .indhold > h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
-body.har-soegt #side-soeg .top .indhold > #til-forside { grid-column: 1; grid-row: 1; justify-self: start; display: inline-flex; align-items: center; gap: 10px; font-size: 1.05rem; font-weight: 700; color: var(--accent); background: var(--accent-lys); border: 1.5px solid #b8d2ee; border-radius: 999px; padding: 9px 20px 9px 14px; text-decoration: none; white-space: nowrap; }
-body.har-soegt .til-forside .hjem-ikon { flex-shrink: 0; }
-body.har-soegt .til-forside:hover { border-color: var(--accent); background: #d9e8f8; }
+body.har-soegt #side-soeg .top .indhold > #til-forside { grid-column: 1; grid-row: 1; justify-self: start; display: inline-flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 800; color: #fff; background: var(--accent); border: 2px solid var(--accent); border-radius: 999px; padding: 11px 24px 11px 16px; text-decoration: none; white-space: nowrap; box-shadow: 0 4px 12px rgba(10,92,173,.28); transition: background .15s, box-shadow .15s, transform .15s; }
+body.har-soegt .til-forside .hjem-ikon { flex-shrink: 0; width: 22px; height: 22px; }
+body.har-soegt .til-forside:hover { background: var(--accent-moerk); border-color: var(--accent-moerk); box-shadow: 0 6px 16px rgba(10,92,173,.36); transform: translateY(-1px); }
 .til-forside:focus-visible { outline: 3px solid #f2b21b; outline-offset: 3px; }
-@media (max-width: 560px) { body.har-soegt #side-soeg .top .indhold > #til-forside { font-size: .95rem; padding: 8px 16px 8px 12px; gap: 8px; } body.har-soegt .til-forside .hjem-ikon { width: 18px; height: 18px; } }
+@media (max-width: 560px) { body.har-soegt #side-soeg .top .indhold > #til-forside { font-size: 1rem; padding: 9px 18px 9px 13px; gap: 8px; } body.har-soegt .til-forside .hjem-ikon { width: 18px; height: 18px; } }
 /* Hele kortet (video og PDF) under »Andre vejledninger« kan klikkes. */
 .andre-liste .raekke-kort.klikbar { cursor: pointer; }
 .andre-liste .raekke-kort.klikbar:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
